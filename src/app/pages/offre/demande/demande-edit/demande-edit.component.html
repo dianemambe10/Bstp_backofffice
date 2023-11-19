@@ -1,0 +1,208 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Demande" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+
+<div class="row">
+  <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+
+            </div>
+            <div class="flex-shrink-0">
+                <div class="d-flex flex-wrap align-items-start gap-2">
+                         <a routerLink="../" ActivatedRoute class="btn btn-subtle-primary  btn-icon "><i class="bi bi-list-task"></i></a>
+                </div>
+            </div>
+        </div>
+
+      </div>
+      </div>
+  </div><!--end col-->
+</div><!--end row-->
+
+
+<div class="row">
+
+
+    <div class="col-xl-12">
+        <div class="card">
+          <div class="card-body">
+
+
+                <form [formGroup]="formRegister"
+                      (ngSubmit)="register()"
+                      autocomplete="off"
+                      #formRef="ngForm"
+                      class="row g-3 needs-validation"
+                      novalidate>
+                      <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label class="form-label" for="validationCustom01">Titre</label>
+                            <input
+                              id="validationCustom01"
+                              [ngClass]="{ 'is-invalid': formRef.submitted && f['titre_de_la_demande'].errors }"
+                              placeholder=""
+                              required
+                              type="text"
+                              formControlName="titre_de_la_demande"
+                              class="form-control "
+                            >
+                        <div class="invalid-feedback">
+                          <div *ngIf=" formRef.submitted && f['titre_de_la_demande'].errors" >
+                            <div *ngIf="f['titre_de_la_demande'].errors['required']" >
+                               Le nom est obligatoire
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="mb-3">
+                      <label class="form-label" for="steparrow-gen-info-buyer-id-input">Buyer</label>
+                      <select class="form-select mb-3"
+                      [ngClass]="{ 'is-invalid': formRef.submitted && f['buyer_id'].errors }"
+                      formControlName="buyer_id"
+                      id="steparrow-gen-info-buyer_id-input">
+                      <option value="">Choose your city</option>
+                      <option *ngFor="let reg of regions" [value]="reg.id">{{ reg.name }}</option>
+                      </select>
+
+                      <div *ngIf="formRef.submitted && f['buyer_id'].errors" class="invalid-feedback">
+                      <div *ngIf="f['buyer_id'].errors['required']">Choisissez un acheteur</div>
+                      </div>
+                      </div>
+                    </div>
+
+
+
+
+
+
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                        <label class="form-label" for="steparrow-gen-info-description-sommaire-input">Description Sommaire</label>
+                        <textarea class="form-control"
+                          id="steparrow-gen-info-description-sommaire-input"
+                          formControlName="description_sommaire"
+                          rows="3"
+                          ></textarea>
+
+                        <div *ngIf="formRef.submitted && f['description_sommaire'].errors" class="invalid-feedback">
+                        <div *ngIf="f['description_sommaire'].errors['required']">Lq description sommaire est obligatoire</div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                          <div class="mb-3">
+                          <label class="form-label" for="steparrow-gen-info-pricipale-input">Description detailé</label>
+                          <textarea class="form-control"
+                            id="steparrow-gen-info-pricipale-input"
+                            formControlName="detail_demande"
+                            rows="3"
+                            ></textarea>
+
+                          <div *ngIf="formRef.submitted && f['detail_demande'].errors" class="invalid-feedback">
+                          <div *ngIf="f['detail_demande'].errors['required']">La description detailé est obligatoire</div>
+                          </div>
+                          </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                      <div class="mb-3">
+                      <label class="form-label" for="steparrow-gen-info-type-demande-input">Type </label>
+                      <select class="form-select mb-3"
+                      [ngClass]="{ 'is-invalid': formRef.submitted && f['type_demande'].errors }"
+                      formControlName="type_demande"
+                      id="steparrow-gen-info-type-demande-input">
+                      <option value="">Choose your city</option>
+                      <option *ngFor="let reg of regions" [value]="reg.id">{{ reg.name }}</option>
+                      </select>
+
+                      <div *ngIf="formRef.submitted && f['type_demande'].errors" class="invalid-feedback">
+                      <div *ngIf="f['type_demande'].errors['required']">Choisissez un type</div>
+                      </div>
+                      </div>
+                    </div>
+                   <p></p>
+                    <div class="col-lg-4">
+                      <div class="mb-3">
+                          <label class="form-label" for="validationCustom0122">Date de Publication</label>
+                          <input
+                            id="validationCustom0122"
+                            [ngClass]="{ 'is-invalid': formRef.submitted && f['date_publication'].errors }"
+                            placeholder=""
+                            required
+                            type="date"
+                            formControlName="date_publication"
+                            class="form-control "
+                          >
+                      <div class="invalid-feedback">
+                        <div *ngIf=" formRef.submitted && f['date_publication'].errors" >
+                          <div *ngIf="f['date_publication'].errors['required']" >
+                             La date de publication est obligatoire
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label class="form-label" for="validationCustom0111">Date de Clôture</label>
+                        <input
+                          id="validationCustom0111"
+                          [ngClass]="{ 'is-invalid': formRef.submitted && f['date_limite'].errors }"
+                          placeholder=""
+                          required
+                          type="date"
+                          formControlName="date_limite"
+                          class="form-control "
+                        >
+                    <div class="invalid-feedback">
+                      <div *ngIf=" formRef.submitted && f['date_limite'].errors" >
+                        <div *ngIf="f['date_limite'].errors['required']" >
+                           La date de clôture est obligatoire
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                      <label class="form-label" for="validationCustom01121">Dao</label>
+                      <input
+                        id="validationCustom01121"
+                        [ngClass]="{ 'is-invalid': formRef.submitted && f['document'].errors }"
+                        placeholder=""
+                        required
+                        type="file"
+                        formControlName="document"
+                        class="form-control "
+                      >
+                  <div class="invalid-feedback">
+                    <div *ngIf=" formRef.submitted && f['document'].errors" >
+                      <div *ngIf="f['document'].errors['required']" >
+                         Le dao est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+              </div>
+
+                    <div class="hstack gap-2 justify-content-start mb-3">
+                      <button class="btn btn-danger" (click)="cancel($event)"><i class="ph-x align-middle"></i> Annuler</button>
+                      <button class="btn btn-primary"><i class="ph ph-floppy-disk align-middle"></i> Enregistrer</button>
+                  </div>
+
+                  </form>
+                    <!-- </div> -->
+
+          </div>
+        </div>
+    </div>
+    <!-- end col -->
+</div><!-- end row -->
+
+<!-- end row -->

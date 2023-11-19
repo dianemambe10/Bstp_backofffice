@@ -1,0 +1,85 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs [breadcrumbItems]="breadCrumbItems" title="Acheteur"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+
+
+  <div class="col-xl-12">
+    <div class="card">
+
+      <div class="card-body form-steps">
+        <div class="text-center pt-3 pb-4 mb-1">
+
+        </div>
+
+        <ng-stepper #cdkStepper (selectionChange)="change($event)" [linear]="true" class="step-arrow-nav wizard">
+          <cdk-step [optional]="false" [stepControl]="stepOne.formStep1">
+            <ng-template cdkStepLabel class="wizard-nav">
+              <button class="nav-link done" data-bs-toggle="pill" id="steparrow-gen-info-tab" type="button">INFORMATION
+                DU DEMANDEUR
+              </button>
+            </ng-template>
+            <app-acheteur-step-one #stepOne (formOne)="formEmitStep1($event)"
+                                   [demandeur]="demandeur"></app-acheteur-step-one>
+          </cdk-step>
+
+          <cdk-step [optional]="false" [stepControl]="stepTwo.formStep2">
+            <ng-template cdkStepLabel>
+              <button class="nav-link done" id="steparrow-description-info-tab" type="button"> INFORMATION DE
+                L'ENTREPRISE
+              </button>
+            </ng-template>
+
+            <app-acheteur-step-two #stepTwo (formTwo)="formEmitStep2($event)"></app-acheteur-step-two>
+
+          </cdk-step>
+
+          <cdk-step [optional]="true">
+            <ng-template cdkStepLabel>
+              <button class="nav-link" type="button">CONFIRMER LES DETAIL</button>
+            </ng-template>
+            <app-acheteur-step-end (formEnd)="formEmitEnd($event)" [demandeur]="demandeur"
+                                   [entreprise]="entrepriseInfo"></app-acheteur-step-end>
+
+          </cdk-step>
+        </ng-stepper>
+        <!-- </div> -->
+
+      </div>
+      <!-- end card body -->
+    </div>
+    <!-- end card -->
+  </div>
+  <!-- end col -->
+</div><!-- end row -->
+
+<!-- end row -->
+
+
+<!-- Success Modal -->
+<div #successContent="bs-modal" bsModal class="modal fade">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button (click)="successContent.hide()" aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                id="btn-close"
+                type="button"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="mt-3">
+          <img alt="" height="150" src="assets/images/success-img.png">
+          <div class="mt-4 pt-2 fs-base">
+            <h4>Felicitation !</h4>
+            <p class="text-muted mx-4 mb-0">Un nouveau founisseur enregistré avec success.</p>
+          </div>
+        </div>
+        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+          <button (click)="successContent.hide()" aria-label="" class="swal2-cancel btn btn-primary w-xs mb-1"
+                  style="display: inline-block;" type="button">D'accord
+          </button>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div>
+</div>

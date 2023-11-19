@@ -1,0 +1,709 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs [breadcrumbItems]="breadCrumbItems" title="Fournisseur"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="flex-grow-1">
+
+          </div>
+          <div class="flex-shrink-0">
+            <div class="d-flex flex-wrap align-items-start gap-2">
+              <a ActivatedRoute class="btn btn-subtle-primary  btn-icon " routerLink="../"><i
+                class="bi bi-list-task"></i></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!--end col-->
+</div><!--end row-->
+
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body form-steps">
+        <form class="vertical-navs-step">
+          <div class="row gy-5">
+            <div class="col-lg-12">
+              <ng-stepper #cdkStepper [linear]="true" class="vertical-wizard" id="vertical-example">
+                <cdk-step [optional]="false" class="steps nav flex-column custom-nav nav-pills">
+                  <ng-template cdkStepLabel>
+                    <button aria-controls="v-pills-bill-info" aria-selected="true" class="nav-link done"
+                            data-bs-target="#v-pills-bill-info" data-bs-toggle="pill" id="v-pills-bill-info-tab"
+                            role="tab" type="button">
+                                            <span class="step-title me-2">
+                                                <i class="ri-close-circle-fill align-bottom step-icon me-2"></i> Demandeur
+                                            </span>
+                    </button>
+                  </ng-template>
+                  <div class="centered-content ms-4">
+                    <div>
+                      <h5>Demandeur</h5>
+                      <p class="text-muted">Fill all information below</p>
+                    </div>
+                    <app-fournisseur-step-one #stepOne (formOne)="formEmitStep1($event)"></app-fournisseur-step-one>
+
+                  </div>
+                </cdk-step>
+                <cdk-step [optional]="true">
+                  <ng-template cdkStepLabel>
+                    <button aria-controls="v-pills-bill-address" aria-selected="false" class="nav-link active"
+                            data-bs-target="#v-pills-bill-base" data-bs-toggle="pill" id="v-pills-bill-base-tab"
+                            role="tab" type="button">
+                                            <span class="step-title me-2">
+                                                <i class="ri-close-circle-fill align-bottom step-icon me-2"></i> Information de base
+                                            </span>
+                    </button>
+                  </ng-template>
+                  <div class="centered-content ms-4">
+                    <div>
+                      <h5>Information de base</h5>
+                    </div>
+                    <app-fournisseur-step-two #stepTwo (formTwo)="formEmitStep2($event)"></app-fournisseur-step-two>
+
+                  </div>
+                </cdk-step>
+                <cdk-step [optional]="true">
+                  <ng-template cdkStepLabel>
+                    <button aria-controls="v-pills-bill-address" aria-selected="false" class="nav-link"
+                            data-bs-target="#v-pills-bill-actionnaire" data-bs-toggle="pill"
+                            id="v-pills-bill-actionnaire-tab"
+                            role="tab" type="button">
+                                            <span class="step-title me-2">
+                                                <i class="ri-close-circle-fill align-bottom step-icon me-2"></i> Actionnaires
+                                            </span>
+                    </button>
+                  </ng-template>
+                  <div class="centered-content ms-4">
+                    <div>
+                      <h5>Actionnaires</h5>
+                    </div>
+                    <app-fournisseur-step-actionnaire #stepTwo
+                                                      (actAdd)="modalAddEmit($event)"
+                                                      (actDel)="modalDeleteEmit($event)"
+                                                      (actEdit)="modalEditEmit($event)">
+
+                    </app-fournisseur-step-actionnaire>
+
+                  </div>
+                </cdk-step>
+                <cdk-step [optional]="true">
+                  <ng-template cdkStepLabel>
+                    <button aria-controls="v-pills-bill-address" aria-selected="false" class="nav-link "
+                            data-bs-target="#v-pills-bill-commerciale" data-bs-toggle="pill"
+                            id="v-pills-bill-commerciale-tab"
+                            role="tab" type="button">
+                                            <span class="step-title me-2">
+                                                <i class="ri-close-circle-fill align-bottom step-icon me-2"></i> Reference
+                                            </span>
+                    </button>
+                  </ng-template>
+                  <div class="centered-content ms-4">
+                    <div>
+                      <h5>Reference commerciale</h5>
+                      <p class="text-muted">Fill all information below</p>
+                    </div>
+                    <app-fournisseur-step-reference #stepTwo
+                                                      (refAdd)="modalAddEmitReference($event)"
+                                                      (refDel)="modalDeleteEmitReference($event)"
+                                                      (refEdit)="modalEditEmitReference($event)">
+
+                    </app-fournisseur-step-reference>
+
+                  </div>
+                </cdk-step>
+                <cdk-step [optional]="true">
+                  <ng-template cdkStepLabel>
+                    <button aria-controls="v-pills-payment" aria-selected="false" class="nav-link"
+                            data-bs-target="#v-pills-payment" data-bs-toggle="pill" id="v-pills-document-tab" role="tab"
+                            type="button">
+                                            <span class="step-title me-2">
+                                                <i class="ri-close-circle-fill align-bottom step-icon me-2"></i> Documents
+                                            </span>
+                    </button>
+                  </ng-template>
+                  <div class="centered-content ms-4">
+                    <div>
+                      <h5>Documents</h5>
+                      <p class="text-muted">Fill all information below</p>
+                    </div>
+
+                    <app-fournisseur-step-three #stepThree
+                                                (formThree)="formEmitStep3($event)"></app-fournisseur-step-three>
+
+
+                  </div>
+                </cdk-step>
+                <cdk-step [optional]="true">
+                  <ng-template cdkStepLabel>
+                    <button aria-controls="v-pills-finish" aria-selected="false" class="nav-link"
+                            data-bs-target="#v-pills-finish" data-bs-toggle="pill" id="v-pills-finish-tab" role="tab"
+                            type="button">
+                                            <span class="step-title me-2">
+                                                <i class="ri-close-circle-fill align-bottom step-icon me-2"></i> Fin
+                                            </span>
+                    </button>
+                  </ng-template>
+                  <div class="text-center pt-4 pb-2 ms-4">
+
+                    <img alt="" height="150" src="assets/images/success-img.png">
+                    <div class="mt-4 pt-2 fs-base">
+                      <h4>Felicitation !</h4>
+                      <p class="text-muted mx-4 mb-0">Un nouveau founisseur enregistré avec success.</p>
+                    </div>
+                  </div>
+                </cdk-step>
+              </ng-stepper>
+            </div>
+
+
+          </div>
+          <!-- end row -->
+        </form>
+      </div>
+    </div>
+    <!-- end -->
+  </div>
+  <!-- end col -->
+</div>
+
+<!-- Success Modal -->
+<div #successContent="bs-modal" bsModal class="modal fade">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button (click)="successContent.hide()" aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                id="btn-close"
+                type="button"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="mt-3">
+          <img alt="" height="150" src="assets/images/success-img.png">
+          <div class="mt-4 pt-2 fs-base">
+            <h4>Felicitation !</h4>
+            <p class="text-muted mx-4 mb-0">Un nouveau founisseur enregistré avec success.</p>
+          </div>
+        </div>
+        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+          <button (click)="successContent.hide()" aria-label="" class="swal2-cancel btn btn-primary w-xs mb-1"
+                  style="display: inline-block;" type="button">D'accord
+          </button>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div #addActionnaire="bs-modal" bsModal class="modal fade" id="addActionnaire">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content border-0">
+      <div class="modal-header bg-vertical-gradient-2 p-3">
+        <h5 class="modal-title text-white" id="addActionnaireModalLabel">{{ modalAjoutTitle }}</h5>
+        <button (click)="addActionnaire.hide()" class="btn-close btn-close-white" type="button"></button>
+      </div>
+
+
+      <form #formRef="ngForm"
+            (ngSubmit)="saveProduct(actsave)"
+            [formGroup]="formActionnaire"
+            autocomplete="off"
+            class="row g-3 needs-validation"
+            novalidate>
+        <div class="modal-body ">
+
+          <div class="row my-3">
+
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label" for="validationCustom0P1">Prénom</label>
+                <input
+                  [ngClass]="{ 'is-invalid': formRef.submitted && f['first_name'].errors }"
+                  class="form-control "
+                  formControlName="first_name"
+                  id="validationCustom0P1"
+                  placeholder="Entrer son prénom"
+                  required
+                  type="text"
+                >
+                <div class="invalid-feedback">
+                  <div *ngIf="  f['first_name'].errors && formRef.submitted ">
+                    <div *ngIf="f['first_name'].errors?.['required']">
+                      Le prénom est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label" for="validationCustom01">Nom</label>
+                <input
+                  [ngClass]="{ 'is-invalid': formRef.submitted && f['last_name'].errors }"
+                  class="form-control "
+                  formControlName="last_name"
+                  id="validationCustom01"
+                  placeholder="Entrer son nom"
+                  required
+                  type="text"
+                >
+                <div class="invalid-feedback">
+                  <div *ngIf=" formRef.submitted && f['last_name'].errors">
+                    <div *ngIf="f['last_name'].errors?.['required']">
+                      Le nom est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Civilité</label>
+                <br>
+                <div *ngFor=" let civ of civilites" class="form-check form-check-inline ">
+                  <input [ngClass]="{ 'is-invalid': formRef.submitted && f['gender'].errors }"
+                         [value]="civ.id"
+                         class="form-check-input"
+                         formControlName="gender"
+                         id="validationFormCheck3"
+                         required
+                         type="radio">
+                  <label class="form-check-label" for="validationFormCheck3">{{ civ.name}}</label>
+
+                </div>
+                <div class="invalid-feedback">
+                  <div *ngIf=" formRef.submitted && f['gender'].errors">
+                    <div *ngIf="f['gender'].errors?.['required']">
+                      La civilite est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label" for="validationCustom01d">Date de Naissance</label>
+                <input
+                  [ngClass]="{ 'is-invalid': formRef.submitted && f['date_of_birth'].errors }"
+                  class="form-control "
+                  formControlName="date_of_birth"
+                  id="validationCustom01d"
+                  required
+                  type="date"
+                >
+                <div class="invalid-feedback">
+                  <div *ngIf=" formRef.submitted && f['date_of_birth'].errors">
+                    <div *ngIf="f['date_of_birth'].errors?.['required']">
+                      La date naissance est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label" for="steparrow-gen-nationalit-input">Nationalité</label>
+                <ng-select [clearable]="true"
+                           [searchable]="false"
+                           bindLabel="countryName"
+                           bindValue="countryName"
+                           formControlName="nationalite"
+                           id="steparrow-gen-nationalit-input">
+                  <ng-option *ngFor="let data of Default">
+                    <img alt="country flag" class="options-flagimg" height="20" src="{{data.flagImg}}">
+                    {{data.countryName}}
+                  </ng-option>
+                </ng-select>
+                <div class="invalid-feedback">
+                  <div *ngIf=" formRef.submitted && f['nationalite'].errors">
+                    <div *ngIf="f['nationalite'].errors?.['required']">
+                      La nationalite est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label" for="steparrow-gen-info-phone_number-input">Numéro de Téléphone</label>
+                <input
+                  [ngClass]="{ 'is-invalid': formRef.submitted && f['phone_number'].errors }"
+                  class="form-control "
+                  formControlName="phone_number"
+                  id="steparrow-gen-info-phone_number-input"
+                  placeholder="Entrer son numero"
+                  required
+                  type="text"
+                >
+                <div class="invalid-feedback">
+                  <div *ngIf=" formRef.submitted && f['phone_number'].errors">
+                    <div *ngIf=" f['phone_number'].errors?.['required']">
+                      Le numero de téléphone est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label" for="steparrow-gen-info-email-input">Email</label>
+                <input
+                  [ngClass]="{ 'is-invalid': formRef.submitted && f['email'].errors }"
+
+                  class="form-control "
+                  formControlName="email"
+                  id="steparrow-gen-info-email-input"
+                  required
+                  type="text"
+                >
+
+                <div *ngIf="formRef.submitted && f['email'].errors" class="invalid-feedback">
+                  <div *ngIf="f['email'].errors?.['required']">L'email est obligatoire</div>
+                  <div *ngIf="f['email'].errors?.['email']">Le format d'email est incorrect</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label" for="steparrow-gen-info-role_dans_lentreprise-input">Fonction dans
+                  l'Entreprise</label>
+                <input
+                  [ngClass]="{ 'is-invalid': formRef.submitted && f['role_dans_lentreprise'].errors }"
+                  class="form-control "
+                  formControlName="role_dans_lentreprise"
+                  id="steparrow-gen-info-role_dans_lentreprise-input"
+                  placeholder="Entrer son role dans l'entreprise"
+                  required
+                  type="text"
+                >
+
+                <div class="invalid-feedback">
+                  <div *ngIf=" formRef.submitted && f['role_dans_lentreprise'].errors">
+                    <div *ngIf="f['role_dans_lentreprise'].errors?.['required']">
+                      Le role dans l'entreprise est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label" for="steparrow-gen-info-part-input">Part d'Action</label>
+                <input
+                  [ngClass]="{ 'is-invalid': formRef.submitted && f['part_action'].errors }"
+                  class="form-control "
+                  formControlName="part_action"
+                  id="steparrow-gen-info-part-input"
+                  placeholder="Entrer son role dans l'entreprise"
+                  required
+                  type="number"
+                >
+
+                <div class="invalid-feedback">
+                  <div *ngIf=" formRef.submitted && f['part_action'].errors">
+                    <div *ngIf="f['part_action'].errors?.['required']">
+                      Le role dans l'entreprise est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+
+        </div>
+        <div class="modal-footer">
+          <div class="hstack gap-2 justify-content-end">
+            <button (click)="addActionnaire.hide()" class="btn btn-ghost-danger" type="button"><i
+              class="bi bi-x-lg align-baseline me-1"></i> Close
+            </button>
+            <button class="btn btn-primary" id="add-btn" type="submit">Add Course</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- modal-content -->
+  </div>
+</div><!--end add Property modal-->
+
+
+
+<!-- deleteRecordModal -->
+<div #deleteRecordModal="bs-modal" bsModal class="modal fade zoomIn" id="deleteRecordModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button (click)="deleteRecordModal.hide()" class="btn-close" id="deleteRecord-close" type="button"></button>
+      </div>
+      <div class="modal-body p-md-5">
+        <div class="text-center">
+          <div class="text-danger">
+            <i class="bi bi-trash display-5"></i>
+          </div>
+          <div class="mt-4">
+            <h4 class="mb-2">Are you sure ?</h4>
+            <p class="text-muted mx-3 mb-0">Are you sure you want to remove this record ?</p>
+          </div>
+        </div>
+        <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
+          <button (click)="deleteRecordModal.hide()" class="btn w-sm btn-light btn-hover" type="button">Close</button>
+          <button (click)="confirmDelete()" class="btn w-sm btn-danger btn-hover" id="delete-record" type="button">Yes,
+            Delete It!
+          </button>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /deleteRecordModal -->
+
+
+
+<!-- Modal -->
+<div #addReference="bs-modal" bsModal class="modal fade" id="addReference">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content border-0">
+      <div class="modal-header bg-vertical-gradient-2 p-3">
+        <h5 class="modal-title text-white" id="addReferenceModalLabel">{{ modalAjoutTitle }}</h5>
+        <button (click)="addActionnaire.hide()" class="btn-close btn-close-white" type="button"></button>
+      </div>
+
+
+      <form #formRef="ngForm"
+            (ngSubmit)="saveReference(actsave)"
+            [formGroup]="formReference"
+            autocomplete="off"
+            class="row g-3 needs-validation"
+            novalidate>
+        <div class="modal-body ">
+
+          <div class="row my-3">
+
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label" for="validationCustom0P1">Prénom</label>
+                <input
+                  [ngClass]="{ 'is-invalid': formRef.submitted && f['first_name'].errors }"
+                  class="form-control "
+                  formControlName="first_name"
+                  id="validationCustom0P1"
+                  placeholder="Entrer son prénom"
+                  required
+                  type="text"
+                >
+                <div class="invalid-feedback">
+                  <div *ngIf="  f['first_name'].errors && formRef.submitted ">
+                    <div *ngIf="f['first_name'].errors?.['required']">
+                      Le prénom est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label" for="validationCustom01">Nom</label>
+                <input
+                  [ngClass]="{ 'is-invalid': formRef.submitted && f['last_name'].errors }"
+                  class="form-control "
+                  formControlName="last_name"
+                  id="validationCustom01"
+                  placeholder="Entrer son nom"
+                  required
+                  type="text"
+                >
+                <div class="invalid-feedback">
+                  <div *ngIf=" formRef.submitted && f['last_name'].errors">
+                    <div *ngIf="f['last_name'].errors?.['required']">
+                      Le nom est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Civilité</label>
+                <br>
+                <div *ngFor=" let civ of civilites" class="form-check form-check-inline ">
+                  <input [ngClass]="{ 'is-invalid': formRef.submitted && f['gender'].errors }"
+                         [value]="civ.id"
+                         class="form-check-input"
+                         formControlName="gender"
+                         id="validationFormCheck3"
+                         required
+                         type="radio">
+                  <label class="form-check-label" for="validationFormCheck3">{{ civ.name}}</label>
+
+                </div>
+                <div class="invalid-feedback">
+                  <div *ngIf=" formRef.submitted && f['gender'].errors">
+                    <div *ngIf="f['gender'].errors?.['required']">
+                      La civilite est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label" for="validationCustom01d">Date de Naissance</label>
+                <input
+                  [ngClass]="{ 'is-invalid': formRef.submitted && f['date_of_birth'].errors }"
+                  class="form-control "
+                  formControlName="date_of_birth"
+                  id="validationCustom01d"
+                  required
+                  type="date"
+                >
+                <div class="invalid-feedback">
+                  <div *ngIf=" formRef.submitted && f['date_of_birth'].errors">
+                    <div *ngIf="f['date_of_birth'].errors?.['required']">
+                      La date naissance est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label" for="steparrow-gen-nationalit-input">Nationalité</label>
+                <ng-select [clearable]="true"
+                           [searchable]="false"
+                           bindLabel="countryName"
+                           bindValue="countryName"
+                           formControlName="nationalite"
+                           id="steparrow-gen-nationalit-input">
+                  <ng-option *ngFor="let data of Default">
+                    <img alt="country flag" class="options-flagimg" height="20" src="{{data.flagImg}}">
+                    {{data.countryName}}
+                  </ng-option>
+                </ng-select>
+                <div class="invalid-feedback">
+                  <div *ngIf=" formRef.submitted && f['nationalite'].errors">
+                    <div *ngIf="f['nationalite'].errors?.['required']">
+                      La nationalite est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label" for="steparrow-gen-info-phone_number-input">Numéro de Téléphone</label>
+                <input
+                  [ngClass]="{ 'is-invalid': formRef.submitted && f['phone_number'].errors }"
+                  class="form-control "
+                  formControlName="phone_number"
+                  id="steparrow-gen-info-phone_number-input"
+                  placeholder="Entrer son numero"
+                  required
+                  type="text"
+                >
+                <div class="invalid-feedback">
+                  <div *ngIf=" formRef.submitted && f['phone_number'].errors">
+                    <div *ngIf=" f['phone_number'].errors?.['required']">
+                      Le numero de téléphone est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label" for="steparrow-gen-info-email-input">Email</label>
+                <input
+                  [ngClass]="{ 'is-invalid': formRef.submitted && f['email'].errors }"
+
+                  class="form-control "
+                  formControlName="email"
+                  id="steparrow-gen-info-email-input"
+                  required
+                  type="text"
+                >
+
+                <div *ngIf="formRef.submitted && f['email'].errors" class="invalid-feedback">
+                  <div *ngIf="f['email'].errors?.['required']">L'email est obligatoire</div>
+                  <div *ngIf="f['email'].errors?.['email']">Le format d'email est incorrect</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label" for="steparrow-gen-info-role_dans_lentreprise-input">Fonction dans
+                  l'Entreprise</label>
+                <input
+                  [ngClass]="{ 'is-invalid': formRef.submitted && f['role_dans_lentreprise'].errors }"
+                  class="form-control "
+                  formControlName="role_dans_lentreprise"
+                  id="steparrow-gen-info-role_dans_lentreprise-input"
+                  placeholder="Entrer son role dans l'entreprise"
+                  required
+                  type="text"
+                >
+
+                <div class="invalid-feedback">
+                  <div *ngIf=" formRef.submitted && f['role_dans_lentreprise'].errors">
+                    <div *ngIf="f['role_dans_lentreprise'].errors?.['required']">
+                      Le role dans l'entreprise est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label" for="steparrow-gen-info-part-input">Part d'Action</label>
+                <input
+                  [ngClass]="{ 'is-invalid': formRef.submitted && f['part_action'].errors }"
+                  class="form-control "
+                  formControlName="part_action"
+                  id="steparrow-gen-info-part-input"
+                  placeholder="Entrer son role dans l'entreprise"
+                  required
+                  type="number"
+                >
+
+                <div class="invalid-feedback">
+                  <div *ngIf=" formRef.submitted && f['part_action'].errors">
+                    <div *ngIf="f['part_action'].errors?.['required']">
+                      Le role dans l'entreprise est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+
+        </div>
+        <div class="modal-footer">
+          <div class="hstack gap-2 justify-content-end">
+            <button (click)="addActionnaire.hide()" class="btn btn-ghost-danger" type="button"><i
+              class="bi bi-x-lg align-baseline me-1"></i> Close
+            </button>
+            <button class="btn btn-primary" id="add-btn" type="submit">Add Course</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- modal-content -->
+  </div>
+</div><!--end add Property modal-->
+
+
+

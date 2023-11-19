@@ -1,0 +1,275 @@
+<form #formRef="ngForm" (ngSubmit)="firstTwo()" [formGroup]="formStep2" class="row g-3 needs-validation" novalidate>
+
+  <div class="col-lg-12">
+    <div class="mb-3">
+      <label class="form-label" for="steparrow-gen-info-lentreprise-input">Nom de l'entreprise</label>
+      <input
+        [ngClass]="{ 'is-invalid': formRef.submitted && f['name'].errors }"
+        class="form-control "
+        formControlName="name"
+        id="steparrow-gen-info-lentreprise-input"
+        required
+        type="text"
+      >
+
+      <div *ngIf="formRef.submitted && f['name'].errors" class="invalid-feedback">
+        <div *ngIf="f['name'].errors?.['required']">Le nom de l'entreprise est obligatoire</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="mb-3">
+      <label class="form-label" for="steparrow-gen-info-date-rccm-input">No RCCM</label>
+      <input
+        [ngClass]="{ 'is-invalid': formRef.submitted && f['rccm'].errors }"
+
+        class="form-control "
+        formControlName="rccm"
+        id="steparrow-gen-info-date-rccm-input"
+        required
+        type="text"
+      >
+
+      <div *ngIf="formRef.submitted && f['rccm'].errors" class="invalid-feedback">
+        <div *ngIf="f['rccm'].errors?.['required']">Le numero rccm est obligatoire</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="mb-3">
+      <label class="form-label" for="steparrow-gen-info-creation-input">Date de création</label>
+      <input
+        [ngClass]="{ 'is-invalid': formRef.submitted && f['year_of_registration'].errors }"
+
+        class="form-control "
+        formControlName="year_of_registration"
+        id="steparrow-gen-info-creation-input"
+        required
+        type="date"
+      >
+
+      <div *ngIf="formRef.submitted && f['year_of_registration'].errors" class="invalid-feedback">
+        <div *ngIf="f['year_of_registration'].errors?.['required']">La date de création est obligatoire</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-12">
+    <div class="mb-3">
+      <label class="form-label">Formes juridiques</label>
+      <br>
+      <div *ngFor=" let j of typeSocietes" class="col-sm-4  form-check form-check-inline  ">
+        <input [ngClass]="{ 'is-invalid': formRef.submitted && f['type'].errors }"
+               [value]="j.id"
+               class="form-check-input"
+               formControlName="type"
+               id="{{j.id}}"
+               type="radio"
+        >
+        <label class="form-check-label" for="{{j.id}}">{{j.name}}</label>
+      </div>
+
+
+      <div *ngIf="formRef.submitted && f['type'].errors" class="invalid-feedback">
+        <div *ngIf="f['type'].errors?.['required']">Veuillez Choisir une forme juridique</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-12">
+    <div class="mb-3">
+      <label class="form-label" for="steparrow-gen-info-description-input">Description</label>
+      <textarea class="form-control"
+                formControlName="description"
+                id="steparrow-gen-info-description-input"
+                placeholder="Enter description" rows="3"
+      ></textarea>
+
+      <div *ngIf="formRef.submitted && f['description'].errors" class="invalid-feedback">
+        <div *ngIf="f['description'].errors?.['required']">La description est obligatoire</div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-lg-12">
+    <div class="mb-3">
+      <label class="form-label">Domaines d'Activités</label>
+      <br>
+      <div *ngFor=" let dom of domaineActivites" class="col-md-3  form-check form-check-inline ">
+        <input (change)="onChangeDomaine($event)"
+               [checked]="domaineList.indexOf(dom?.id!) > -1"
+               [ngClass]="{ 'is-invalid': formRef.submitted && f['categories'].errors }"
+               [value]="dom.id"
+               class="form-check-input"
+               id="categories{{ dom.id }}"
+               type="checkbox">
+        <label class="form-check-label" for="categories{{ dom.id }}">{{ dom.name}}</label>
+      </div>
+
+
+      <div *ngIf="formRef.submitted && f['categories'].errors" class="invalid-feedback">
+        <div *ngIf="f['categories'].errors?.['required']">Le domaine d'activité est obligatoire</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-12">
+    <div class="mb-3">
+      <label class="form-label" for="steparrow-gen-info-website-input">Site Web</label>
+      <input
+        [ngClass]="{ 'is-invalid': formRef.submitted && f['website'].errors }"
+        class="form-control"
+        formControlName="website"
+        id="steparrow-gen-info-website-input"
+        placeholder="Entrer l'adresse electronique"
+        required
+        type="text"
+      >
+
+      <div *ngIf="formRef.submitted && f['website'].errors" class="invalid-feedback">
+        <div *ngIf="f['website'].errors?.['required']">L'email est obligatoire</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="mb-3">
+      <label class="form-label" for="steparrow-gen-info-phone_number-input">Numéro de Téléphone</label>
+      <input
+        [ngClass]="{ 'is-invalid': formRef.submitted && f['phone_number'].errors }"
+        class="form-control "
+        formControlName="phone_number"
+        id="steparrow-gen-info-phone_number-input"
+        placeholder="Entrer le numero de telephone"
+        required
+        type="text"
+      >
+
+      <div *ngIf="formRef.submitted && f['phone_number'].errors" class="invalid-feedback">
+        <div *ngIf="f['phone_number'].errors?.['required']">Le numero de telephone de l'entreprise est obligatoire</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="mb-3">
+      <label class="form-label" for="steparrow-gen-info-email-input">Email</label>
+      <input
+        [ngClass]="{ 'is-invalid': formRef.submitted && f['email'].errors }"
+        class="form-control"
+        formControlName="email"
+        id="steparrow-gen-info-email-input"
+        placeholder="Entrer l'adresse electronique"
+        required
+        type="text"
+      >
+
+      <div *ngIf="formRef.submitted && f['email'].errors" class="invalid-feedback">
+        <div *ngIf="f['email'].errors?.['required']">L'email est obligatoire</div>
+      </div>
+    </div>
+  </div>
+
+
+  <br>
+  <div class="col-lg-6">
+    <div class="mb-3">
+      <label class="form-label" for="steparrow-gen-info-pricipale-input">Adresse Principale</label>
+      <textarea class="form-control"
+                formControlName="address"
+                id="steparrow-gen-info-pricipale-input"
+                rows="3"
+      ></textarea>
+
+      <div *ngIf="formRef.submitted && f['address'].errors" class="invalid-feedback">
+        <div *ngIf="f['address'].errors?.['required']">L'adresse principale est obligatoire</div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="col-lg-4">
+    <div class="mb-3">
+      <label class="form-label" for="steparrow-gen-info-region-input">Region</label>
+      <select (change)="onRegionSelect($event)" [ngClass]="{ 'is-invalid': formRef.submitted && f['region'].errors }"
+              [value]="regionDefault"
+              class="form-select mb-3"
+              formControlName="region"
+              id="steparrow-gen-info-region-input">
+        <option [value]="0">Choisissez une region</option>
+        <option *ngFor="let reg of regionList" [value]="reg.id">{{ reg.name }}</option>
+      </select>
+
+      <div *ngIf="formRef.submitted && f['region'].errors" class="invalid-feedback">
+        <div *ngIf="f['region'].errors?.['required']">Choisissez une region</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="mb-3">
+      <label class="form-label" for="steparrow-gen-info-pre-input">Préfecture</label>
+      <select (change)="onPrefectureSelect($event)"
+              [ngClass]="{ 'is-invalid': formRef.submitted && f['prefecture'].errors }"
+              [value]="prefectureDefault"
+              class="form-select mb-3"
+              formControlName="prefecture"
+              id="steparrow-gen-info-pre-input">
+        <option value="">Choisissez une prefecture</option>
+        <option *ngFor="let pre of prefectureRegion" [value]="pre.id">{{ pre.name }}</option>
+      </select>
+
+      <div *ngIf="formRef.submitted && f['prefecture'].errors" class="invalid-feedback">
+        <div *ngIf="f['prefecture'].errors?.['required']">Choisissez une prefecture</div>
+      </div>
+    </div>
+  </div>
+  <p></p>
+  <div class="col-lg-4">
+    <div class="mb-3">
+      <label class="form-label" for="steparrow-gen-info-com-input">Commune</label>
+      <select [ngClass]="{ 'is-invalid': formRef.submitted && f['prefecture'].errors }" [value]="communeDefault"
+              class="form-select mb-3"
+              formControlName="commune"
+              id="steparrow-gen-info-com-input">
+        <option value="">Choisissez une commune</option>
+        <option *ngFor="let com of communePrefecture" [value]="com.id">{{ com.name }}</option>
+
+      </select>
+
+      <div *ngIf="formRef.submitted && f['prefecture'].errors" class="invalid-feedback">
+        <div *ngIf="f['prefecture'].errors?.['required']">Choisissez une commune</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <label class="form-label" for="steparrow-gen-info-region-input">Logo</label>
+    <div class="mb-3">
+
+      <div class="profile-user position-relative d-inline-block mx-auto mb-2">
+        <img [src]="imageURL" alt="user-profile-image" class=" avatar-lg img-thumbnail user-profile-image"
+             id="user-img">
+        <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+          <input (change)="fileChange($event)" accept="image/png, image/jpeg" class="profile-img-file-input"
+                 id="profile-img-file-input"
+                 type="file">
+          <label class="profile-photo-edit avatar-xs" for="profile-img-file-input">
+          <span class="avatar-title rounded-circle bg-light text-body">
+              <i class="ri-camera-fill"></i>
+          </span>
+          </label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="d-flex align-items-start gap-3 mt-4">
+    <button cdkStepperPrevious class="btn btn-light btn-label previestab" data-previous="steparrow-gen-info-tab"
+            type="button"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
+      Précédent
+    </button>
+    <button cdkStepperNext class="btn btn-success btn-label right ms-auto nexttab nexttab"
+            data-nexttab="pills-experience-tab" type="submit"><i
+      class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Suivant
+    </button>
+  </div>
+
+</form>

@@ -1,0 +1,92 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Fournisseur" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+
+
+  <div class="col-xl-12">
+    <div class="card">
+
+      <div class="card-body form-steps">
+        <div class="text-center pt-3 pb-4 mb-1">
+
+        </div>
+
+        <ng-stepper #cdkStepper [linear]="true" (selectionChange)="change($event)" class="step-arrow-nav wizard">
+          <cdk-step [stepControl]="stepOne.formStep1" [optional]="false">
+            <ng-template cdkStepLabel class="wizard-nav">
+              <button class="nav-link done" id="steparrow-gen-info-tab" data-bs-toggle="pill" type="button">INFORMATION
+                DU DEMANDEUR
+              </button>
+            </ng-template>
+            <app-fournisseur-step-one #stepOne [demandeur]="demandeur"
+                                      (formOne)="formEmitStep1($event)"></app-fournisseur-step-one>
+          </cdk-step>
+
+          <cdk-step [stepControl]="stepTwo.formStep2" [optional]="false">
+            <ng-template cdkStepLabel>
+              <button class="nav-link done" id="steparrow-description-info-tab" type="button"> INFORMATION DE
+                L'ENTREPRISE
+              </button>
+            </ng-template>
+
+            <app-fournisseur-step-two #stepTwo (formTwo)="formEmitStep2($event)"></app-fournisseur-step-two>
+
+          </cdk-step>
+          <cdk-step [optional]="false">
+            <ng-template cdkStepLabel>
+              <button class="nav-link done" id="steparrow-document-info-tab" type="button"> DOCUMENT DE L'ENTREPRISE
+              </button>
+            </ng-template>
+
+            <app-fournisseur-step-three #stepThree (formThree)="formEmitStep3($event)"></app-fournisseur-step-three>
+
+          </cdk-step>
+          <cdk-step [optional]="true">
+            <ng-template cdkStepLabel>
+              <button class="nav-link" type="button">CONFIRMER LES DETAIL</button>
+            </ng-template>
+            <app-fournisseur-step-end [demandeur]="demandeur" [entreprise]="entrepriseInfo"
+                                      (formEnd)="formEmitEnd($event)"></app-fournisseur-step-end>
+
+          </cdk-step>
+        </ng-stepper>
+        <!-- </div> -->
+
+      </div>
+      <!-- end card body -->
+    </div>
+    <!-- end card -->
+  </div>
+  <!-- end col -->
+</div><!-- end row -->
+
+<!-- end row -->
+
+
+<!-- Success Modal -->
+<div bsModal #successContent="bs-modal" class="modal fade">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"
+                (click)="successContent.hide()"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="mt-3">
+          <img src="assets/images/success-img.png" alt="" height="150">
+          <div class="mt-4 pt-2 fs-base">
+            <h4>Felicitation !</h4>
+            <p class="text-muted mx-4 mb-0">Un nouveau founisseur enregistré avec success.</p>
+          </div>
+        </div>
+        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+          <button type="button" class="swal2-cancel btn btn-primary w-xs mb-1" aria-label=""
+                  style="display: inline-block;" (click)="successContent.hide()">D'accord
+          </button>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div>
+</div>

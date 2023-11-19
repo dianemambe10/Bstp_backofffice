@@ -1,0 +1,171 @@
+
+  <form [formGroup]="formStep1"
+        (ngSubmit)="firstStep()"
+        autocomplete="off"
+        #formRef="ngForm"
+        class="row g-3 needs-validation"
+        novalidate>
+
+
+
+             <div class="col-lg-6">
+               <div class="mb-3">
+                   <label class="form-label" for="validationCustom0P1">Prénom</label>
+                   <input
+                     id="validationCustom0P1"
+                     [ngClass]="{ 'is-invalid': formRef.submitted && ff['first_name'].errors }"
+                     placeholder="Entrer son prénom"
+                     required
+                     type="text"
+                     formControlName="first_name"
+                     class="form-control "
+                   >
+                   <div class="invalid-feedback">
+                     <div *ngIf="  ff['first_name'].errors && formRef.submitted " >
+                       <div *ngIf="ff['first_name'].errors?.['required']" >
+                          Le prénom est obligatoire
+                       </div>
+                     </div>
+                   </div>
+               </div>
+           </div>
+           <div class="col-lg-6">
+               <div class="mb-3">
+                   <label class="form-label" for="validationCustom01">Nom</label>
+                   <input
+                     id="validationCustom01"
+                     [ngClass]="{ 'is-invalid': formRef.submitted && ff['last_name'].errors }"
+                     placeholder="Entrer son nom"
+                     required
+                     type="text"
+                     formControlName="last_name"
+                     class="form-control "
+                   >
+               <div class="invalid-feedback">
+                 <div *ngIf=" formRef.submitted && ff['last_name'].errors" >
+                   <div *ngIf="ff['last_name'].errors?.['required']" >
+                      Le nom est obligatoire
+                   </div>
+                 </div>
+               </div>
+               </div>
+           </div>
+
+           <div class="col-lg-6">
+             <div class="mb-3">
+                 <label class="form-label" >Civilité</label>
+                 <br>
+                 <div class="form-check form-check-inline " *ngFor=" let civ of civilites">
+                   <input type="radio"
+                   [ngClass]="{ 'is-invalid': formRef.submitted && ff['gender'].errors }"
+                      class="form-check-input"
+                      id="validationFormCheck3"
+                      formControlName="gender"
+                      [value]="civ.id"
+                       required>
+                   <label class="form-check-label" for="validationFormCheck3">{{ civ.name}}</label>
+
+               </div>
+               <div class="invalid-feedback">
+                 <div *ngIf=" formRef.submitted && ff['gender'].errors" >
+                   <div *ngIf="ff['gender'].errors?.['required']" >
+                     La civilite est obligatoire
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+    <div class="col-lg-3">
+      <div class="mb-3">
+        <label class="form-label" for="validationCustom01d">Date de Naissance</label>
+        <input
+          id="validationCustom01d"
+          [ngClass]="{ 'is-invalid': formRef.submitted && ff['date_of_birth'].errors }"
+          required
+          type="date"
+          formControlName="date_of_birth"
+          class="form-control "
+        >
+        <div class="invalid-feedback">
+          <div *ngIf=" formRef.submitted && ff['date_of_birth'].errors" >
+            <div *ngIf="ff['date_of_birth'].errors?.['required']" >
+              La date naissance est obligatoire
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+         <div class="col-lg-6">
+           <div class="mb-3">
+               <label class="form-label" for="steparrow-gen-info-phone_number-input">Numéro de Téléphone</label>
+               <input
+                 [ngClass]="{ 'is-invalid': formRef.submitted && ff['phone_number'].errors }"
+                 placeholder="Entrer son numero"
+                 required
+                 type="text"
+                 formControlName="phone_number"
+                 class="form-control "
+                 id="steparrow-gen-info-phone_number-input"
+               >
+               <div class="invalid-feedback">
+                 <div *ngIf=" formRef.submitted && ff['phone_number'].errors" >
+                   <div *ngIf=" ff['phone_number'].errors?.['required']" >
+                     Le numero de téléphone est obligatoire
+                   </div>
+                 </div>
+               </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+         <div class="mb-3">
+             <label class="form-label" for="steparrow-gen-info-email-input">Email</label>
+             <input
+             [ngClass]="{ 'is-invalid': formRef.submitted && ff['email'].errors }"
+
+               required
+               type="text"
+               formControlName="email"
+               class="form-control "
+               id="steparrow-gen-info-email-input"
+             >
+
+              <div *ngIf="formRef.submitted && ff['email'].errors" class="invalid-feedback">
+               <div *ngIf="ff['email'].errors?.['required']">L'email est obligatoire</div>
+                <div *ngIf="ff['email'].errors?.['email']">Le format d'email est incorrect</div>
+              </div>
+         </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="mb-3">
+           <label class="form-label" for="steparrow-gen-info-role_dans_lentreprise-input">Fonction dans l'Entreprise</label>
+           <input
+             [ngClass]="{ 'is-invalid': formRef.submitted && ff['role_dans_lentreprise'].errors }"
+             placeholder="Entrer son role dans l'entreprise"
+             required
+             type="text"
+             formControlName="role_dans_lentreprise"
+             class="form-control "
+             id="steparrow-gen-info-role_dans_lentreprise-input"
+           >
+
+          <div class="invalid-feedback">
+            <div *ngIf=" formRef.submitted && ff['role_dans_lentreprise'].errors" >
+             <div *ngIf="ff['role_dans_lentreprise'].errors?.['required']" >
+               Le role dans l'entreprise est obligatoire
+              </div>
+            </div>
+          </div>
+       </div>
+   </div>
+
+
+     <!-- wizard-tab -->
+     <div class="d-flex align-items-start gap-3 mt-4">
+         <button type="submit"
+
+                 class="btn btn-success btn-label right ms-auto nexttab nexttab" data-nexttab="steparrow-description-info-tab"  cdkStepperNext><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Suivant</button>
+     </div>
+
+   </form>
+
+

@@ -1,0 +1,124 @@
+<form [formGroup]="formStep3" (ngSubmit)="thridStep()" #formRef="ngForm"  class="row g-3 needs-validation" novalidate>
+
+  <div class="col-lg-6 mt-5">
+    <div class="mb-3">
+      <label class="form-label" for="steparrow-gen-info-lentreprise-input-1">Registre de commerce et du credit mobilier (RCCM)</label>
+      <input
+        [ngClass]="{ 'is-invalid': formRef.submitted && f['doc_rccm'].errors }"
+        type="file"
+        formControlName="doc_rccm"
+        class="form-control "
+        id="steparrow-gen-info-lentreprise-input-1"
+        (change)="onChange($event, 'rccm_document')"
+
+      >
+
+      <div *ngIf="formRef.submitted && f['doc_rccm'].errors" class="invalid-feedback">
+        <div *ngIf="f['doc_rccm'].errors?.['required']">Le rccm de l'entreprise est obligatoire</div>
+      </div>
+    </div>
+  </div>
+ <br>
+  <div class="col-lg-6">
+    <div class="mb-3">
+      <label class="form-label" for="steparrow-gen-info-lentreprise-input-2">Certificat d'immatriculation fiscale (NIF)</label>
+      <input
+        [ngClass]="{ 'is-invalid': formRef.submitted && f['doc_nif'].errors }"
+        type="file"
+        formControlName="doc_nif"
+        class="form-control "
+        id="steparrow-gen-info-lentreprise-input-2"
+        (change)="onChange($event, 'nif_document')"
+        accept="application/pdf"
+      >
+
+      <div *ngIf="formRef.submitted && f['doc_nif'].errors" class="invalid-feedback">
+        <div *ngIf="f['doc_nif'].errors?.['doc_nif']">Le nif  est obligatoire</div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="col-lg-6">
+    <div class="mb-3">
+      <label class="form-label" for="steparrow-gen-info-lentreprise-input-3">Le quitus fiscal (DNI)</label>
+      <input
+        [ngClass]="{ 'is-invalid': formRef.submitted && f['doc_dni'].errors }"
+        type="file"
+        formControlName="doc_dni"
+        class="form-control "
+        id="steparrow-gen-info-lentreprise-input-3"
+        (change)="onChange($event, 'quitus_fiscal_document')"
+        accept="application/pdf"
+      >
+
+      <div *ngIf="formRef.submitted && f['doc_dni'].errors" class="invalid-feedback">
+        <div *ngIf="f['doc_dni'].errors?.['required']">Le dni est obligatoire </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="col-lg-6">
+    <div class="mb-3">
+      <label class="form-label" for="steparrow-gen-info-lentreprise-input-4">Le quitus social </label>
+      <input
+        [ngClass]="{ 'is-invalid': formRef.submitted && f['doc_cnss'].errors }"
+        type="file"
+        formControlName="doc_cnss"
+        class="form-control "
+        id="steparrow-gen-info-lentreprise-input-4"
+        (change)="onChange($event, 'quitus_social_document')"
+        accept="application/pdf"
+      >
+
+      <div *ngIf="formRef.submitted && f['doc_cnss'].errors" class="invalid-feedback">
+        <div *ngIf="f['doc_cnss'].errors?.['required']">Le quitus social  est obligatoire</div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="col-lg-6">
+    <div class="mb-3">
+      <label class="form-label" for="steparrow-gen-info-lentreprise-input-5">Les status </label>
+      <input
+        [ngClass]="{ 'is-invalid': formRef.submitted && f['doc_status'].errors }"
+        type="file"
+        formControlName="doc_status"
+        class="form-control "
+        id="steparrow-gen-info-lentreprise-input-5"
+        (change)="onChange($event, 'statut_document')"
+        accept="application/pdf"
+      >
+
+      <div *ngIf="formRef.submitted && f['doc_status'].errors" class="invalid-feedback">
+        <div *ngIf="f['doc_status'].errors?.['required']">Les status  est obligatoire</div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="col-lg-6">
+    <div class="mb-3">
+      <label class="form-label" for="steparrow-gen-info-lentreprise-input-6">Le certifiacat de régularité sociale</label>
+      <input
+        [ngClass]="{ 'is-invalid': formRef.submitted && f['doc_aguipe'].errors }"
+        type="file"
+        formControlName="doc_aguipe"
+        class="form-control "
+        id="steparrow-gen-info-lentreprise-input-6"
+        (change)="onChange($event, 'aguipe_document')"
+        accept="application/pdf"
+      >
+
+      <div *ngIf="formRef.submitted && f['doc_aguipe'].errors" class="invalid-feedback">
+        <div *ngIf="f['doc_aguipe'].errors?.['required']">Le certificat de régularité sociale est obligatoire</div>
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <div class="d-flex align-items-start gap-3 mt-4">
+    <button type="button" class="btn btn-light btn-label previestab" data-previous="steparrow-gen-info-tab" cdkStepperPrevious><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
+      Précédent</button>
+    <button type="submit"class="btn btn-success btn-label right ms-auto nexttab nexttab" data-nexttab="pills-experience-tab" cdkStepperNext><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Suivant</button>
+  </div>
+
+</form>

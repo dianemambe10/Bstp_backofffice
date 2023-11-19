@@ -1,0 +1,357 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Paremetre d'utilisateur" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+  <!--end col-->
+  <div class="col-xxl-3">
+    <div class="card overflow-hidden">
+
+      <div class="card-body pt-0 mt-3 ">
+        <div class="text-center">
+          <div class="profile-user position-relative d-inline-block mx-auto">
+            <img [src]="imageURL" alt="" id="user-img" class="avatar-xl rounded-circle object-fit-cover border-0 img-thumbnail user-profile-image">
+            <div class="avatar-xs p-0 rounded-circle profile-photo-edit position-absolute end-0 bottom-0">
+              <input id="profile-img-file-input" type="file" class="profile-img-file-input d-none" (change)="fileChange($event,'1')" accept="image/png, image/jpeg">
+              <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
+                                <span class="avatar-title rounded-circle bg-light text-body">
+                                    <i class="bi bi-camera"></i>
+                                </span>
+              </label>
+            </div>
+          </div>
+          <div class="mt-3">
+            <h5>{{   currentUser!.first_name + " " + currentUser!.last_name }}<i class="bi bi-patch-check-fill align-baseline text-info ms-1"></i></h5>
+            <p class="text-muted">Web Developer</p>
+          </div>
+        </div>
+      </div>
+      </div>
+  </div>
+  <div class="col-xxl-9">
+
+    <div class="d-flex align-items-center flex-wrap gap-2 mb-4">
+      <ul class="nav nav-pills arrow-navtabs nav-secondary gap-2 flex-grow-1 order-2 order-lg-1" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" data-bs-toggle="tab" href="javascript:void(0);" [class.active]="currentTab === 'personalDetails'" (click)="changeTab('personalDetails')" role="tab" aria-selected="true">
+            Personal Details
+          </a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" data-bs-toggle="tab" href="javascript:void(0);" [class.active]="currentTab === 'changePassword'" (click)="changeTab('changePassword')" role="tab" aria-selected="false" tabindex="-1">
+            Changes Password
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+    <div class="card">
+      <div class="tab-content">
+        <div [hidden]="currentTab !== 'personalDetails'" class="tab-pane active" id="personalDetails" role="tabpanel">
+          <div class="card">
+            <div class="card-header">
+              <h6 class="card-title mb-0">Personal Details</h6>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="formRegister"
+                    (ngSubmit)="register()"
+                    autocomplete="off"
+                    #formRef="ngForm"
+                    class="row g-3 needs-validation"
+                    novalidate>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="mb-3">
+                      <label class="form-label" for="firstnameInput">Prénom</label>
+                      <input
+                        id="firstnameInput"
+                        [ngClass]="{ 'is-invalid': formRef.submitted && ff['first_name'].errors }"
+                        placeholder="Entrer son prénom"
+                        required
+                        type="text"
+                        formControlName="first_name"
+                        class="form-control "
+                      >
+                      <div class="invalid-feedback">
+                        <div *ngIf="  ff['first_name'].errors && formRef.submitted " >
+                          <div *ngIf="ff['first_name'].errors?.['required']" >
+                            Le prénom est obligatoire
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <!--end col-->
+                  <div class="col-lg-6">
+                    <div class="mb-3">
+                      <label class="form-label" for="validationCustom011">Nom</label>
+                      <input
+                        id="validationCustom011"
+                        [ngClass]="{ 'is-invalid': formRef.submitted && ff['last_name'].errors }"
+                        placeholder="Entrer son nom"
+                        required
+                        type="text"
+                        formControlName="last_name"
+                        class="form-control "
+                      >
+                      <div class="invalid-feedback">
+                        <div *ngIf=" formRef.submitted && ff['last_name'].errors" >
+                          <div *ngIf="ff['last_name'].errors?.['required']" >
+                            Le nom est obligatoire
+                          </div>
+                        </div>
+                      </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="mb-3">
+                      <label class="form-label" >Civilité</label>
+                      <br>
+                      <div class="form-check form-check-inline  " *ngFor=" let civ of civilites">
+                        <input type="radio"
+                               [ngClass]="{ 'is-invalid': formRef.submitted && ff['gender'].errors }"
+                               class="form-check-input"
+                               id="validationFormCheck3"
+                               formControlName="gender"
+                               [value]="civ.id"
+                               required>
+                        <label class="form-check-label" for="validationFormCheck3">{{ civ.name}}</label>
+
+                      </div>
+                      <div class="invalid-feedback">
+                        <div *ngIf=" formRef.submitted && ff['gender'].errors" >
+                          <div *ngIf="ff['gender'].errors?.['required']" >
+                            La civilite est obligatoire
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="mb-3">
+                      <label for="birthDateInput" class="form-label">Date de naissance</label>
+                      <input
+                          type="text"
+                          id="birthDateInput"
+                          class="form-control"
+                          showWeekNumbers="false"
+                          formControlName="date_of_birth"
+                          bsDatepicker [bsConfig]="bsConfig">
+                      <div class="invalid-feedback">
+                        <div *ngIf=" formRef.submitted && ff['date_of_birth'].errors" >
+                          <div *ngIf=" ff['date_of_birth'].errors?.['required']" >
+                            La date de naissance  est obligatoire
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end col-->
+                  <div class="col-lg-6">
+                    <div class="mb-3">
+                      <label class="form-label" for="steparrow-gen-info-phoneNumber-input">Numéro de Téléphone</label>
+                      <input
+                        [ngClass]="{ 'is-invalid': formRef.submitted && ff['phone_number'].errors }"
+                        placeholder="Entrer son numero"
+                        required
+                        type="text"
+                        formControlName="phone_number"
+                        class="form-control "
+                        id="steparrow-gen-info-phoneNumber-input"
+                      >
+                      <div class="invalid-feedback">
+                        <div *ngIf=" formRef.submitted && ff['phone_number'].errors" >
+                          <div *ngIf=" ff['phone_number'].errors?.['required']" >
+                            Le numero de téléphone est obligatoire
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                  </div>
+                  <!--end col-->
+                  <div class="col-lg-6">
+                    <div class="mb-3">
+                      <label class="form-label" for="steparrow-gen-info-email-input">Email</label>
+                      <input
+                        [ngClass]="{ 'is-invalid': formRef.submitted && ff['email'].errors }"
+
+                        required
+                        type="text"
+                        formControlName="email"
+                        class="form-control "
+                        id="steparrow-gen-info-email-input"
+                      >
+
+                      <div *ngIf="formRef.submitted && ff['email'].errors" class="invalid-feedback">
+                        <div *ngIf="ff['email'].errors?.['required']">L'email est obligatoire</div>
+                        <div *ngIf="ff['email'].errors?.['email']">Le format d'email est incorrect</div>
+                      </div>
+                    </div>
+                  </div>
+                      <!--end col-->
+                  <div class="col-lg-12">
+                    <div class="hstack gap-2 justify-content-start">
+                      <button  class="btn btn-primary">Mettre à jour</button>
+                      <button  class="btn btn-subtle-danger" (click)="cancel($event)">Cancel</button>
+                    </div>
+                  </div>
+                  <!--end col-->
+                </div>
+                <!--end row-->
+              </form>
+            </div>
+          </div>
+        </div>
+        <div [hidden]="currentTab !== 'changePassword'" class="tab-pane active" id="changePassword" role="tabpanel">
+          <div class="card-header">
+            <h6 class="card-title mb-0">Changes Password</h6>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="formPassword"
+                  (ngSubmit)="changePassword()"
+                  autocomplete="off"
+                  #formPass="ngForm"
+                  class="row g-3 needs-validation"
+                  novalidate>
+              <div class="row g-2 justify-content-lg-between align-items-center">
+
+
+                <div class="col-lg-6">
+                  <div class="auth-pass-inputgroup">
+                    <label for="oldpasswordInput" class="form-label">Mot de Passe Actuel*</label>
+                    <div class="position-relative">
+                      <input [type]="fieldTextType ? 'text' : 'password'"
+                             [ngClass]="{ 'is-invalid': formPass.submitted && f['old_password'].errors }"
+                             class="form-control password-input"
+                             id="oldpasswordInput" placeholder="Enter current password"
+                             formControlName="old_password"
+                      >
+                      <button class="btn btn-link position-absolute top-0 end-0 text-decoration-none text-muted password-addon" type="button">
+                        <i class="ri-eye-fill align-middle" [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType}" (click)="toggleFieldTextType()"></i></button>
+                      <div class="invalid-feedback">
+                        <div *ngIf="  f['old_password'].errors && formPass.submitted " >
+                          <div *ngIf="f['old_password'].errors?.['required']" >
+                            Le  mot de passe actuel est obligatoire
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <p></p>
+
+                <div class="col-lg-6">
+                  <div class="auth-pass-inputgroup">
+                    <label for="password-input" class="form-label">Nouveau Mot de Passe*</label>
+                    <div class="position-relative">
+                      <input [type]="fieldTextType1 ? 'text' : 'password'"
+                             [ngClass]="{ 'is-invalid': formPass.submitted && f['password'].errors }"
+                             class="form-control password-input"
+                             id="password-input"
+                             onpaste="return false"
+                             placeholder="Enter new password"
+                             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                             required
+                             formControlName="password"
+                      >
+                      <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button"><i class="ri-eye-fill align-middle" [ngClass]="{'mdi-eye-off-outline': !fieldTextType1, 'mdi-eye-outline': fieldTextType1}" (click)="toggleFieldTextType1()"></i></button>
+                      <div class="invalid-feedback">
+                        <div *ngIf="  f['password'].errors && formPass.submitted " >
+                          <div *ngIf="f['password'].errors?.['required']" >
+                            Le mot de passe est obligatoire
+                          </div>
+                          <div *ngIf="f['password'].errors?.['pattern']" >
+                            Le mot de passe doit contenir au moin 8 carecteres, une lettre majuscules, une lettre minuscule and un nombre
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <p></p>
+
+                <div class="col-lg-6">
+                  <div class="auth-pass-inputgroup">
+                    <label for="confirm-password-input" class="form-label">Confirm
+                      Password*</label>
+                    <div class="position-relative">
+                      <input [type]="fieldTextType2 ? 'text' : 'password'"
+                             [ngClass]="{ 'is-invalid': formPass.submitted && f['confirm_password'].errors }"
+                             class="form-control password-input"
+                             onpaste="return false"
+                             id="confirm-password-input"
+                             placeholder="Confirm password"
+                             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                             formControlName="confirm_password"
+                             required>
+                      <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button"><i class="ri-eye-fill align-middle" [ngClass]="{'mdi-eye-off-outline': !fieldTextType2, 'mdi-eye-outline': fieldTextType2}" (click)="toggleFieldTextType2()"></i></button>
+                      <div class="invalid-feedback">
+                        <div *ngIf="  f['confirm_password'].errors && formPass.submitted " >
+                          <div *ngIf="f['confirm_password'].errors?.['required']" >
+                            Le mot de passe est obligatoire
+                          </div>
+                          <div *ngIf="f['confirm_password'].errors?.['matching']" >
+                            Password and Confirm Password must be match
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-12">
+                  <div class="hstack gap-2 justify-content-start">
+                    <button  class="btn btn-success">Mettre à jour</button>
+
+                  </div>
+                </div>
+
+                <!--end col-->
+
+                <div class="col-lg-12">
+                  <div class="card bg-light shadow-none passwd-bg" id="password-contain">
+                    <div class="card-body">
+                      <div class="mb-4">
+                        <h5 class="fs-sm">Password must contain:</h5>
+                      </div>
+                      <div class="">
+                        <p id="pass-length" class="invalid fs-xs mb-2">Minimum <b>8
+                          characters</b></p>
+                        <p id="pass-lower" class="invalid fs-xs mb-2">At
+                          <b>lowercase</b>
+                          letter
+                          (a-z)
+                        </p>
+                        <p id="pass-upper" class="invalid fs-xs mb-2">At least
+                          <b>uppercase</b>
+                          letter (A-Z)
+                        </p>
+                        <p id="pass-number" class="invalid fs-xs mb-0">A least
+                          <b>number</b>
+                          (0-9)
+                        </p>
+
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <!--end row-->
+            </form>
+
+          </div>
+        </div>
+        <!--end tab-pane-->
+
+      </div>
+    </div>
+  </div>
+  <!--end col-->
+</div>
+<!--end row-->

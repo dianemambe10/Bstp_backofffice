@@ -1,0 +1,276 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs [breadcrumbItems]="breadCrumbItems" title="Utilisateur"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="flex-grow-1">
+
+          </div>
+          <div class="flex-shrink-0">
+            <div class="d-flex flex-wrap align-items-start gap-2">
+              <a ActivatedRoute class="btn btn-subtle-primary  btn-icon " routerLink="../"><i
+                class="bi bi-list-task"></i></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!--end col-->
+</div><!--end row-->
+
+
+<div class="row">
+
+
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+
+        <form #formRef="ngForm"
+              (ngSubmit)="register()"
+              [formGroup]="formRegister"
+              autocomplete="off"
+              class="row g-3 needs-validation"
+              novalidate>
+
+          <div class="row">
+            <!--end col-->
+            <!--
+                                                    <div class="col-xxl-3">
+                                                      <div class="card overflow-hidden">
+
+                                                        <div class="card-body">
+                                                          <div class="text-center">
+                                                              <div class="profile-user position-relative d-inline-block mx-auto">
+                                                                  <img src="assets/images/users/avatar-1.jpg" alt="" id="user-img" class="avatar-xl rounded-circle object-fit-cover border-0 img-thumbnail user-profile-image">
+                                                                  <div class="avatar-xs p-0 rounded-circle profile-photo-edit position-absolute end-0 bottom-0">
+                                                                      <input id="profile-img-file-input" type="file" class="profile-img-file-input d-none" accept="image/png, image/jpeg" (change)="fileChange($event,'1')">
+                                                                      <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
+                                                                          <span class="avatar-title rounded-circle bg-light text-body">
+                                                                              <i class="bi bi-camera"></i>
+                                                                          </span>
+                                                                      </label>
+                                                                  </div>
+                                                              </div>
+
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+
+                                -->
+
+            <div class="col-xxl-12">
+              <div class="card p-3">
+
+                <div class="card-body">
+
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="mb-3">
+                        <label class="form-label" for="validationCustom01">Prénom</label>
+                        <input
+                          [ngClass]="{ 'is-invalid': formRef.submitted && ff['first_name'].errors }"
+                          class="form-control "
+                          formControlName="first_name"
+                          id="validationCustom01"
+                          placeholder="Entrer son prénom"
+                          required
+                          type="text"
+                        >
+                        <div class="invalid-feedback">
+                          <div *ngIf="  ff['first_name'].errors && formRef.submitted ">
+                            <div *ngIf="ff['first_name'].errors?.['required']">
+                              Le prénom est obligatoire
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="mb-3">
+                        <label class="form-label" for="validationCustom011">Nom</label>
+                        <input
+                          [ngClass]="{ 'is-invalid': formRef.submitted && ff['last_name'].errors }"
+                          class="form-control "
+                          formControlName="last_name"
+                          id="validationCustom011"
+                          placeholder="Entrer son nom"
+                          required
+                          type="text"
+                        >
+                        <div class="invalid-feedback">
+                          <div *ngIf=" formRef.submitted && ff['last_name'].errors">
+                            <div *ngIf="ff['last_name'].errors?.['required']">
+                              Le nom est obligatoire
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="mb-3">
+                        <label class="form-label" for="steparrow-gen-info-email-input">Civilité</label>
+                        <br>
+                        <div *ngFor=" let civ of civilites" class="form-check ">
+                          <input [ngClass]="{ 'is-invalid': formRef.submitted && ff['gender'].errors }"
+                                 [value]="civ.id"
+                                 class="form-check-input"
+                                 formControlName="gender"
+                                 id="validationFormCheck3"
+                                 required
+                                 type="radio">
+                          <label class="form-check-label" for="validationFormCheck3">{{ civ.name}}</label>
+
+                        </div>
+                        <div class="invalid-feedback">
+                          <div *ngIf=" formRef.submitted && ff['gender'].errors">
+                            <div *ngIf="ff['gender'].errors?.['required']">
+                              La civilite est obligatoire
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="col-lg-6">
+                      <div class="mb-3">
+                        <label class="form-label" for="steparrow-gen-info-phoneNumber-input">Numéro de Téléphone</label>
+                        <input
+                          [ngClass]="{ 'is-invalid': formRef.submitted && ff['phone_number'].errors }"
+                          class="form-control "
+                          formControlName="phone_number"
+                          id="steparrow-gen-info-phoneNumber-input"
+                          placeholder="Entrer son numero"
+                          required
+                          type="text"
+                        >
+                        <div class="invalid-feedback">
+                          <div *ngIf=" formRef.submitted && ff['phone_number'].errors">
+                            <div *ngIf=" ff['phone_number'].errors?.['required']">
+                              Le numero de téléphone est obligatoire
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <div class="mb-3">
+                        <label class="form-label" for="steparrow-gen-info-email-input">Email</label>
+                        <input
+                          [ngClass]="{ 'is-invalid': formRef.submitted && ff['email'].errors }"
+
+                          class="form-control "
+                          formControlName="email"
+                          id="steparrow-gen-info-email-input"
+                          required
+                          type="text"
+                        >
+
+                        <div *ngIf="formRef.submitted && ff['email'].errors" class="invalid-feedback">
+                          <div *ngIf="ff['email'].errors?.['required']">L'email est obligatoire</div>
+                          <div *ngIf="ff['email'].errors?.['email']">Le format d'email est incorrect</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!--
+                                        <div class="col-lg-12">
+                                          <div class="mb-3">
+                                            <label class="form-label">Groupe</label>
+                                            <br>
+                                            <div *ngFor=" let j of groupes" class="col-sm-4  form-check  ">
+                                              <input [ngClass]="{ 'is-invalid': formRef.submitted && ff['groupe_id'].errors }"
+                                                     class="form-check-input"
+                                                     formControlName="groupe_id"
+                                                     id="{{j.id}}"
+                                                     type="radio"
+                                                     value="{{j.id}}">
+                                              <label class="form-check-label" for="{{j.id}}">{{j.name}}</label>
+                                            </div>
+
+
+                                            <div *ngIf="formRef.submitted && ff['groupe_id'].errors" class="invalid-feedback">
+                                              <div *ngIf="ff['groupe_id'].errors?.['required']">Veuillez Choisir un groupe</div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        -->
+                    <div class="col-lg-6">
+                      <div class="mb-3">
+                        <label class="form-label" for="steparrow-gen-info-role_dans_lentreprise-input">Fonction dans
+                          l'Entreprise</label>
+                        <input
+                          [ngClass]="{ 'is-invalid': formRef.submitted && ff['role_dans_lentreprise'].errors }"
+                          class="form-control "
+                          formControlName="role_dans_lentreprise"
+                          id="steparrow-gen-info-role_dans_lentreprise-input"
+                          placeholder="Entrer son role dans l'entreprise"
+                          required
+                          type="text"
+                        >
+
+                        <div class="invalid-feedback">
+                          <div *ngIf=" formRef.submitted && ff['role_dans_lentreprise'].errors">
+                            <div *ngIf="ff['role_dans_lentreprise'].errors?.['required']">
+                              Le role dans l'entreprise est obligatoire
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <p></p>
+                    <div class="col-lg-4">
+                      <div class="mb-3">
+                        <label class="form-label" for="steparrow-gen-info-region-input">Role</label>
+                        <select [ngClass]="{ 'is-invalid': formRef.submitted && ff['role_id'].errors }"
+                                class="form-select mb-3"
+                                formControlName="role_id"
+                                [value]="defaultRole"
+                                id="steparrow-gen-info-region-input">
+                          <option value="">Choississez un role</option>
+                          <option *ngFor="let r of roleList" [value]="r.id">{{ r.name }}</option>
+                        </select>
+
+                        <div *ngIf="formRef.submitted && ff['role_id'].errors" class="invalid-feedback">
+                          <div *ngIf="ff['role_id'].errors?.['required']">Choisissez un role</div>
+                        </div>
+                      </div>
+                    </div>
+                    <p></p>
+                    <div class="col-lg-4">
+                      <label class="form-label">Status</label>
+                      <div class="form-check form-switch form-switch-lg" dir="ltr">
+                        <input class="form-check-input" formControlName="is_active" id="customSwitchsizelg"
+                               type="checkbox">
+                        <label class="form-check-label" for="customSwitchsizelg">Actif</label>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="hstack gap-2 justify-content-start mb-3">
+              <button (click)="cancel($event)" class="btn btn-danger"><i class="ph-x align-middle"></i> Annuler</button>
+              <button class="btn btn-primary"><i class="ph ph-floppy-disk align-middle"></i> Enregistrer</button>
+            </div>
+          </div>
+        </form>
+
+
+      </div>
+    </div>
+  </div>
+  <!-- end col -->
+</div><!-- end row -->
+
+<!-- end row -->

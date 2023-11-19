@@ -1,0 +1,360 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs [breadcrumbItems]="breadCrumbItems" title="Demande"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="flex-grow-1">
+
+          </div>
+          <div class="flex-shrink-0">
+            <div class="d-flex flex-wrap align-items-start gap-2">
+              <a ActivatedRoute class="btn btn-subtle-primary  btn-icon " routerLink="../"><i
+                class="bi bi-list-task"></i></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!--end col-->
+</div><!--end row-->
+
+
+<div class="row">
+
+
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+
+
+        <form #formRef="ngForm"
+              (ngSubmit)="register()"
+              [formGroup]="formRegister"
+              autocomplete="off"
+              class="row g-3 needs-validation"
+              novalidate>
+          <div class="col-lg-8">
+            <div class="mb-3">
+              <label class="form-label" for="validationCustom01">Titre</label>
+              <input
+                [ngClass]="{ 'is-invalid': formRef.submitted && f['name'].errors }"
+                class="form-control "
+                formControlName="name"
+                id="validationCustom01"
+                placeholder=""
+                required
+                type="text"
+              >
+              <div class="invalid-feedback">
+                <div *ngIf=" formRef.submitted && f['name'].errors">
+                  <div *ngIf="f['name'].errors?.['required']">
+                    Le nom est obligatoire
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="mb-3">
+              <label class="form-label" for="validationCustom011">Reference</label>
+              <input
+                [ngClass]="{ 'is-invalid': formRef.submitted && f['reference'].errors }"
+                class="form-control inline "
+                formControlName="reference"
+                id="validationCustom011"
+                placeholder=""
+                required
+                type="text"
+              >
+              <div class="invalid-feedback">
+                <div *ngIf=" formRef.submitted && f['reference'].errors">
+                  <div *ngIf="f['reference'].errors?.['required']">
+                    Le reference est obligatoire
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p></p>
+
+          <div class="col-lg-4">
+            <div class="mb-3">
+              <label class="form-label" for="steparrow-gen-info-type-demande-input">Type </label>
+              <select [ngClass]="{ 'is-invalid': formRef.submitted && f['type'].errors }"
+                      class="form-select mb-3"
+                      formControlName="type"
+                      id="steparrow-gen-info-type-demande-input">
+                <option value="">Choisissez un type</option>
+                <option *ngFor="let typ of typeDemande" [value]="typ.id">{{ typ.name }}</option>
+              </select>
+
+              <div *ngIf="formRef.submitted && f['type'].errors" class="invalid-feedback">
+                <div *ngIf="f['type'].errors?.['required']">Choisissez un type</div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="col-lg-12">
+            <div class="mb-3">
+              <label class="form-label" for="steparrow-gen-info-description-sommaire-input">Description Sommaire</label>
+              <textarea class="form-control"
+                        formControlName="summary"
+                        id="steparrow-gen-info-description-sommaire-input"
+                        rows="3"
+              ></textarea>
+
+              <div *ngIf="formRef.submitted && f['summary'].errors" class="invalid-feedback">
+                <div *ngIf="f['summary'].errors?.['required']">La description sommaire est obligatoire
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="mb-3">
+              <label class="form-label" for="steparrow-gen-info-pricipale-input">Description detailée</label>
+              <textarea class="form-control"
+                        formControlName="description"
+                        id="steparrow-gen-info-pricipale-input"
+                        rows="3"
+              ></textarea>
+
+              <div *ngIf="formRef.submitted && f['description'].errors" class="invalid-feedback">
+                <div *ngIf="f['description'].errors?.['required']">La description detailé est obligatoire</div>
+              </div>
+            </div>
+          </div>
+
+
+          <p></p>
+          <div class="col-lg-4">
+            <div class="mb-3">
+              <label class="form-label" for="validationCustom0122">Date de Publication</label>
+              <input
+                [ngClass]="{ 'is-invalid': formRef.submitted && f['published_at'].errors }"
+                class="form-control "
+                formControlName="published_at"
+                id="validationCustom0122"
+                placeholder=""
+                required
+                type="date"
+              >
+              <div class="invalid-feedback">
+                <div *ngIf=" formRef.submitted && f['published_at'].errors">
+                  <div *ngIf="f['published_at'].errors?.['required']">
+                    La date de publication est obligatoire
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="mb-3">
+              <label class="form-label" for="validationCustom0111">Date de Clôture</label>
+              <input
+                [ngClass]="{ 'is-invalid': formRef.submitted && f['expired_at'].errors }"
+                class="form-control "
+                formControlName="expired_at"
+                id="validationCustom0111"
+                placeholder=""
+                required
+                type="date"
+              >
+              <div class="invalid-feedback">
+                <div *ngIf=" formRef.submitted && f['expired_at'].errors">
+                  <div *ngIf="f['expired_at'].errors?.['required']">
+                    La date de clôture est obligatoire
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="mb-3">
+              <div class="form-check form-switch form-switch-md" dir="ltr">
+                <input class="form-check-input" id="customSwitchsizemd" type="checkbox"  (change)="onChangeRectriction($event)">
+                <label class="form-check-label" for="customSwitchsizemd">Demande est restricte?</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-12" *ngIf="restriction">
+            <div class="mb-3">
+              <label class="form-label">Veuillez choisir le type de restriction que vous souhaitez pour cette offre
+                *</label>
+              <br>
+              <div *ngFor=" let typ of typeRetriction" class="col-md-4  form-check form-check-inline ">
+                <input [id]="typ.id"
+                       (change)="onRestrictedTypeChanged($event)"
+                       [ngClass]="{ 'is-invalid': formRef.submitted && f['restricted_type'].errors }"
+                       [value]="typ.id"
+                       class="form-check-input"
+                       formControlName="restricted_type"
+                       required
+                       type="radio">
+                <label [for]="typ.id" class="form-check-label">{{ typ.name}}</label>
+
+              </div>
+              <div class="invalid-feedback">
+                <div *ngIf=" formRef.submitted && f['restricted_type'].errors">
+                  <div *ngIf="f['restricted_type'].errors?.['required']">
+                    Choisissez un mode de sousmission
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12" *ngIf="sector">
+            <div class="mb-3">
+              <label class="form-label" >Domaines d'Activités</label>
+              <br>
+              <div class="col-md-3  form-check form-check-inline " *ngFor=" let dom of domaineActivites">
+                <input class="form-check-input"
+                       type="checkbox"
+                       [checked]= "domaineList.indexOf(dom?.id!) > -1"
+                       [ngClass]="{ 'is-invalid': formRef.submitted && f['categories'].errors }"
+                       id="categories{{ dom.id }}"
+                       (change)="onChangeDomaine($event)"
+                       [value]="dom.id">
+                <label class="form-check-label" for="categories{{ dom.id }}">{{ dom.name}}</label>
+              </div>
+
+
+              <div *ngIf="formRef.submitted && f['categories'].errors" class="invalid-feedback">
+                <div *ngIf="f['categories'].errors?.['required']">Le domaine d'activité est obligatoire</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6" *ngIf="supplier">
+            <div class="mb-3">
+              <label class="form-label" for="restricted_suppliers">Fournisseurs</label>
+
+              <ng-select [multiple]="true"
+                         (change)="onSuppliersChange($event)"
+                         [clearable]="false"
+                         [searchable]="true"
+                         formControlName="restricted_suppliers"
+                         id="restricted_suppliers"
+                         (change)="onCheckboxSuppliersChange($event)">
+                <ng-option *ngFor="let company of fournisseurs" [value]="company.id">{{ company.name }}</ng-option>
+              </ng-select>
+
+              <div *ngIf="formRef.submitted && f['restricted_suppliers'].errors" class="invalid-feedback">
+                <div *ngIf="f['restricted_suppliers'].errors?.['required']">Choisissez un acheteur</div>
+              </div>
+            </div>
+          </div>
+
+          <br />
+
+          <div class="col-lg-6">
+            <div class="mb-3">
+              <label class="form-label" for="validationCustom01121">Dao</label>
+              <input
+                [ngClass]="{ 'is-invalid': formRef.submitted && f['document'].errors }"
+                class="form-control "
+                formControlName="document"
+                id="validationCustom01121"
+                placeholder=""
+                required
+                type="file"
+              >
+              <div class="invalid-feedback">
+                <div *ngIf=" formRef.submitted && f['document'].errors">
+                  <div *ngIf="f['document'].errors?.['required']">
+                    Le dao est obligatoire
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-12">
+            <div class="mb-3">
+              <label class="form-label">Mode de Sousmission</label>
+              <br>
+              <div *ngFor=" let mode of modeSoumission" class="col-md-4  form-check form-check-inline ">
+                <input [id]="mode.id"
+                       [ngClass]="{ 'is-invalid': formRef.submitted && f['modality'].errors }"
+                       [value]="mode.id"
+                       class="form-check-input"
+                       formControlName="modality"
+                       required
+                       type="radio"
+                       (change)="onModaliteChange($event)">
+                <label [for]="mode.id" class="form-check-label">{{ mode.name}}</label>
+
+              </div>
+              <div class="invalid-feedback">
+                <div *ngIf=" formRef.submitted && f['modality'].errors">
+                  <div *ngIf="f['modality'].errors?.['required']">
+                    Choisissez un mode de sousmission
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6" *ngIf="emailEnvoie">
+            <div class="mb-3">
+              <label class="form-label" for="validationCustom011e">SAISISSEZ L'ADRESSE ELECTRONIQUE A LAQUELLE LES DEMANDES DE SOUMISSION SERONT ENVOYÉES *</label>
+              <input
+                [ngClass]="{ 'is-invalid': formRef.submitted && f['email'].errors }"
+                class="form-control inline "
+                formControlName="email"
+                id="validationCustom011e"
+                placeholder=""
+                required
+                type="text"
+              >
+              <div class="invalid-feedback">
+                <div *ngIf=" formRef.submitted && f['email'].errors">
+                  <div *ngIf="f['email'].errors?.['required']">
+                    L'adresse éléctronique  est obligatoire
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+
+          <div class="col-lg-6">
+            <div class="mb-3">
+              <label class="form-label" for="steparrow-gen-info-buyer-id-input">Buyer</label>
+              <select [ngClass]="{ 'is-invalid': formRef.submitted && f['buyer'].errors }"
+                      class="form-select mb-3"
+                      formControlName="buyer"
+                      id="steparrow-gen-info-buyer-id-input">
+                <option value="">Choose your city</option>
+                <option *ngFor="let reg of buyer" [value]="reg.id">{{ reg.name }}</option>
+              </select>
+
+              <div *ngIf="formRef.submitted && f['buyer'].errors" class="invalid-feedback">
+                <div *ngIf="f['buyer'].errors?.['required']">Choisissez un acheteur</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hstack gap-2 justify-content-start mb-3">
+            <button (click)="cancel($event)" class="btn btn-danger"><i class="ph-x align-middle"></i> Annuler</button>
+            <button class="btn btn-primary"><i class="ph ph-floppy-disk align-middle"></i> Enregistrer</button>
+          </div>
+
+        </form>
+        <!-- </div> -->
+
+      </div>
+    </div>
+  </div>
+  <!-- end col -->
+</div><!-- end row -->
+
+<!-- end row -->
