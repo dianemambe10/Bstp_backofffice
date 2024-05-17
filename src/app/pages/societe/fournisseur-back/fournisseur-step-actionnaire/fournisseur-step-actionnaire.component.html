@@ -1,0 +1,56 @@
+
+<div class="row align-items-end g-3 mb-4">
+
+  <div class="col-sm-auto ">
+    <div class="d-flex flex-wrap align-items-end justify-content-end gap-2">
+      <div>
+        <a href="javascript:void(0);"  (click)="addActionnaire()" data-bs-toggle="modal" data-bs-target=".add-new" class="btn btn-primary"><i
+          class="bx bx-plus me-1"></i> Actionnnaire</a>
+
+      </div>
+    </div>
+  </div><!--end col-->
+</div><!--end row-->
+
+<div class="row">
+  <div  class="row" *ngIf="actionnaireList.length > 0">
+  <div *ngFor="let data of actionnaireList; index as i" class="col-sm-12 col-lg-6">
+
+
+    <div class="card ribbon-box border shadow-none right">
+      <div class="card-body">
+        <div class="d-flex">
+          <div class="ribbon ribbon-info ribbon-shape">{{ data.part_action }}</div>
+          <div class="flex-grow-1">
+            <div class="ribbon-content text-muted me-5">
+              <h5 class="fs-md text-start">{{data.first_name + ' ' + data.last_name }}</h5>
+              <p class="text-muted mb-0">{{data.role_dans_lentreprise}}</p>
+              <div class="mt-4">
+                <p class="text-muted mb-2"><i class="bi bi-telephone align-baseline me-1"></i> {{data.phone_number}}</p>
+                <p class="text-muted mb-2"><i class="bi bi-envelope align-baseline me-1"></i>
+                  {{data.email}}</p>
+                <p class="text-muted mb-0"><i class="bi bi-geo-alt align-baseline me-1"></i> {{data.nationalite}}</p>
+              </div>
+
+              <div class="d-flex gap-2 pt-4">
+                <button type="button" class="btn btn-outline-primary btn-icon btn-sm" (click)="editActionnaire($event, i)"><i class="ri-pencil-line"></i></button>
+                <button type="button" class="btn btn-outline-danger btn-icon btn-sm" (click)="delActionnaire($event, i)"><i class="ri-delete-bin-2-line"></i></button>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+
+  </div>
+</div><!--end row-->
+
+

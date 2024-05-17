@@ -1,0 +1,47 @@
+
+<div class="row align-items-end g-3 mb-4">
+
+  <div class="col-sm-auto ">
+    <div class="d-flex flex-wrap align-items-end justify-content-end gap-2">
+      <div>
+        <a href="javascript:void(0);"  (click)="addReference()" data-bs-toggle="modal" data-bs-target=".add-new" class="btn btn-primary">
+          <i  class="bx bx-plus me-1"></i> Reference</a>
+
+      </div>
+    </div>
+  </div><!--end col-->
+</div><!--end row-->
+
+<div class="row">
+  <div  class="row" *ngIf="referenceList.length > 0">
+  <div *ngFor="let data of referenceList; index as i" class="col-sm-12 col-lg-6">
+    <div class="card ribbon-box border shadow-none right">
+      <div class="card-body">
+        <div class="d-flex">
+          <div class="ribbon ribbon-info ribbon-shape">{{ data.contact_approx_amount + ' ' + data.contact_approx_amount_currency }}</div>
+          <div class="flex-grow-1">
+            <div class="ribbon-content text-muted me-5">
+
+              <div class="mt-4">
+                <p class="text-muted mb-2"><i class="bi bi-building align-baseline me-1"></i> {{data.company_name}}</p>
+                <p class="text-muted mb-2"><i class="bi bi-person  align-baseline me-1"></i> {{data.contact_full_name}}</p>
+                <p class="text-muted mb-2"><i class="bi bi-tag align-baseline me-1"></i> {{data.contact_designation}}</p>
+
+                <p class="text-muted mb-2"><i class="bi bi-telephone align-baseline me-1"></i> {{data.contact_phone_number}}</p>
+                <p class="text-muted mb-2"><i class="bi bi-envelope align-baseline me-1"></i>
+                  {{data.contact_email}}</p>
+              </div>
+              <div class="d-flex gap-2 pt-4">
+                <button type="button" class="btn btn-outline-primary btn-icon btn-sm" (click)="editReference($event, i)"><i class="ri-pencil-line"></i></button>
+                <button type="button" class="btn btn-outline-danger btn-icon btn-sm" (click)="delReference($event, i)"><i class="ri-delete-bin-2-line"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div><!--end row-->
+
+

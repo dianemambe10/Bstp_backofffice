@@ -1,0 +1,212 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs [breadcrumbItems]="breadCrumbItems" title="Fournisseur"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+
+
+  <div class="col-xl-12">
+    <div class="card">
+
+      <div class="card-body form-steps">
+
+        <ng-stepper #cdkStepper (selectionChange)="change($event)" [linear]="true" class="step-arrow-nav wizard">
+
+          <cdk-step [optional]="false">
+            <ng-template cdkStepLabel class="wizard-nav">
+              <button class="nav-link done" data-bs-toggle="pill" id="steparrow-gen-info-tab" type="button">INFORMATION
+                DU DEMANDEUR
+              </button>
+            </ng-template>
+            <app-fournisseur-step-one #stepOne (formOne)="formEmitStep1($event)"></app-fournisseur-step-one>
+          </cdk-step>
+
+
+          <cdk-step [optional]="false">
+            <ng-template cdkStepLabel>
+              <button class="nav-link done" id="steparrow-description-info-tab" type="button"> INFORMATION DE
+                L'ENTREPRISE
+              </button>
+            </ng-template>
+
+            <app-fournisseur-step-two #stepTwo (formTwo)="formEmitStep2($event)"></app-fournisseur-step-two>
+
+          </cdk-step>
+
+
+          <cdk-step [optional]="false">
+            <ng-template cdkStepLabel>
+              <button class="nav-link done" id="steparrow-document-info-tab" type="button"> DOCUMENT DE L'ENTREPRISE
+              </button>
+            </ng-template>
+
+            <app-fournisseur-step-three #stepThree (formThree)="formEmitStep3($event)"></app-fournisseur-step-three>
+
+          </cdk-step>
+
+
+          <cdk-step [optional]="true">
+            <ng-template cdkStepLabel>
+              <button class="nav-link" type="button">CONFIRMER LES DETAIL</button>
+            </ng-template>
+            <app-fournisseur-step-end (formEnd)="formEmitEnd($event)" [demandeur]="demandeur"
+                                      [entreprise]="entrepriseInfo"></app-fournisseur-step-end>
+
+          </cdk-step>
+        </ng-stepper>
+        <!-- </div> -->
+
+      </div>
+      <!-- end card body -->
+    </div>
+    <!-- end card -->
+  </div>
+
+
+  <!-- end col -->
+</div><!-- end row -->
+
+<!-- end row -->
+
+
+
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">Vertical nav Steps</h4>
+      </div><!-- end card header -->
+
+
+      <div class="card-body form-steps">
+        <form class="vertical-navs-step">
+          <div class="row gy-5">
+            <div class="col-lg-12">
+              <ng-stepper #cdkStepper [linear]="true" id="vertical-example" class="vertical-wizard">
+                <cdk-step [optional]="false" class="steps nav flex-column custom-nav nav-pills">
+                  <ng-template cdkStepLabel>
+                    <button class="nav-link done" id="v-pills-bill-info-tab" data-bs-toggle="pill" data-bs-target="#v-pills-bill-info" type="button" role="tab" aria-controls="v-pills-bill-info" aria-selected="true">
+                                            <span class="step-title me-2">
+                                                <i class="ri-close-circle-fill align-bottom step-icon me-2"></i> Step 1
+                                            </span>
+                    </button>
+                  </ng-template>
+                  <div class="centered-content ms-4">
+                    <div>
+                      <h5>Billing Info</h5>
+                      <p class="text-muted">Fill all information below</p>
+                    </div>
+
+                    <app-fournisseur-step-one #stepOne (formOne)="formEmitStep1($event)"></app-fournisseur-step-one>
+
+                    <div class="d-flex align-items-start gap-3 mt-4">
+                      <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab" awNextStep><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Go
+                        to Shipping</button>
+                    </div>
+
+                  </div>
+                </cdk-step>
+                <cdk-step [optional]="true">
+                  <ng-template cdkStepLabel>
+                    <button class="nav-link active" id="v-pills-bill-address-tab" data-bs-toggle="pill" data-bs-target="#v-pills-bill-address" type="button" role="tab" aria-controls="v-pills-bill-address" aria-selected="false">
+                                            <span class="step-title me-2">
+                                                <i class="ri-close-circle-fill align-bottom step-icon me-2"></i> Step 2
+                                            </span>
+                    </button>
+                  </ng-template>
+                  <div class="ms-4">
+                    <h5>Shipping Address</h5>
+                    <p class=" text-muted">Fill all information below</p>
+                  </div>
+                  <app-fournisseur-step-two #stepTwo (formTwo)="formEmitStep2($event)"></app-fournisseur-step-two>
+
+
+                  <div class="d-flex align-items-start gap-3 mt-4 ms-4">
+                    <button type="button" class="btn btn-light btn-label previestab" awPreviousStep><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
+                      Back to Billing Info</button>
+                    <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab" awNextStep><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Go
+                      to Payment</button>
+                  </div>
+                </cdk-step>
+                <cdk-step [optional]="true">
+                  <ng-template cdkStepLabel>
+                    <button class="nav-link" id="v-pills-payment-tab" data-bs-toggle="pill" data-bs-target="#v-pills-payment" type="button" role="tab" aria-controls="v-pills-payment" aria-selected="false">
+                                            <span class="step-title me-2">
+                                                <i class="ri-close-circle-fill align-bottom step-icon me-2"></i> Step 3
+                                            </span>
+                    </button>
+                  </ng-template>
+                  <div class="centered-content ms-4">
+                    <div>
+                      <h5>Payment</h5>
+                      <p class="text-muted">Fill all information below</p>
+                    </div>
+
+                    <app-fournisseur-step-three #stepThree (formThree)="formEmitStep3($event)"></app-fournisseur-step-three>
+
+                    <div class="d-flex align-items-start gap-3 mt-4">
+                      <button type="button" class="btn btn-light btn-label previestab" awPreviousStep><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
+                        Back to Shipping Info</button>
+                      <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab" awNextStep><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
+                        Order Complete</button>
+                    </div>
+                  </div>
+                </cdk-step>
+                <cdk-step [optional]="true">
+                  <ng-template cdkStepLabel>
+                    <button class="nav-link" id="v-pills-finish-tab" data-bs-toggle="pill" data-bs-target="#v-pills-finish" type="button" role="tab" aria-controls="v-pills-finish" aria-selected="false">
+                                            <span class="step-title me-2">
+                                                <i class="ri-close-circle-fill align-bottom step-icon me-2"></i> Step 4
+                                            </span>
+                    </button>
+                  </ng-template>
+                  <div class="text-center pt-4 pb-2 ms-4">
+
+                    <div class=" mb-4">
+                      <lord-icon src="https://cdn.lordicon.com/lupuorrc.json" trigger="loop" colors="primary:#0ab39c,secondary:#405189" style="width:120px;height:120px"></lord-icon>
+                    </div>
+                    <h5>Your Order is Completed !</h5>
+                    <p class="text-muted">You Will receive an order confirmation email with
+                      details of your order.</p>
+                  </div>
+                </cdk-step>
+              </ng-stepper>
+            </div>
+
+
+          </div>
+          <!-- end row -->
+        </form>
+      </div>
+    </div>
+    <!-- end -->
+  </div>
+  <!-- end col -->
+</div>
+
+<!-- Success Modal -->
+<div #successContent="bs-modal" bsModal class="modal fade">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button (click)="successContent.hide()" aria-label="Close" class="btn-close" data-bs-dismiss="modal" id="btn-close"
+                type="button"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="mt-3">
+          <img alt="" height="150" src="assets/images/success-img.png">
+          <div class="mt-4 pt-2 fs-base">
+            <h4>Felicitation !</h4>
+            <p class="text-muted mx-4 mb-0">Un nouveau founisseur enregistré avec success.</p>
+          </div>
+        </div>
+        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+          <button (click)="successContent.hide()" aria-label="" class="swal2-cancel btn btn-primary w-xs mb-1"
+                  style="display: inline-block;" type="button">D'accord
+          </button>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div>
+</div>
+

@@ -1,16 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FournisseurDetailComponent } from './fournisseur-detail.component';
+import { OverviewComponent } from './overview.component';
 
-describe('FournisseurDetailComponent', () => {
-  let component: FournisseurDetailComponent;
-  let fixture: ComponentFixture<FournisseurDetailComponent>;
+describe('OverviewComponent', () => {
+  let component: OverviewComponent;
+  let fixture: ComponentFixture<OverviewComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [FournisseurDetailComponent]
-    });
-    fixture = TestBed.createComponent(FournisseurDetailComponent);
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ OverviewComponent ]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(OverviewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
