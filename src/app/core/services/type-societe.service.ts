@@ -30,7 +30,7 @@ export class TypeSocieteService {
   // Single
   getSingleData(id:any): Observable<TypeSociete> {
 
-    return this.http.get<TypeSociete>(GlobalComponent.API_URL + GlobalComponent.type_societe + id, {   responseType: 'json' });
+    return this.http.get<TypeSociete>(GlobalComponent.API_URL + GlobalComponent.type_societe + id + "/", {   responseType: 'json' });
   }
 
   // Patch

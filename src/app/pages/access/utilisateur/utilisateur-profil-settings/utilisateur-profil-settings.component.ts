@@ -40,7 +40,7 @@ export class UtilisateurProfilSettingsComponent {
   sousmenu = '';
 
   currentUser!: User;
-  id!: number;
+  slug = '';
 
   imageURL: string = './assets/images/users/user-dummy-img.jpg';
 
@@ -78,7 +78,7 @@ export class UtilisateurProfilSettingsComponent {
     this.createForm()
 
     this.authentificationService.getUserProfile().subscribe((user: any) =>{
-      this.id = user.id
+      this.slug = user.slug
       this.currentUser = user
       if(user?.avatar)
         this.imageURL = user?.avatar
@@ -135,8 +135,8 @@ export class UtilisateurProfilSettingsComponent {
 
 
   old_password = new FormControl('',[Validators.required ])
-  password = new FormControl('@Ndroid1230',[Validators.required])
-  confirm_password = new FormControl('@Ndroid1230',[Validators.required ])
+  password = new FormControl('',[Validators.required])
+  confirm_password = new FormControl('',[Validators.required ])
 
 
   createForm(){
@@ -150,7 +150,7 @@ export class UtilisateurProfilSettingsComponent {
       email: this.email,
       phone_number: this.phone_number,
       date_of_birth: this.date_of_birth,
-      avatar: this.avatar
+     // avatar: this.avatar
 
     });
 
@@ -210,6 +210,7 @@ export class UtilisateurProfilSettingsComponent {
 
 
   register(){
+
     this.formRegister.get('username')?.setValue(this.formRegister.get('email')?.value)
     let yr = formatDate(this.formRegister.get('date_of_birth')?.value,'yyyy-MM-dd',"en-US")
 
@@ -217,16 +218,18 @@ export class UtilisateurProfilSettingsComponent {
 
     if(this.formRegister.valid){
 
-      let data = {...this.formRegister.value, ...{"id": this.id}}
-      ///console.log(data)
+      let data = {...this.formRegister.value, ...{"slug": this.slug}}
+      console.log(data)
 
       this.userProfileService.patchData(data).subscribe({
         next: (res)=> {
-          this.formRegister.reset()
-          this.submitted= true;
+         // this.formRegister.reset()
+          this.submitted= false;
           this.toastService.success('Nouveau type de societe a été ajouté avec success', 'Succèss',{
             timeOut: 3000,
           })
+
+          this.authentificationService.currentUserSubject.next(res);
         //  this.router.navigate(['../access/utilisateur'])
 
         },
@@ -238,6 +241,8 @@ export class UtilisateurProfilSettingsComponent {
         }
       })
     }else{
+
+      this.submitted = true
 
     }
 
@@ -252,26 +257,27 @@ export class UtilisateurProfilSettingsComponent {
 
   changePassword(){
 
-    this.submitted = true
+
 
     if(this.formPassword.valid){
       let data = {
         "old_password": this.formPassword.get('old_password')?.value,
         "new_password1": this.formPassword.get('password')?.value,
         "new_password2": this.formPassword.get('confirm_password')?.value,
-        "id": this.id
+        "slug": this.slug
       }
       this.userProfileService.changePassword(data).subscribe({
         next: (res)=> {
           this.formPassword.reset
-          Object.keys(this.formPassword.controls).forEach((key) =>{
+        /*  Object.keys(this.formPassword.controls).forEach((key) =>{
             const control = this.formPassword.controls[key];
             control.setErrors(null)
-          })
-          //this.submitted= true;
+          })*/
+          this.submitted= false;
           this.toastService.success('Votre mot de passe a été modifié avec succès', 'Succès',{
             timeOut: 3000,
           })
+
           //  this.router.navigate(['../access/utilisateur'])
 
         },
@@ -285,7 +291,7 @@ export class UtilisateurProfilSettingsComponent {
       })
     }
     else{
-      Object.keys(this.formPassword.controls).forEach(key =>{
+     /* Object.keys(this.formPassword.controls).forEach(key =>{
         let controlErrors: ValidationErrors | null = this.formPassword!.get(key)!.errors
         console.log(controlErrors)
         if(controlErrors != null){
@@ -294,7 +300,8 @@ export class UtilisateurProfilSettingsComponent {
           })
 
         }
-      })
+      })*/
+      this.submitted = true
       this.toastService.error('Une erreur survenue', 'Erreur',{
         timeOut: 3000,
       })

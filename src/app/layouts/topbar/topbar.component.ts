@@ -5,11 +5,11 @@ import { LanguageService } from 'src/app/core/services/language.service';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthentificationService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
-import { cartList } from 'src/app/pages/ecommerce/cart/data';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { notification } from './data';
 import firebase from "firebase/compat";
 import {User} from "../../core/models/auth.models";
+import { cartList } from '../data';
 
 @Component({
   selector: 'app-topbar',
@@ -100,7 +100,6 @@ export class TopbarComponent {
 
      this.authService.currentUser.subscribe(data =>{
        this.currentUser = data
-       console.log(data)
     })
 
 

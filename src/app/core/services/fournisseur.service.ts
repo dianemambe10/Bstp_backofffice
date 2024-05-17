@@ -24,13 +24,14 @@ export class FournisseurService {
 
   // POST
   postData(data: any): Observable<any> {
+   
     return this.http.post(GlobalComponent.API_URL + GlobalComponent.fournisseur,JSON.stringify(data), httpOptions);
   }
 
   // Single
   getSingleData(id:any): Observable<Entreprise> {
-
-    return this.http.get<Entreprise>(GlobalComponent.API_URL + GlobalComponent.fournisseur + id, {   responseType: 'json' });
+    //return this.http.get<Entreprise>(`/api/company/${id}/`, {   responseType: 'json' });
+   return this.http.get<Entreprise>(GlobalComponent.API_URL + GlobalComponent.fournisseur + id + "/" , {   responseType: 'json' });
   }
 
   // Patch

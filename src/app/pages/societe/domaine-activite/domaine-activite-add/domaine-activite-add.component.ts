@@ -65,7 +65,7 @@ export class DomaineActiviteAddComponent {
     this.formRegister = this.fb.group({
       name: ["",[Validators.required, Validators.minLength(3)]],
       code_apip: ["",[]],
-      code_afristat: ["",[]],
+      code_africa: ["",[]],
 
     });
   }

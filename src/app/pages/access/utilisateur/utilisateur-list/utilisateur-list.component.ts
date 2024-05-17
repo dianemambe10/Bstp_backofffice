@@ -7,12 +7,12 @@ import { NgbdListSortableHeader, listSortEvent } from './list-sortable.directive
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ListService } from './list.service';
 import { DecimalPipe } from '@angular/common';
-import { courseList } from './data';
-import Swal from 'sweetalert2';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { ActivatedRoute, Router } from '@angular/router';
 import {UserProfileService} from "../../../../core/services/user.service";
 import {ToastrService} from "ngx-toastr";
+import { ListServiceBuyer } from './list.serviceBuyer';
+import { ListServiceSupplier } from './list.serviceSupplier';
 
 
 
@@ -20,7 +20,7 @@ import {ToastrService} from "ngx-toastr";
   selector: 'app-utilisateur-list',
   templateUrl: './utilisateur-list.component.html',
   styleUrls: ['./utilisateur-list.component.scss'],
-  providers: [ListService, DecimalPipe]
+  providers: [ListService, ListServiceBuyer, ListServiceSupplier,  DecimalPipe]
 })
 export class UtilisateurListComponent {
 
@@ -36,6 +36,7 @@ export class UtilisateurListComponent {
 
   menu = '';
   sousmenu = '';
+  categorie = '';
 
   // Table data
   CoursesList!: Observable<ListModel[]>;
@@ -49,6 +50,8 @@ export class UtilisateurListComponent {
 
   constructor(
                 public service: ListService,
+                public serviceBuyer: ListServiceBuyer,
+                public serviceSupplier: ListServiceSupplier,
                 private formBuilder: UntypedFormBuilder,
                 private route: ActivatedRoute,
                 private router: Router,
@@ -57,6 +60,7 @@ export class UtilisateurListComponent {
 
                 ) {
     this.CoursesList = service.countries$;
+    
     this.total = service.total$;
   }
 
@@ -64,9 +68,19 @@ export class UtilisateurListComponent {
 
 
     this.route.data.subscribe((data) =>{
-      const {menu, sousmenu} = data
+      const {menu, sousmenu, categorie} = data
       this.menu = menu
       this.sousmenu = sousmenu
+      this.categorie = categorie
+    /*  if(this.categorie == "fournisseurs"){
+        this.CoursesList = this.serviceSupplier.countries$;
+    
+        this.total = this.serviceSupplier.total$;
+      }
+      if(this.categorie == "acheteurs"){
+        this.CoursesList = this.serviceBuyer.countries$;
+        this.total = this.serviceBuyer.total$;
+      }*/
     })
 
 
@@ -125,11 +139,13 @@ export class UtilisateurListComponent {
 
    */
 
-  editBuyer(e: Event, id: any){
-
+  editUser(e: Event, id: any){
     e.preventDefault()
       this.router.navigate(['../access/utilisateur/edit', id]);
-
+  }
+  detailUser(e: Event, id: any){
+    e.preventDefault()
+      this.router.navigate(['../access/utilisateur/details', id]);
   }
 
   //  Filter Offcanvas Set
@@ -167,8 +183,8 @@ export class UtilisateurListComponent {
   }
 
   // Sort Data
-  onSort({ column, direction }: listSortEvent) {
-    // resetting other headers
+  onSort({ column, direction }: listSortEvent) {0
+6    // resetting other headers
     this.headers.forEach(header => {
       if (header.listsortable !== column) {
         header.direction = '';
@@ -177,21 +193,6 @@ export class UtilisateurListComponent {
 
     this.service.sortColumn = column;
     this.service.sortDirection = direction;
-  }
-
-  // Edit Data
-  editList(id: any) {
-    this.addCourse?.show()
-    var modaltitle = document.querySelector('.modal-title') as HTMLAreaElement
-    modaltitle.innerHTML = 'Edit Product'
-    var modalbtn = document.getElementById('add-btn') as HTMLAreaElement
-    modalbtn.innerHTML = 'Update'
-
-    var editData = this.listData[id]
-
-    this.uploadedFiles.push({ 'dataURL': editData.img, 'name': editData.img_alt, 'size': 1024, });
-
-    this.listForm.patchValue(this.listData[id]);
   }
 
 
@@ -226,7 +227,7 @@ export class UtilisateurListComponent {
   }
 
   // Delete Product
-  removeItem(id: any) {
+  removeUser(id: any) {
     this.deleteID = id
     this.deleteRecordModal?.show()
   }
@@ -237,7 +238,7 @@ export class UtilisateurListComponent {
       this.userProfileService.delete(this.deleteID).subscribe({
         next: value => {
           this.service.users = this.service.users.filter((product: any) => {
-            return this.deleteID != product.id;
+            return this.deleteID != product.slug;
           });
           this.deleteID = ''
           this.toastService.success('L\'utilisateur a été supprimé avec success', 'Succèss',{

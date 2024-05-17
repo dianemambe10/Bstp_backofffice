@@ -37,38 +37,28 @@
 
           <div class="card-body">
               <div class="table-responsive table-card">
-                  <table class="table table-centered align-middle table-custom-effect table-nowrap mb-0">
+                  <table class="table table-centered align-middle table-custom-effect table-nowrap  mb-0">
                       <thead class="text-muted">
                           <tr>
-                              <th>
-                                  <div class="form-check">
-                                      <input class="form-check-input" type="checkbox" value="option" id="checkAll" [(ngModel)]="masterSelected" (change)="checkUncheckAll($event)">
-                                      <label class="form-check-label" for="checkAll"></label>
-                                  </div>
-                              </th>
-                              <th scope="col" class="sort cursor-pointer" listsortable="name" (sort)="onSort($event)">Nom </th>
+                            <th scope="col" >No</th>
+                              <th scope="col" class="sort cursor-pointer w-lg" listsortable="name" (sort)="onSort($event)">Nom </th>
 
-                              <th scope="col">Action</th>
+                              <th scope="col" class="w-sm">Action</th>
                           </tr>
                       </thead>
                       <tbody class="list form-check-all">
                           <tr *ngFor="let data of listData;let i = index;" id="p_{{data._id}}">
-                              <td>
-                                  <div class="form-check">
-                                      <input class="form-check-input" type="checkbox" name="chk_child" name="checkAll" value="{{data._id}}" [(ngModel)]="data.state" (change)="onCheckboxChange($event)">
-                                      <label class="form-check-label"></label>
-                                  </div>
-                              </td>
+                            <td class="w-10">{{ i + 1}}</td>
                               <td class="id d-none"><a href="javascript:void(0)" class="fw-medium link-primary">#TBS00{{data.id}}</a></td>
                               <td class="category"><a routerLink="/learning/grid" class="text-reset">{{data.name}}</a></td>
 
                               <td>
                                   <ul class="d-flex gap-2 list-unstyled mb-0">
                                       <li>
-                                          <a routerLink="/learning/overview" class="btn btn-subtle-primary btn-icon btn-sm "><i class="ph-eye"></i></a>
+                                          <a ref="javascript:void(0);" (click)="datailItem($event, data.id)" class="btn btn-subtle-primary btn-icon btn-sm "><i class="ph-eye"></i></a>
                                       </li>
                                       <li>
-                                          <a href="javascript:void(0);" (click)="editBuyer($event, data.id)" class="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"><i class="ph-pencil"></i></a>
+                                          <a href="javascript:void(0);" (click)="editItem($event, data.id)" class="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"><i class="ph-pencil"></i></a>
                                       </li>
                                       <li>
                                           <a href="javascript:void(0);" (click)="removeItem(data.id)" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
@@ -138,82 +128,3 @@
       </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /deleteRecordModal -->
-
-<div class="custom-offcanvas" id="courseFilters">
-  <div class="offcanvas-header border-bottom p-3">
-      <h5 class="offcanvas-title" id="courseFiltersLabel">Filteur d'Acheteur </h5>
-      <button type="button" class="btn-close" (click)="closeoffcanvas()"></button>
-  </div>
-  <div class="offcanvas-body">
-      <form action="#!">
-          <div class="row">
-              <div class="col-lg-12">
-                  <div class="mb-3">
-                      <label class="select-category-filter form-label fs-md mb-3 text-decoration-underline">Periode</label>
-                      <div id="product-price-range" data-slider-color="secondary"></div>
-                      <div class="formCost d-flex gap-2 align-items-center mt-4">
-                          <input class="form-control" type="date" id="minCost" value="0"> <span class="fw-semibold text-muted">to</span> <input class="form-control" type="date" id="maxCost" >
-                      </div>
-                  </div>
-              </div>
-              <div class="col-lg-12">
-                  <div class="mb-3">
-                      <label class="select-category-filter form-label fs-md mb-3 text-decoration-underline">Courses
-                          category</label>
-                      <div class="vstack gap-2">
-                          <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="courses-category-all">
-                              <label class="form-check-label" for="courses-category-all">
-                                  Select All
-                              </label>
-                          </div>
-                          <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="courses-category-filter2">
-                              <label class="form-check-label" for="courses-category-filter2">
-                                  Data Science
-                              </label>
-                          </div>
-                          <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="courses-category-filter3">
-                              <label class="form-check-label" for="courses-category-filter3">
-                                  IT & Software
-                              </label>
-                          </div>
-                          <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="courses-category-filter4">
-                              <label class="form-check-label" for="courses-category-filter4">
-                                  Engineering
-                              </label>
-                          </div>
-                          <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="courses-category-filter5">
-                              <label class="form-check-label" for="courses-category-filter5">
-                                  Web Development
-                              </label>
-                          </div>
-                          <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="courses-category-filter6">
-                              <label class="form-check-label" for="courses-category-filter6">
-                                  Finance & Banking
-                              </label>
-                          </div>
-                          <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="courses-category-filter7">
-                              <label class="form-check-label" for="courses-category-filter7">
-                                  Management
-                              </label>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-
-          </div>
-      </form>
-  </div>
-  <div class="offcanvas-header htsack gap-2 border-top p-3">
-      <button class="btn btn-subtle-danger w-100"><i class="bi bi-x-lg align-baseline me-1"></i> Reset</button>
-      <button class="btn btn-secondary w-100"><i class="bi bi-funnel align-baseline me-1"></i> Filters</button>
-  </div>
-</div>
-
-<div class="offcanvas-backdrop fade backdrop3" id="backdrop" (click)="closeoffcanvas()"></div>

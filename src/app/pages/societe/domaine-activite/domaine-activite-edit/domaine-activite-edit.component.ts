@@ -51,6 +51,8 @@ export class DomaineActiviteEditComponent {
     this.domaineActiviteService.getSingleData(this.id).subscribe((data: DomaineActivite)=>{
       this.domaineActivite = data
       this.formRegister.controls['name'].setValue(this.domaineActivite.name)
+      this.formRegister.controls['code_apip'].setValue(this.domaineActivite.code_apip)
+      this.formRegister.controls['code_africa'].setValue(this.domaineActivite.code_africa)
     })
 
 
@@ -95,7 +97,7 @@ export class DomaineActiviteEditComponent {
     this.formRegister = this.fb.group({
       name: ["",[Validators.required, Validators.minLength(3)]],
       code_apip: ["",[]],
-      code_afristat: ["",[]],
+      code_africa: ["",[]],
 
     });
   }
@@ -108,7 +110,9 @@ export class DomaineActiviteEditComponent {
 
       const  data = {
         id: this.id,
-        name: this.formRegister.get('name')!.value
+        name: this.formRegister.get('name')!.value,
+        code_apip: this.formRegister.get('code_apip')!.value,
+        code_africa: this.formRegister.get('code_africa')!.value
       }
 
 

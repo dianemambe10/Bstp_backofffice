@@ -1,1 +1,78 @@
-<p>acheteur-detail works!</p>
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="DETAIL DE FOURNISSEUR" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row" *ngIf="buyer">
+  <div class="col-xxl-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row align-items-center justify-content-center g-3">
+          <div class="col-xl-4 col-md-5">
+            <div class="text-center rounded-3  ribbon-box page-agency-overview overflow-hidden">
+
+              <img [src]="buyer.logo ? buyer.logo : imageURL"  height="250" width="250"
+                   class="rounded object-fit">
+            </div>
+
+
+
+          </div>
+          <div class="col-xl-8 col-md-7 align-self-start">
+            <div>
+              <div class="mb-3">
+                <h2 class="text-start" >{{ buyer.name}}</h2>
+                <p class="text-muted mb-0">{{ buyer.type?.name}}</p>
+              </div>
+              <div>
+                <div class="table-responsive">
+                  <table class="table table-sm table-nowrap table-borderless mb-0">
+                    <tbody>
+                    <tr>
+                      <th>Capital Social:</th>
+                      <td>xxxxxxxxxxxxx</td>
+                    </tr>
+                    <tr>
+                      <th>No RCCM:</th>
+                      <td>{{ buyer.rccm}}</td>
+                    </tr>
+                    <tr>
+                      <th>Email:</th>
+                      <td>{{buyer.email}}</td>
+                    </tr>
+                    <tr>
+                      <th>No Telephone:</th>
+                      <td>{{ buyer.phone_number}}</td>
+                    </tr>
+                    <tr>
+                      <th>Site web:</th>
+                      <td>{{buyer.website}}</td>
+                    </tr>
+                    <tr>
+                      <th>Domaine D'activité:</th>
+                      <td>
+                        <span class="badge bg-body-secondary border border-info text-info" *ngFor="let c of buyer.sectors">{{c.name}}</span>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="">
+
+          <h6 class="card-title">Description</h6>
+          <p class="text-muted mb-2">{{buyer.description}}</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!--end col-->
+
+
+</div><!--end row-->

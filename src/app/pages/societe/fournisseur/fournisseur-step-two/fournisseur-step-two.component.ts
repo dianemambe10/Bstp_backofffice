@@ -13,6 +13,8 @@ import {ToastrService} from "ngx-toastr";
 import { formatDate } from '@angular/common';
 import {DataService} from "../../../../core/services/data.service";
 import {User} from "../../../../core/models/auth.models";
+import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
+import Swal from "sweetalert2";
 
 
 @Component({
@@ -40,9 +42,13 @@ export class FournisseurStepTwoComponent implements AfterViewInit, OnInit {
   prefectureDefault: number | undefined = 0;
   communeDefault: number | undefined = 0;
 
+  color: any;
+
+  colorTheme: any = 'theme-blue';
+  bsConfig?: Partial<BsDatepickerConfig>;
 
   // File Upload
-  imageURL: string = './assets/images/users/user-dummy-img.jpg';
+  imageURL: string = './assets/images/defaultlogo.png';
 
 
   constructor(
@@ -107,6 +113,8 @@ export class FournisseurStepTwoComponent implements AfterViewInit, OnInit {
 
     })
 
+    this.bsConfig = Object.assign({}, { containerClass: this.colorTheme, showWeekNumbers: false });
+
 
 
 
@@ -116,7 +124,7 @@ export class FournisseurStepTwoComponent implements AfterViewInit, OnInit {
     //this.onRegionSelect(this.regionDefault, 1)
     //this.onPrefectureSelect(this.prefectureDefault, 1)
   }
-
+/*
 
   rccm = new FormControl('123654799999',[
     Validators.required,
@@ -188,9 +196,12 @@ export class FournisseurStepTwoComponent implements AfterViewInit, OnInit {
 
  // logoFile = new FormControl('', [Validators.nullValidator]);
 
+ */
+
+
   createForm(){
 
-    this.formStep2 = this.fb.group({
+  /*  this.formStep2 = this.fb.group({
       rccm : this.rccm,
       name : this.name,
       categories  : this.categories,
@@ -207,6 +218,22 @@ export class FournisseurStepTwoComponent implements AfterViewInit, OnInit {
      // logo : this.logo,
 
 
+    });*/
+
+    this.formStep2 = this.fb.group({
+      rccm: ['Mohamed', [Validators.required]],
+      name: ['Diane', [Validators.required]],
+      categories: ['Diane', [Validators.required]],
+      description: ['Diane', []],
+      type: ['Diane', [Validators.required]],
+      year_of_registration: ['1990/02/02', [Validators.required]],
+      phone_number: ['628492536', []],
+      website: ['https://www.micodus.net', []],
+      email: ['dianemambe@gmail.com', [Validators.required, Validators.email]],
+      address: ['PDG', []],
+      region: ['', []],
+      prefecture: ['', []],
+      commune: ['', []]
     });
   }
 
@@ -280,10 +307,8 @@ export class FournisseurStepTwoComponent implements AfterViewInit, OnInit {
         this.domaineList.push(e.target.value)
       else{
         e.target.checked = false
-        this.toastService.warning("Vous avez atteint le nombre maximal de domaine d'activité", "Domaine d'activité maximale",{
-          timeOut: 3000,
-        })
-        console.log("Vous avez atteint le nombre maximal de domaine d'activité")
+        Swal.fire({ text: 'Vous avez atteint le nombre maximal de domaine d\'activité', confirmButtonColor: '#4b93ff', showCancelButton: false, });
+
       }
 
       }else{

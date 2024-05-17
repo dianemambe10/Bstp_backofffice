@@ -49,6 +49,7 @@ function matches(country: ListModel, term: string, pipe: PipeTransform) {
     || country.rccm.toLowerCase().includes(term.toLowerCase())
     || country.registration_date.toLowerCase().includes(term.toLowerCase())
     || country.status.toLowerCase().includes(term.toLowerCase())
+    || country.type?.code!.toLowerCase().includes(term.toLowerCase())
     || country.prefecture?.name!.toLowerCase().includes(term.toLowerCase())
     || country.region?.name!.toLowerCase().includes(term.toLowerCase())
     || country.commune?.name!.toLowerCase().includes(term.toLowerCase())
@@ -77,6 +78,7 @@ export class ListService {
   };
   user = [];
   buyers: any | undefined;
+  buyers_back: any | undefined;
   Buyers$: any;
   buyers$: any;
   constructor(private pipe: DecimalPipe, private buyerService: BuyerService) {
@@ -101,6 +103,7 @@ export class ListService {
       .subscribe({
         next: (data) => {
           this.buyers = data;
+          this.buyers_back = data;
           console.log(data);
         },
         error: (e) => console.error(e)

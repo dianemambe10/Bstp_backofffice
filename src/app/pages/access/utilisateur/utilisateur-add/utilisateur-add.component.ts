@@ -1,4 +1,4 @@
-import { TypeSocieteService } from './../../../../core/services/type-societe.service';
+
 import { Component } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,7 +6,9 @@ import { ToastrService } from 'ngx-toastr';
 import {UserProfileService} from "../../../../core/services/user.service";
 import {RolService} from "../../../../core/services/role.service";
 import {Role} from "../../../../core/models/role.model";
-import {Prefecture} from "../../../../core/models/prefecture.model";
+import {Demandeur} from "../../../../core/models/demandeur.model";
+import {Entreprise} from "../../../../core/models/entreprise.model";
+import {FournisseurService} from "../../../../core/services/fournisseur.service";
 
 
 @Component({
@@ -20,8 +22,12 @@ export class UtilisateurAddComponent {
   currentFile?: File;
   menu = '';
   sousmenu = '';
-
+  categorie = '';
   roleList: Role[] = []
+  groupe_id= 1;
+
+  demandeur =  [] as Demandeur[]
+  fournisseurs = [] as Entreprise[]
 
   constructor(
     public toastService: ToastrService,
@@ -29,6 +35,7 @@ export class UtilisateurAddComponent {
     private route: ActivatedRoute,
     private router: Router,
     private userProfileService : UserProfileService,
+    private fournisseurService : FournisseurService,
     private roleService: RolService
     ) {}
 
@@ -38,10 +45,29 @@ export class UtilisateurAddComponent {
 
     ngOnInit(): void {
 
+      this.createForm()
+
       this.route.data.subscribe((data) =>{
-        const {menu, sousmenu} = data
+        const {menu, sousmenu, categorie} = data
         this.menu = menu
         this.sousmenu = sousmenu
+        this.categorie = categorie
+
+        switch (this.categorie){
+          case "bstp": this.groupe_id = 1;
+                break;
+          case "fournisseur": this.groupe_id = 2
+                break
+          case "acheteur": this.groupe_id = 3
+                break
+          default: break
+        }
+        if(this.groupe_id == 2 || this.groupe_id == 3){
+          this.formRegister.setValidators([Validators.required])
+          this.formRegister.updateValueAndValidity()
+        }
+        this.formRegister.get('groupe_id')?.setValue(this.groupe_id)
+
       })
 
 
@@ -53,21 +79,11 @@ export class UtilisateurAddComponent {
         { label: this.sousmenu, active: true }
       ];
 
-       // Fetch Data
-      /* setTimeout(() => {
-         this.CoursesList.subscribe(x => {
-           this.listData = Object.assign([], x);
-         });
-         document.getElementById('elmLoader')?.classList.add('d-none')
-       }, 1000)
-
-       */
-
-      this.createForm()
-
       this.roleService.getData().subscribe((data: Role[]) =>{
         this.roleList = data
       })
+      this.userProfileService.getData().subscribe((data: Demandeur[]) => this.demandeur = data)
+      this.fournisseurService.getData().subscribe((data: Entreprise[]) => this.fournisseurs = data)
 
      }
 
@@ -80,47 +96,23 @@ export class UtilisateurAddComponent {
       { id: 'F', name: "Femme" },
       { id: 'M', name: "Homme" },
       ];
-
-
-  last_name = new FormControl('',[Validators.required,Validators.minLength(3) ,Validators.pattern('[a-zA-Z0-9]+')])
-
-  first_name = new FormControl('',[Validators.required,Validators.minLength(3),Validators.pattern('[a-zA-Z0-9]+')])
-
-  gender  = new FormControl('',[Validators.required ] )
-  groupe_id  = new FormControl('',[Validators.required ] )
-  role_id  = new FormControl('1',[Validators.required ] )
-
-  phone_number = new FormControl('',[Validators.required ])
-
-  email = new FormControl('',[
-          Validators.required,Validators.email,] //, [this.emailTaken.validate]
-        )
-  is_active = new FormControl('')
-
-
-  avatar_ppoi = new FormControl('', [Validators.nullValidator]);
-  username = new FormControl('', [Validators.nullValidator]);
-  role_dans_lentreprise = new FormControl('', [Validators.nullValidator]);
-
-
-
-
-
-    createForm(){
-
+     createForm(){
 
       this.formRegister = this.fb.group({
-        username: this.username,
-        first_name: this.first_name,
-        last_name: this.last_name,
-        gender: this.gender,
-        email: this.email,
-        phone_number: this.phone_number,
-        groupe_id: this.groupe_id,
-        role_id: this.role_id,
-        is_active: this.is_active,
-        role_dans_lentreprise: this.role_dans_lentreprise
-
+        id: [''],
+        last_name: ['Mohamed', [Validators.required]],
+        first_name: ['Diane', [Validators.required]],
+        date_of_birth: ['1990/02/02', [Validators.required]],
+        gender: ['M', [Validators.required]],
+        phone_number: ['628492536', []],
+        email: ['dianemambe@gmail.com', [Validators.required, Validators.email]],
+        role_dans_lentreprise: ['PDG', []],
+        username: ['', []],
+        nationality: ['', []],
+        groupe_id: ['', []],
+        role: ['', []],
+        is_active: ['', []],
+        supplier: ['', []]
       });
     }
 
@@ -195,6 +187,14 @@ export class UtilisateurAddComponent {
       this.router.navigate(['../access/utilisateur'])
 
     }
+
+  onSuppliersChange(e: any){
+      console.log(e)
+
+    let index = this.fournisseurs.findIndex((data: Entreprise) => data.id == e)
+    console.log(this.fournisseurs[index])
+
+  }
 
 
 

@@ -51,6 +51,11 @@ import { DemandeListComponent } from './demande-list/demande-list.component';
 import { DemandeGridComponent } from './demande-grid/demande-grid.component';
 import { NgbdListSortableHeader } from './demande-list/list-sortable.directive';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
+import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
+import {TooltipModule} from "ngx-bootstrap/tooltip";
+import {NgxSliderModule} from "ngx-slider-v2";
+import {NgArrayPipesModule} from "ngx-pipes";
+import { TextFormatPipe } from 'src/app/core/helpers/pipe/text-format.pipe';
 
 
 @NgModule({
@@ -62,26 +67,30 @@ import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
     DemandeListComponent,
     DemandeGridComponent
   ],
-  imports: [
-    CommonModule,
-    DemandeRoutingModule,
-    SharedModule,
-    BsDropdownModule.forRoot(),
-    PaginationModule.forRoot(),
-    ModalModule.forRoot(),
-    FormsModule,
-    ReactiveFormsModule,
-    AccordionModule.forRoot(),
-    TabsModule.forRoot(),
-    SimplebarAngularModule,
-    CKEditorModule,
-    DropzoneModule,
-    NgStepperModule,
-    CdkStepperModule,
-    RatingModule,
-    NgSelectModule,
-    RxReactiveFormsModule
-  ],
+    imports: [
+        CommonModule,
+        DemandeRoutingModule,
+        SharedModule,
+        BsDropdownModule.forRoot(),
+        PaginationModule.forRoot(),
+        ModalModule.forRoot(),
+        FormsModule,
+        ReactiveFormsModule,
+        AccordionModule.forRoot(),
+        TabsModule.forRoot(),
+        SimplebarAngularModule,
+        CKEditorModule,
+        DropzoneModule,
+        NgStepperModule,
+        CdkStepperModule,
+        RatingModule,
+        NgSelectModule,
+        RxReactiveFormsModule,
+        BsDatepickerModule,
+        TooltipModule,
+        NgxSliderModule,
+        NgArrayPipesModule
+    ],
   providers: [
     {
       provide: DROPZONE_CONFIG,

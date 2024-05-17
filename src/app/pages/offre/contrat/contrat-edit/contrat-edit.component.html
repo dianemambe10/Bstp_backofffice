@@ -1,1 +1,334 @@
-<p>contrat-edit works!</p>
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs [breadcrumbItems]="breadCrumbItems" title="Contrat"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="flex-grow-1">
+
+          </div>
+          <div class="flex-shrink-0">
+            <div class="d-flex flex-wrap align-items-start gap-2">
+              <a ActivatedRoute class="btn btn-subtle-primary  btn-icon " routerLink="../"><i
+                class="bi bi-list-task"></i></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!--end col-->
+</div><!--end row-->
+
+
+<div class="row">
+  <div class="col-xl-4 col-sm-12" id="propertyFilters">
+    <div class="card mb-0">
+      <div class="card-header d-flex align-items-center">
+        <h4 class="card-title flex-grow-1 mb-0">DEMANDE</h4>
+        <!--  <div class="flex-shrink-0">
+            <button class="btn btn-subtle-secondary btn-icon btn-sm myButton" (click)="showFilter()"><i class="bi bi-chevron-left"></i></button>
+          </div>
+          -->
+      </div>
+      <div class="card-body">
+        <div id="contact-existing-list">
+          <div class="row mb-2">
+            <div class="col">
+              <div>
+                <input [(ngModel)]="existingTerm" class="search form-control" placeholder="Search"/>
+              </div>
+            </div>
+
+          </div>
+          <ngx-simplebar class="mx-n3">
+            <ul class="list list-group list-group-flush mb-0">
+              <li *ngFor="let data of demandes | filterBy:['name','reference']:existingTerm" class="list-group-item"
+                  data-id="01">
+                <a (click)="findDemande(data.id)" class="link text-reset" href="javascript:void(0);">
+                  <div class="d-flex align-items-start table-hover">
+                    <div class="flex-shrink-0 me-3">
+                      <div>
+                        <img alt="" class="image avatar-xs " src="{{data?.buyer?.logo}}">
+                      </div>
+                    </div>
+
+                    <div class="flex-grow-1 overflow-hidden">
+                      <h5 class="contact-name fs-sm mb-1">{{data.reference}}</h5>
+                      <p class="contact-born text-muted mb-0">{{data.name}}</p>
+                    </div>
+
+                    <div class="flex-shrink-0 ms-2">
+                      <div class="fs-11 text-muted">{{data.time}}</div>
+                    </div>
+                  </div>
+                </a>
+              </li>
+              <!-- end list item -->
+            </ul>
+          </ngx-simplebar>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-xl-8">
+    <div *ngIf="demande" class="card">
+      <div class="card-body p-0">
+        <div class="row g-0">
+          <div class="col-xl-12">
+            <div class="card-body border-bottom">
+              <div class="row gy-3">
+                <div class="col-lg-2">
+                  <div class="position-relative">
+                    <img alt="" class="img-fluid rounded d-block mx-auto" src="{{ demande.buyer.logo}}">
+                  </div>
+                </div><!--end col-->
+                <div class="col-lg-10">
+
+                  <div class="d-flex flex-column h-100">
+
+                    <div>
+                      <h6 class="fs-lg text-capitalize "><a class="text-reset"
+                                                            routerLink="/real-estate/property-overview">#{{demande.reference}}
+                        - {{demande.name}}</a></h6>
+                      <div class="hstack gap-2 gap-md-3 flex-wrap">
+                        <div class="text-muted"><i class="ri-building-line align-bottom me-1"></i><span
+                          id="ticket-client">{{ demande.buyer.name}}</span></div>
+                        <div class="vr"></div>
+                        <div class="text-muted">Date de Publication : <span class="fw-medium "
+                                                                            id="create-date">{{ demande.published_at | date:'dd-MM-yyyy' }}</span>
+                        </div>
+                        <div class="vr"></div>
+                        <div class="text-muted">Date de Cloture : <span class="fw-medium"
+                                                                        id="due-date">{{ demande.expired_at | date:'dd-MM-yyyy ' }}</span>
+                        </div>
+
+
+                      </div>
+                      <p class="text-muted mt-3">{{demande.summary}}</p>
+                    </div>
+
+
+                  </div>
+                </div><!--end col-->
+              </div><!--end row-->
+            </div>
+
+          </div><!--end row-->
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <form #formRef="ngForm"
+              (ngSubmit)="register()"
+              [formGroup]="formRegister"
+              autocomplete="off"
+              class="row g-3 needs-validation"
+              novalidate>
+          <h5 class="fs-md">Adjudicataire</h5>
+          <div class="border  border-dashed"></div>
+          <div class="col-lg-4 mb-3">
+            <div class="form-check form-switch form-switch-lg" dir="ltr">
+              <input (change)="onChangeAdjudicataire($event)" class="form-check-input" formControlName="bstp_member"
+                     id="customSwitchsizelg"
+                     type="checkbox">
+              <label class="form-check-label" for="customSwitchsizelg">Membre de la BSTP</label>
+            </div>
+          </div>
+          <div class="row mb-3  mt-2">
+            <div class="col-lg-4 ">
+              <label class="form-label " for="company">Fournisseur</label>
+            </div>
+            <div class="col-lg-8">
+              <input
+                *ngIf="!is_bstp"
+                [ngClass]="{ 'is-invalid': formRef.submitted && f['other_company'].errors }"
+                class="form-control inline "
+                formControlName="other_company"
+                id="company"
+                placeholder=""
+                required
+                type="text"
+              >
+              <ng-select (change)="onSuppliersChange($event)"
+                         *ngIf="is_bstp"
+                         [addTag]="true" [clearable]="true"
+                         [hideSelected]="true"
+                         [multiple]="false"
+                         [ngClass]="{ 'is-invalid': formRef.submitted && f['company'].errors }"
+                         [searchable]="true"
+                         formControlName="company"
+                         id="company"
+              >
+                <ng-option *ngFor="let company of fournisseurs" [value]="company.id">{{ company.name }}</ng-option>
+              </ng-select>
+              <div class="invalid-feedback">
+                <div *ngIf=" formRef.submitted && f['company'].errors">
+                  <div *ngIf="f['company'].errors?.['required']">
+                    L'adjudicataire est obligatoire
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+
+          <h5 class="fs-md">Détail du contrat</h5>
+          <div class="border  border-dashed"></div>
+          <div class="row mb-3  mt-2">
+            <div class="col-lg-4 ">
+              <label class="form-label " for="validationCustom011">La valeur du contrat</label>
+            </div>
+            <div class="col-lg-8">
+              <input
+                [ngClass]="{ 'is-invalid': formRef.submitted && f['amount'].errors }"
+                class="form-control inline "
+                formControlName="amount"
+                id="validationCustom011"
+                placeholder=""
+                required
+                type="number"
+              >
+              <div class="invalid-feedback">
+                <div *ngIf=" formRef.submitted && f['amount'].errors">
+                  <div *ngIf="f['amount'].errors?.['required']">
+                    La valeur est obligatoire
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3 ">
+            <div class="col-lg-4 ">
+              <label class="form-label " for="validationCustomsing">La date de signature</label>
+            </div>
+            <div class="col-lg-4">
+              <input
+                [bsConfig]="bsConfig"
+                [ngClass]="{ 'is-invalid': formRef.submitted && f['signature_date'].errors }"
+                bsDatepicker
+                class="form-control inline "
+                formControlName="signature_date"
+                id="validationCustomsing"
+                placeholder=""
+                required
+                type="text"
+              >
+              <div class="invalid-feedback">
+                <div *ngIf=" formRef.submitted && f['signature_date'].errors">
+                  <div *ngIf="f['signature_date'].errors?.['required']">
+                    La date de signature est obligatoire
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3 ">
+            <div class="col-lg-4 ">
+              <label class="form-label" for="steparrow-gen-info-observation-sommaire-input">Observation</label>
+            </div>
+            <div class="col-lg-8">
+               <textarea class="form-control"
+                         formControlName="observation"
+                         id="steparrow-gen-info-observation-sommaire-input"
+                         rows="3"
+               ></textarea>
+
+              <div *ngIf="formRef.submitted && f['observation'].errors" class="invalid-feedback">
+                <div *ngIf="f['observation'].errors?.['required']">L'observation est obligatoire
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hstack gap-2 justify-content-start mb-3">
+            <button (click)="cancel($event)" class="btn btn-danger"><i class="ph-x align-middle"></i> Annuler</button>
+            <button class="btn btn-primary"><i class="ph ph-floppy-disk align-middle"></i> Enregistrer</button>
+          </div>
+
+        </form>
+        <!-- </div> -->
+
+      </div>
+    </div>
+  </div>
+
+  <!-- end col -->
+</div><!-- end row -->
+
+<!-- end row -->
+<div #successContent="bs-modal" bsModal class="modal fade">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button (click)="successContent.hide()" aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                id="btn-close"
+                type="button"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="mt-3">
+          <img alt="" height="150" src="assets/images/success-img.png">
+          <div class="mt-4 pt-2 fs-base">
+            <h4>Effectué !</h4>
+            <p class="text-muted mx-4 mb-0">Vous avez ajouté un nouveau contrat.</p>
+          </div>
+        </div>
+        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+          <button (click)="nouveau($event)" aria-label="" class="swal2-cancel btn btn-primary w-xs mb-1"
+                  style="display: inline-block;" type="button">Nouveau
+          </button>
+          <button (click)="liste($event)" aria-label="" class="swal2-cancel btn btn-primary w-xs mb-1"
+                  style="display: inline-block;" type="button">Liste
+          </button>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div>
+</div>
+
+
+<div #errorContent="bs-modal" bsModal class="modal fade">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button (click)="errorContent.hide()" aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                id="btn-closev"
+                type="button"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="mt-3">
+          <i class="bi bi-exclamation-triangle display-5 text-warning"></i>
+          <div class="mt-4 pt-2 fs-base">
+            <h4>Oops...! des erreurs survenues !</h4>
+            <!--  <div *ngFor="let k of keyArray">
+                <p class="text-muted mx-4 mb-0" >{{ k }}</p>
+                -->
+            <ul class="text-muted vstack gap-2 mb-4 list-unstyled">
+              <li *ngFor="let e of messageArray"><i class="bi bi-check-lg text-danger"></i> {{ e }}</li>
+
+            </ul>
+
+            <!-- </div>  -->
+
+
+          </div>
+        </div>
+        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+          <button (click)="errorContent.hide()" aria-label="" class="swal2-cancel btn btn-primary w-xs mb-1"
+                  style="display: inline-block;" type="button">Dismiss
+          </button>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div>
+</div>
+

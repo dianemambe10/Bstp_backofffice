@@ -1,0 +1,249 @@
+import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ListModel } from './list.model';
+import { Observable } from 'rxjs';
+
+import { NgbdListSortableHeader, listSortEvent } from './list-sortable.directive';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { ListService } from './list.service';
+import { DecimalPipe } from '@angular/common';
+import { courseList } from './data';
+import Swal from 'sweetalert2';
+import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
+import { ActivatedRoute, Router } from '@angular/router';
+import {ToastrService} from "ngx-toastr";
+import { ModePayementService } from 'src/app/core/services/mode-payement.service';
+
+
+@Component({
+  selector: 'app-mode-payement-list',
+  templateUrl: './mode-payement-list.component.html',
+  styleUrls: ['./mode-payement-list.component.scss'],
+  providers: [ListService, DecimalPipe]
+})
+export class ModePayementListComponent {
+
+   // bread crumb items
+   breadCrumbItems!: Array<{}>;
+   listForm!: UntypedFormGroup;
+   submitted = false;
+
+   listData!: any;
+   masterSelected!: boolean;
+   files: File[] = [];
+
+   menu = '';
+   sousmenu = '';
+
+   // Table data
+   CoursesList!: Observable<ListModel[]>;
+   total: Observable<number>;
+
+   @ViewChildren(NgbdListSortableHeader) headers!: QueryList<NgbdListSortableHeader>;
+   @ViewChild('addCourse', { static: false }) addCourse?: ModalDirective;
+   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
+
+   deleteID: any;
+
+   constructor(
+                 public service: ListService,
+                 private formBuilder: UntypedFormBuilder,
+                 private route: ActivatedRoute,
+                 private router: Router,
+                 private modePayementService : ModePayementService,
+                 public toastService: ToastrService,) {
+     this.CoursesList = service.countries$;
+     this.total = service.total$;
+   }
+
+   ngOnInit(): void {
+
+
+     this.route.data.subscribe((data) =>{
+       const {menu, sousmenu} = data
+       this.menu = menu
+       this.sousmenu = sousmenu
+     })
+
+
+     /**
+      * BreadCrumb
+      */
+     this.breadCrumbItems = [
+       { label: this.menu, active: true },
+       { label: this.sousmenu, active: true }
+     ];
+
+     // Fetch Data
+     setTimeout(() => {
+       this.CoursesList.subscribe(x => {
+         this.listData = Object.assign([], x);
+       });
+       document.getElementById('elmLoader')?.classList.add('d-none')
+     }, 1000)
+
+     /**
+      * Form Validation
+      */
+     this.listForm = this.formBuilder.group({
+       id: [''],
+       img: [''],
+       name: [''],
+       category: ['', [Validators.required]],
+       instructor: ['', [Validators.required]],
+       lessons: ['', [Validators.required]],
+       students: ['', [Validators.required]],
+       duration: ['', [Validators.required]],
+       fees: ['', [Validators.required]],
+       status: ['', [Validators.required]]
+     });
+   }
+
+   /**
+    *
+    *  Add a new buyer
+
+
+    */
+
+   addBuyer(e: Event){
+
+     e.preventDefault()
+       this.router.navigate(['../abonnement/mode-payement/nouveau']);
+
+   }
+
+
+   /**
+    *
+    *  Edit a new buyer
+
+
+    */
+
+   editItem(e: Event, id: any){
+     e.preventDefault()
+       this.router.navigate(['../abonnement/mode-payement/edit', id]);
+   }
+   datailItem(e: Event, id: any){
+     e.preventDefault()
+       this.router.navigate(['../abonnement/mode-payement/details', id]);
+   }
+
+   //  Filter Offcanvas Set
+   openEnd() {
+     document.getElementById('courseFilters')?.classList.add('show')
+     document.querySelector('.backdrop3')?.classList.add('show')
+   }
+
+   closeoffcanvas() {
+     document.getElementById('courseFilters')?.classList.remove('show')
+     document.querySelector('.backdrop3')?.classList.remove('show')
+   }
+
+   // File Upload
+   public dropzoneConfig: DropzoneConfigInterface = {
+     clickable: true,
+     addRemoveLinks: true,
+     previewsContainer: false,
+   };
+
+   uploadedFiles: any[] = [];
+
+   // File Upload
+   imageURL: any;
+   onUploadSuccess(event: any) {
+     setTimeout(() => {
+       this.uploadedFiles.push(event[0]);
+       this.listForm.controls['img'].setValue(event[0].dataURL);
+     }, 100);
+   }
+
+   // File Remove
+   removeFile(event: any) {
+     this.uploadedFiles.splice(this.uploadedFiles.indexOf(event), 1);
+   }
+
+   // Sort Data
+   onSort({ column, direction }: listSortEvent) {
+     // resetting other headers
+     this.headers.forEach(header => {
+       if (header.listsortable !== column) {
+         header.direction = '';
+       }
+     });
+
+     this.service.sortColumn = column;
+     this.service.sortDirection = direction;
+   }
+
+
+   /**
+   * Save product
+   */
+
+   checkedValGet: any[] = [];
+   // The master checkbox will check/ uncheck all items
+   checkUncheckAll(ev: any) {
+     this.listData.forEach((x: { state: any; }) => x.state = ev.target.checked)
+     var checkedVal: any[] = [];
+     var result
+     for (var i = 0; i < this.listData.length; i++) {
+       if (this.listData[i].state == true) {
+         result = this.listData[i].id;
+         checkedVal.push(result);
+       }
+     }
+     this.checkedValGet = checkedVal
+     checkedVal.length > 0 ? document.getElementById("remove-actions")?.classList.remove('d-none') : document.getElementById("remove-actions")?.classList.add('d-none');
+   }
+
+   // Select Checkbox value Get
+   onCheckboxChange(e: any) {
+     var checkedVal: any[] = [];
+     var result
+     for (var i = 0; i < this.listData.length; i++) {
+       if (this.listData[i].state == true) {
+         result = this.listData[i].id;
+         checkedVal.push(result);
+       }
+     }
+     this.checkedValGet = checkedVal
+     checkedVal.length > 0 ? document.getElementById("remove-actions")?.classList.remove('d-none') : document.getElementById("remove-actions")?.classList.add('d-none');
+   }
+
+   // Delete Product
+   removeItem(id: any) {
+     this.deleteID = id
+     this.deleteRecordModal?.show()
+   }
+
+   confirmDelete() {
+     if (this.deleteID) {
+
+       this.modePayementService.delete(this.deleteID).subscribe({
+         next: value => {
+           this.service.modePayements = this.service.modePayements.filter((product: any) => {
+             return this.deleteID != product.id;
+           });
+           this.deleteID = ''
+           this.toastService.success('L\'utilisateur a été supprimé avec success', 'Succèss',{
+             timeOut: 3000,
+           })
+         },
+         error(err: any){
+
+         }
+       })
+
+
+     } else {
+       this.service.modePayements = this.service.modePayements.filter((product: any) => {
+         return !this.checkedValGet.includes(product.id);
+       });
+     }
+     this.deleteRecordModal?.hide()
+     this.masterSelected = false;
+   }
+
+}

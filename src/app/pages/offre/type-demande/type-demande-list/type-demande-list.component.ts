@@ -122,11 +122,13 @@ export class TypeDemandeListComponent {
 
     */
 
-   editBuyer(e: Event, id: any){
-
+   editItem(e: Event, id: any){
      e.preventDefault()
        this.router.navigate(['../offre/type-demande/edit', id]);
-
+   }
+   datailItem(e: Event, id: any){
+     e.preventDefault()
+       this.router.navigate(['../offre/type-demande/details', id]);
    }
 
    //  Filter Offcanvas Set
@@ -176,20 +178,6 @@ export class TypeDemandeListComponent {
      this.service.sortDirection = direction;
    }
 
-   // Edit Data
-   editList(id: any) {
-     this.addCourse?.show()
-     var modaltitle = document.querySelector('.modal-title') as HTMLAreaElement
-     modaltitle.innerHTML = 'Edit Product'
-     var modalbtn = document.getElementById('add-btn') as HTMLAreaElement
-     modalbtn.innerHTML = 'Update'
-
-     var editData = this.listData[id]
-
-     this.uploadedFiles.push({ 'dataURL': editData.img, 'name': editData.img_alt, 'size': 1024, });
-
-     this.listForm.patchValue(this.listData[id]);
-   }
 
    /**
    * Save product

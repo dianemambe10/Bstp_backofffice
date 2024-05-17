@@ -1,1 +1,143 @@
-<p>demande-detail works!</p>
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="DETAIL D'UNE DEMANDE" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="flex-grow-1">
+
+          </div>
+          <div class="flex-shrink-0">
+            <div class="d-flex flex-wrap align-items-start gap-2">
+              <a ActivatedRoute class="btn btn-subtle-primary  btn-icon " routerLink="../../"><i
+                class="bi bi-list-task"></i></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!--end col-->
+</div><!--end row-->
+
+<div class="card">
+  <div class="row g-0">
+    <div class="col-xl-9 col-lg-8">
+      <div class="card-body border-end h-100">
+        <div class="row mb-4 pb-2 g-3">
+          <div class="col-auto">
+            <div class="avatar-sm">
+              <div class="avatar-title bg-success-subtle rounded">
+                <img [src]="demande?.buyer.logo" alt="" class="avatar-sm ">
+              </div>
+            </div>
+          </div>
+          <div class="col-md order-3 order-md-2">
+            <div>
+              <h5>#{{demande?.reference}} - {{demande?.name}} </h5>
+              <div class="hstack gap-2 gap-md-3 flex-wrap">
+                <div class="text-muted"><i class="ri-building-line align-bottom me-1"></i><span id="ticket-client">{{ demande?.buyer.name}}</span></div>
+                <div class="vr"></div>
+                <div class="text-muted">Date de Publication : <span class="fw-medium " id="create-date">{{ demande?.published_at | date:'dd-MM-yyyy' }}</span></div>
+                <div class="vr"></div>
+                <div class="text-muted">Date de Cloture : <span class="fw-medium" id="due-date">{{ demande?.expired_at | date:'dd-MM-yyyy ' }}</span></div>
+                <div class="vr"></div>
+                <div class="text-muted">Nombre de jour restant :
+                  <span class="badge rounded-pill bg-info fs-12"  *ngIf="demande?.jour_restant > 5">{{demande?.jour_restant}}</span>
+                  <span class="badge rounded-pill bg-danger  fs-12" *ngIf="demande?.jour_restant <= 5">{{demande?.jour_restant}}</span>
+                </div>
+            </div>
+            </div>
+          </div>
+
+        </div>
+
+        <h6 class="fw-semibold text-uppercase mb-2">Description Sommaire</h6>
+        <p class="text-muted mb-4">{{ demande?.summary | textformat}}.</p>
+
+        <h6 class="fw-semibold text-uppercase mb-2">Description Detailée</h6>
+        <p class="text-muted mb-4">{{ demande?.description | textformat}}.</p>
+        <h6 class="fw-semibold text-uppercase mb-3">Les documents</h6>
+        <ul class="text-muted vstack gap-2 mb-4 list-unstyled">
+          <li *ngFor="let doc of demande?.attachements"  ><i class="bi bi-check-lg text-success"></i> <a class="text-capitalize" target="_blank" href="{{ doc.document}}" bla>{{ doc.name}} </a> </li>
+        </ul>
+
+        <ngx-simplebar style="height: 300px;" class="px-3 mx-n3">
+          <div class="d-flex mb-4">
+            <div class="flex-shrink-0">
+              <img [src]="demande?.created_by.avatar" alt="" class="avatar-xs rounded-circle">
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <small class="text-muted">Crée par</small>
+              <h6>Joseph Parker</h6>
+            </div>
+          </div>
+        </ngx-simplebar>
+        </div>
+    </div><!--end col-->
+    <div class="col-xl-3 col-lg-4">
+      <div class="card-header">
+        <h6 class="card-title mb-0">Details</h6>
+      </div>
+      <div class="card-body mt-2">
+        <div class="table-responsive table-card">
+          <table class="table table-borderless align-middle mb-0">
+            <tbody>
+            <tr>
+              <th>Reference</th>
+              <td>#TBS<span id="t-no">{{ demande?.reference}}</span> </td>
+            </tr>
+            <tr>
+              <th>Acheteur</th>
+              <td id="t-client">{{demande?.buyer.name}}</td>
+            </tr>
+             <tr>
+              <th>Type</th>
+              <td>
+                {{ demande?.type.name}}
+              </td>
+            </tr>
+            <tr>
+              <th>Date de Publication</th>
+              <td id="c-date">{{ demande?.published_at | date:'dd-MM-yyyy' }}</td>
+            </tr>
+            <tr>
+              <th>Date de Cloture</th>
+              <td id="d-date">{{ demande?.expired_at | date:'dd-MM-yyyy' }}</td>
+            </tr>
+            <tr *ngIf="demande?.restricted_type !=''">
+              <th>Restriction</th>
+              <td  *ngIf="demande?.restricted_type =='sector'">Par secteur d'activité</td>
+              <td  *ngIf="demande?.restricted_type =='supplier'">Par fournisseur</td>
+            </tr>
+            <tr *ngIf="demande?.restricted_type =='sector'">
+              <th>Secteur</th>
+              <td class="  gap-1"><span *ngFor="let sec of demande?.categories" class="badge bg-primary-subtle text-primary">{{ sec.name}}</span></td>
+            </tr>
+            <tr *ngIf="demande?.restricted_type =='supplier'">
+              <th>Fournisseur</th>
+              <td class="hstack  gap-1"><span *ngFor="let fou of demande?.restricted_suppliers" class="badge bg-primary-subtle text-primary">{{ fou.name}}</span></td>
+            </tr>
+            <tr >
+              <th>Mode de Soumission</th>
+              <td class="hstack  gap-1" *ngIf="demande?.submission_instructions =='physic'">A envoyer par l'email </td>
+              <td class=" gap-1" *ngIf="demande?.submission_instructions =='bstp'">Envoyez le dossier par la plateforme de la BSTP </td>
+              <td class=" gap-1" *ngIf="demande?.submission_instructions =='mail'">Envoyez le dossier par e-mail  <div class="badge rounded-pill bg-info fs-12" >{{ demande?.email}}</div></td>
+            </tr>
+            <tr *ngIf="demande?.submission_instructions =='mail'">
+              <th>Status</th>
+              <td>{{ demande?.status}}</td>
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div><!--end card-body-->
+       </div>
+  </div><!--end row-->
+</div>

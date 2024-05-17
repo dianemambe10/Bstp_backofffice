@@ -57,6 +57,12 @@ import {
   FournisseurStepActionnaireComponent
 } from "./fournisseur-step-actionnaire/fournisseur-step-actionnaire.component";
 import {FournisseurStepReferenceComponent} from "./fournisseur-step-reference/fournisseur-step-reference.component";
+import {FlatpickrModule} from "angularx-flatpickr";
+import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
+import {LeafletModule} from "@asymmetrik/ngx-leaflet";
+import {UtilisateurModule} from "../../access/utilisateur/utilisateur.module";
+import {NgxMaskDirective, provideNgxMask} from "ngx-mask";
+import {RxReactiveFormsModule} from "@rxweb/reactive-form-validators";
 
 
 @NgModule({
@@ -74,26 +80,34 @@ import {FournisseurStepReferenceComponent} from "./fournisseur-step-reference/fo
     FournisseurGridComponent,
     FournisseurStepThreeComponent
   ],
-  imports: [
-    CommonModule,
-    FournisseurRoutingModule,
-    SharedModule,
-    BsDropdownModule.forRoot(),
-    PaginationModule.forRoot(),
-    ModalModule.forRoot(),
-    FormsModule,
-    ReactiveFormsModule,
-    AccordionModule.forRoot(),
-    TabsModule.forRoot(),
-    SimplebarAngularModule,
-    CKEditorModule,
-    DropzoneModule,
-    NgStepperModule,
-    CdkStepperModule,
-    RatingModule,
-    NgSelectModule
-  ],
+    imports: [
+        CommonModule,
+        FournisseurRoutingModule,
+        SharedModule,
+        BsDropdownModule.forRoot(),
+        PaginationModule.forRoot(),
+        ModalModule.forRoot(),
+        FormsModule,
+        ReactiveFormsModule,
+        AccordionModule.forRoot(),
+        TabsModule.forRoot(),
+        SimplebarAngularModule,
+        CKEditorModule,
+        DropzoneModule,
+        NgStepperModule,
+        CdkStepperModule,
+        RatingModule,
+        NgSelectModule,
+        FlatpickrModule,
+        BsDatepickerModule,
+        LeafletModule,
+        UtilisateurModule,
+        NgxMaskDirective,
+        RxReactiveFormsModule
+
+    ],
   providers: [
+    provideNgxMask(),
     {
       provide: DROPZONE_CONFIG,
       useValue: DEFAULT_DROPZONE_CONFIG

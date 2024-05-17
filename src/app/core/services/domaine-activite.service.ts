@@ -30,7 +30,7 @@ export class DomaineActiviteService {
   // Single
   getSingleData(id:any): Observable<DomaineActivite> {
 
-    return this.http.get<DomaineActivite>(GlobalComponent.API_URL + GlobalComponent.domaine_activite + id, {  responseType: 'json' });
+    return this.http.get<DomaineActivite>(GlobalComponent.API_URL + GlobalComponent.domaine_activite + id + "/", {  responseType: 'json' });
   }
 
   // Patch

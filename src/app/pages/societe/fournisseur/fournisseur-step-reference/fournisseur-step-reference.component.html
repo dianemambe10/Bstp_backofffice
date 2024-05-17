@@ -4,8 +4,8 @@
   <div class="col-sm-auto ">
     <div class="d-flex flex-wrap align-items-end justify-content-end gap-2">
       <div>
-        <a href="javascript:void(0);"  (click)="addReference()" data-bs-toggle="modal" data-bs-target=".add-new" class="btn btn-primary"><i
-          class="bx bx-plus me-1"></i> Actionnnaire</a>
+        <a href="javascript:void(0);"  (click)="addReference()" data-bs-toggle="modal" data-bs-target=".add-new" class="btn btn-primary">
+          <i  class="bx bx-plus me-1"></i> Reference</a>
 
       </div>
     </div>
@@ -15,42 +15,45 @@
 <div class="row">
   <div  class="row" *ngIf="referenceList.length > 0">
   <div *ngFor="let data of referenceList; index as i" class="col-sm-12 col-lg-6">
-
-
     <div class="card ribbon-box border shadow-none right">
       <div class="card-body">
         <div class="d-flex">
-          <div class="ribbon ribbon-info ribbon-shape">{{ data.part_action }}</div>
+          <div class="ribbon ribbon-info ribbon-shape">{{ data.contact_approx_amount + ' ' + data.contact_approx_amount_currency }}</div>
           <div class="flex-grow-1">
             <div class="ribbon-content text-muted me-5">
-              <h5 class="fs-md text-start">{{data.first_name + ' ' + data.last_name }}</h5>
-              <p class="text-muted mb-0">{{data.role_dans_lentreprise}}</p>
-              <div class="mt-4">
-                <p class="text-muted mb-2"><i class="bi bi-telephone align-baseline me-1"></i> {{data.phone_number}}</p>
-                <p class="text-muted mb-2"><i class="bi bi-envelope align-baseline me-1"></i>
-                  {{data.email}}</p>
-                <p class="text-muted mb-0"><i class="bi bi-geo-alt align-baseline me-1"></i> {{data.nationalite}}</p>
-              </div>
 
+              <div class="mt-4">
+                <p class="text-muted mb-2"><i class="bi bi-building align-baseline me-1"></i> {{data.company_name}}</p>
+                <p class="text-muted mb-2"><i class="bi bi-person  align-baseline me-1"></i> {{data.contact_full_name}}</p>
+                <p class="text-muted mb-2"><i class="bi bi-tag align-baseline me-1"></i> {{data.contact_designation}}</p>
+
+                <p class="text-muted mb-2"><i class="bi bi-telephone align-baseline me-1"></i> {{data.contact_phone_number}}</p>
+                <p class="text-muted mb-2"><i class="bi bi-envelope align-baseline me-1"></i>
+                  {{data.contact_email}}</p>
+              </div>
               <div class="d-flex gap-2 pt-4">
                 <button type="button" class="btn btn-outline-primary btn-icon btn-sm" (click)="editReference($event, i)"><i class="ri-pencil-line"></i></button>
                 <button type="button" class="btn btn-outline-danger btn-icon btn-sm" (click)="delReference($event, i)"><i class="ri-delete-bin-2-line"></i></button>
-
               </div>
-
             </div>
           </div>
         </div>
-
-
-
       </div>
     </div>
-
+  </div>
   </div>
 
-
+  <div class="d-flex align-items-start gap-3 mt-4">
+    <button cdkStepperPrevious class="btn btn-light btn-label previestab" data-previous="steparrow-gen-info-tab"
+            type="button"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
+      Précédent
+    </button>
+    <button cdkStepperNext class="btn btn-success btn-label right ms-auto nexttab nexttab"
+            data-nexttab="pills-experience-tab" type="submit"><i
+      class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Suivant
+    </button>
   </div>
+
 </div><!--end row-->
 
 

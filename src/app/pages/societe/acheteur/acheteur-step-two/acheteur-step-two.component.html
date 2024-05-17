@@ -48,7 +48,7 @@
                id="{{j.id}}"
                [value]="j.id"
         >
-        <label class="form-check-label" for="{{j.id}}">{{j.name}}</label>
+        <label class="form-check-label" for="{{j.id}}">{{j.code}}</label>
       </div>
 
 
@@ -76,14 +76,14 @@
   <div class="col-lg-6">
     <div class="mb-3">
       <label class="form-label" for="steparrow-gen-info-creation-input">Date de création</label>
-      <input
-        [ngClass]="{ 'is-invalid': formRef.submitted && f['registration_date'].errors }"
 
-        required
-        type="date"
-        formControlName="registration_date"
-        class="form-control "
+      <input
+        type="text"
         id="steparrow-gen-info-creation-input"
+        [ngClass]="{ 'is-invalid': formRef.submitted && f['registration_date'].errors }"
+        class="form-control"
+        formControlName="registration_date"
+        bsDatepicker [bsConfig]="bsConfig"
       >
 
       <div *ngIf="formRef.submitted && f['registration_date'].errors" class="invalid-feedback">

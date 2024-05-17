@@ -49,6 +49,10 @@ export class DataService {
   private actionnaireList$ = new BehaviorSubject<any>([]);
   selectedActionnaireList$ = this.actionnaireList$.asObservable();
 
+  private referenceList$ = new BehaviorSubject<any>([]);
+  selectedReferenceList$ = this.referenceList$.asObservable();
+
+
 
   setDataUser$(data: any) {
     this.dataUser$.next(data);
@@ -93,6 +97,10 @@ export class DataService {
   }
   setActionnaireList$(datas: any) {
     this.actionnaireList$.next(datas);
+  }
+
+  setReferenceList$(datas: any) {
+    this.referenceList$.next(datas);
   }
 
 }

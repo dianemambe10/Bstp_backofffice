@@ -80,6 +80,7 @@ export class ListService {
 
   user = [];
   suppliers: any | undefined;
+  suppliers_back: any | undefined;
   Products$: any;
   products$: any;
   constructor(private pipe: DecimalPipe,private fournisseurService : FournisseurService) {
@@ -104,7 +105,7 @@ export class ListService {
       .subscribe({
         next: (data) => {
           this.suppliers = data;
-          console.log(data);
+          this.suppliers_back = data;
         },
         error: (e) => console.error(e)
       });

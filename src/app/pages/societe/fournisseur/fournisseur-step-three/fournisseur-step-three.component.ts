@@ -119,41 +119,6 @@ export class FournisseurStepThreeComponent {
       }
     }
 
-    console.log(this.formStep3.value)
-
-    /*
-    const file: File = event.target.files[0]
-    if(file){
-
-      switch (type){
-        case "rccm":
-          this.file_rccm = file
-          break;
-        case "nif":
-          this.file_nif = file
-          break;
-        case "dni":
-          this.file_dni = file
-          break;
-        case "cnss":
-          this.file_cnss = file
-          break;
-        case "status":
-          this.file_status = file
-          break;
-        case "aguipe":
-          this.file_aguipe = file
-          break;
-        default:
-
-          break;
-      }
-
-    }
-
-
-     */
-
   }
 
 }

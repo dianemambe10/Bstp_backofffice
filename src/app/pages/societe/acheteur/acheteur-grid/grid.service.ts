@@ -7,6 +7,8 @@ import { GridModel } from './grid.model';
 import { courseGrid } from './data';
 import { DecimalPipe } from '@angular/common';
 import { debounceTime, delay, switchMap, tap } from 'rxjs/operators';
+import {ListModel} from "../acheteur-list/list.model";
+import {BuyerService} from "../../../../core/services/buyer.service";
 
 interface SearchResult {
   countries: GridModel[];
@@ -30,17 +32,21 @@ function sort(countries: GridModel[]): GridModel[] {
     return countries;
 }
 
+
+
 function matches(country: GridModel, term: string, pipe: PipeTransform) {
-  return country.category.toLowerCase().includes(term.toLowerCase())
+  return country.status.toLowerCase().includes(term.toLowerCase())
     || country.name.toLowerCase().includes(term.toLowerCase())
-    || country.instructor.toLowerCase().includes(term.toLowerCase())
-    || country.lessons.toLowerCase().includes(term.toLowerCase())
-    || country.duration.toLowerCase().includes(term.toLowerCase())
-    || country.students.toLowerCase().includes(term.toLowerCase())
+    || country.phone_number.toLowerCase().includes(term.toLowerCase())
+    || country.email.toLowerCase().includes(term.toLowerCase())
+    || country.rccm.toLowerCase().includes(term.toLowerCase())
+    || country.registration_date.toLowerCase().includes(term.toLowerCase())
     || country.status.toLowerCase().includes(term.toLowerCase())
+    || country.prefecture?.name!.toLowerCase().includes(term.toLowerCase())
+    || country.region?.name!.toLowerCase().includes(term.toLowerCase())
+    || country.commune?.name!.toLowerCase().includes(term.toLowerCase())
     ;
 }
-
 @Injectable({ providedIn: 'root' })
 export class GridService {
   private _loading$ = new BehaviorSubject<boolean>(true);
@@ -64,7 +70,7 @@ export class GridService {
   products: any | undefined;
   Products$: any;
   products$: any;
-  constructor(private pipe: DecimalPipe) {
+  constructor(private pipe: DecimalPipe,private buyerService: BuyerService) {
     this._search$.pipe(
       tap(() => this._loading$.next(true)),
       debounceTime(200),
@@ -77,7 +83,18 @@ export class GridService {
     });
     this._search$.next();
 
-    this.products = courseGrid.reverse();
+   this.retrievebuyer()
+  }
+
+  retrievebuyer(): void {
+    this.buyerService.getData()
+      .subscribe({
+        next: (data) => {
+          this.products = data;
+          console.log(data);
+        },
+        error: (e) => console.error(e)
+      });
   }
 
   get countries$() { return this._countries$.asObservable(); }

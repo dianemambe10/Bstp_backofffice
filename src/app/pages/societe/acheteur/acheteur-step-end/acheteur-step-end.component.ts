@@ -21,7 +21,7 @@ export class AcheteurStepEndComponent {
   demandeur!: User;
 
   @Input()
-  entreprise!: Entreprise;
+  entreprise!: any;
 
 
   @Output() formEnd = new EventEmitter<any>();

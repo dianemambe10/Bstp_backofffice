@@ -1,40 +1,47 @@
 import { Component } from '@angular/core';
-import { AgenciesOverviewService } from './overview.service';
-import { DecimalPipe } from '@angular/common';
-import { Observable } from 'rxjs';
-import { EstatelistModel } from '../../grid/grid.model';
-import { agentlistdata } from '../../agent/list/data';
-import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { latLng, tileLayer, polygon, marker, circle } from 'leaflet';
+import {Entreprise} from "../../../../core/models/entreprise.model";
+import {FournisseurService} from "../../../../core/services/fournisseur.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ActionnaireService} from "../../../../core/services/actionnaire.service";
+import {Actionnaire} from "../../../../core/models/actionnaire.model";
+import {ReferenceCommericiale} from "../../../../core/models/referenceCommericiale.model";
+import {CommercialesService} from "../../../../core/services/commerciales.service";
+import {UserProfileService} from "../../../../core/services/user.service";
+import {Demandeur} from "../../../../core/models/demandeur.model";
 
 @Component({
-  selector: 'app-overview',
-  templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss'],
-  providers: [AgenciesOverviewService, DecimalPipe]
+  selector: 'app-fournisseur-detail',
+  templateUrl: './fournisseur-detail.component.html',
+  styleUrls: ['./fournisseur-detail.component.scss']
 })
 
 // Overview Component
-export class OverviewComponent {
+export class FournisseurDetailComponent {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
 
-  agentOverviewCharts: any;
 
-  products: any;
-  agents: any;
-  estateList!: Observable<EstatelistModel[]>;
-  total: Observable<number>;
-  masterSelected!: boolean;
 
   bedroom: any;
   deleteID: any;
-  currentTab: any = 'property';
+  currentTab: any = 'actionnaire';
 
-  constructor(public service: AgenciesOverviewService) {
-    this.estateList = service.countries$;
-    this.total = service.total$;
+  entreprise!: Entreprise;
+  actionnaires = [] as Actionnaire[] ;
+  users = [] as Demandeur[] ;
+  references = [] as ReferenceCommericiale[];
+  id = ''
+  imageURL: string = './assets/images/users/user-dummy-img.jpg';
+  constructor(private route: ActivatedRoute,
+
+              private router: Router,
+              private commercialesService : CommercialesService,
+              private actionnaireService : ActionnaireService,
+              private userProfileService : UserProfileService,
+              private  fournisseurService: FournisseurService) {
+
   }
 
   ngOnInit(): void {
@@ -46,24 +53,23 @@ export class OverviewComponent {
       { label: 'Overview', active: true }
     ];
 
-    // Fetch Data
-    // this.agents = agentlistdata;
-    this.agents = agentlistdata.slice(0, 4);
+    this.id = this.route.snapshot.params['id']
+    this.fournisseurService.getSingleData(this.id).subscribe((data: Entreprise) =>{
+      this.entreprise = data
+      this.actionnaireService.getMember(this.entreprise?.slug).subscribe((data: Actionnaire[]) =>{ this.actionnaires = data})
+    this.commercialesService.getBySupplier (this.entreprise?.slug).subscribe((data: ReferenceCommericiale[]) =>{ this.references = data})
+    this.userProfileService.getUserCollegue(this.entreprise?.slug).subscribe((data: Demandeur[]) =>{ this.users = data})
+   
+  })
+    
 
-    setTimeout(() => {
-      this.estateList.subscribe(x => {
-        this.products = Object.assign([], x);
-      });
-      document.getElementById('elmLoader')?.classList.add('d-none')
-    }, 1000)
+
+
   }
 
-  // Agent Pagination
-  pageChanged(event: PageChangedEvent): void {
-    const startItem = (event.page - 1) * event.itemsPerPage;
-    const endItem = event.page * event.itemsPerPage;
-    this.agents = agentlistdata.slice(startItem, endItem);
-  }
+  options = { autoHide: false };
+
+
 
   // Change Tab Content
   changeTab(tab: string) {

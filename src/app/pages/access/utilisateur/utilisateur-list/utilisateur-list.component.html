@@ -1,5 +1,5 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Fournisseur" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="{{ this.categorie + ' | ' }} Utilisteurs" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
 <div class="row">
@@ -84,13 +84,13 @@
                               <td>
                                   <ul class="d-flex gap-2 list-unstyled mb-0">
                                       <li>
-                                          <a routerLink="/learning/overview" class="btn btn-subtle-primary btn-icon btn-sm "><i class="ph-eye"></i></a>
+                                          <a href="javascript:void(0);" (click)="detailUser($event, data.slug)"  class="btn btn-subtle-primary btn-icon btn-sm "><i class="ph-eye"></i></a>
                                       </li>
                                       <li>
-                                          <a href="javascript:void(0);" (click)="editBuyer($event, data.id)" class="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"><i class="ph-pencil"></i></a>
+                                          <a href="javascript:void(0);" (click)="editUser($event, data.slug)" class="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"><i class="ph-pencil"></i></a>
                                       </li>
                                       <li>
-                                          <a href="javascript:void(0);" (click)="removeItem(data.id)" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
+                                          <a href="javascript:void(0);" (click)="removeUser(data.slug)" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
                                       </li>
                                   </ul>
                               </td>

@@ -44,7 +44,9 @@
                   <label class="form-check-label" for="checkAll"></label>
                 </div>
               </th>
-              <th scope="col" class="sort cursor-pointer" listsortable="name" (sort)="onSort($event)">Nom </th>
+              <th scope="col" class="sort cursor-pointer" listsortable="name" (sort)="onSort($event)">Libelle </th>
+              <th scope="col" class="sort cursor-pointer" listsortable="code_apip" (sort)="onSort($event)">Code APIP </th>
+              <th scope="col" class="sort cursor-pointer" listsortable="code_africa" (sort)="onSort($event)">Code Afrista </th>
 
 
               <th scope="col">Action</th>
@@ -60,15 +62,17 @@
               </td>
               <td class="id d-none"><a href="javascript:void(0)" class="fw-medium link-primary">#TBS00{{data.id}}</a></td>
               <td class="category"><a routerLink="/learning/grid" class="text-reset">{{data.name}}</a></td>
+              <td class="category"><a routerLink="/learning/grid" class="text-reset">{{data.code_apip}}</a></td>
+              <td class="category"><a routerLink="/learning/grid" class="text-reset">{{data.code_africa}}</a></td>
 
 
               <td class="w-20">
                 <ul class="d-flex gap-2 list-unstyled mb-0">
                   <li>
-                    <a routerLink="/learning/overview" class="btn btn-subtle-primary btn-icon btn-sm "><i class="ph-eye"></i></a>
+                    <a href="javascript:void(0);" (click)="detailItem($event, data.id)" class="btn btn-subtle-primary btn-icon btn-sm "><i class="ph-eye"></i></a>
                   </li>
                   <li>
-                    <a href="javascript:void(0);" (click)="editBuyer($event, data.id)" class="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"><i class="ph-pencil"></i></a>
+                    <a href="javascript:void(0);" (click)="editItem($event, data.id)" class="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"><i class="ph-pencil"></i></a>
                   </li>
                   <li>
                     <a href="javascript:void(0);" (click)="removeItem(data.id)" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>

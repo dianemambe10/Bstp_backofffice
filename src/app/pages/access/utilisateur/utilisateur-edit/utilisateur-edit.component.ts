@@ -22,12 +22,14 @@ export class UtilisateurEditComponent {
   currentFile?: File;
   menu = '';
   sousmenu = '';
+  categorie = '';
+
   id!: number;
   user!: User;
 
   roleList: Role[] = []
 
-  defaultRole: number | undefined = 0
+  defaultRole: number | undefined  = 0
 
   constructor(
     public toastService: ToastrService,
@@ -45,9 +47,10 @@ export class UtilisateurEditComponent {
     ngOnInit(): void {
 
       this.route.data.subscribe((data) =>{
-        const {menu, sousmenu} = data
+        const {menu, sousmenu, categorie} = data
         this.menu = menu
         this.sousmenu = sousmenu
+        this.categorie = categorie
       })
 
       this.route.paramMap.subscribe((params) => {
@@ -91,9 +94,10 @@ export class UtilisateurEditComponent {
         this.formRegister.controls['email'].setValue(this.user.email)
         this.formRegister.controls['phone_number'].setValue(this.user.phone_number)
         this.formRegister.controls['is_active'].setValue(this.user.is_active)
-        this.formRegister.controls['role_id'].setValue(this.user.role_id)
+        this.formRegister.controls['role'].setValue(this.user.role?.id)
         this.formRegister.controls['gender'].setValue(this.user.gender)
-        this.defaultRole = this.user.role_id
+        this.formRegister.controls['slug'].setValue(this.user.slug)
+        this.defaultRole = this.user.role.id
       })
 
 
@@ -116,46 +120,23 @@ export class UtilisateurEditComponent {
       { id: 3, name: "Kindia" },
       { id: 4, name: "Labe" },
     ];
-  last_name = new FormControl('Moahemed',[Validators.required,Validators.minLength(3) ,Validators.pattern('[a-zA-Z0-9]+')])
-
-  first_name = new FormControl('Diane',[Validators.required,Validators.minLength(3),Validators.pattern('[a-zA-Z0-9]+')])
-
-  gender  = new FormControl('M',[Validators.required ] )
-  groupe_id  = new FormControl('1',[Validators.required ] )
-  role_id  = new FormControl('1',[Validators.required ] )
-
-  phone_number = new FormControl('624879563',[Validators.required ])
-
-  email = new FormControl('diane@dsoft.com',[
-    Validators.required,Validators.email,] //, [this.emailTaken.validate]
-  )
-  is_active = new FormControl('')
-  ids = new FormControl('')
-
-
-  avatar_ppoi = new FormControl('', [Validators.nullValidator]);
-  username = new FormControl('', [Validators.nullValidator]);
-  role_dans_lentreprise = new FormControl('', [Validators.nullValidator]);
-
-
-
-
 
   createForm(){
 
 
     this.formRegister = this.fb.group({
-      username: this.username,
-      first_name: this.first_name,
-      last_name: this.last_name,
-      gender: this.gender,
-      email: this.email,
-      phone_number: this.phone_number,
-      groupe_id: this.groupe_id,
-      role_id: this.role_id,
-      is_active: this.is_active,
-      id: this.ids,
-      role_dans_lentreprise: this.role_dans_lentreprise
+      username: ['',[]],
+      first_name: ['Mohamed',[Validators.required,Validators.minLength(3) ,Validators.pattern('[a-zA-Z0-9]+')]],
+      last_name: ['Diane',[Validators.required,Validators.minLength(3),Validators.pattern('[a-zA-Z0-9]+')]],
+      gender: ['M',[Validators.required ]],
+      email: ['diane@dsoft.com',[Validators.required,Validators.email,]],
+      phone_number: ['624879563',[Validators.required ]],
+      groupe_id: ['1',[ ] ],
+      role: ['1',[Validators.required ]],
+      is_active: ['', []],
+      id: ['', []],
+      role_dans_lentreprise: ['', [Validators.nullValidator]],
+      slug: ['', []]
 
     });
   }
@@ -197,6 +178,8 @@ export class UtilisateurEditComponent {
 
 
   register(){
+
+      console.log(this.formRegister.value)
     //this.formRegister.setControl('username', this.formRegister.get('email')?.value)
     this.formRegister.get('username')?.setValue(this.formRegister.get('email')?.value)
     console.log(this.formRegister.value)

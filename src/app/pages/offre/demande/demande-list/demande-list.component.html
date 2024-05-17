@@ -8,7 +8,7 @@
         <div class="card-body">
           <div class="row align-items-center g-2">
               <div class="col-lg-3 me-auto">
-                  <h6 class="card-title mb-0">Demande <span class="badge bg-primary ms-1 align-baseline">1452</span></h6>
+                  <h6 class="card-title mb-0">Demande <span class="badge bg-primary ms-1 align-baseline">{{service.totalRecords}}</span></h6>
               </div><!--end col-->
               <div class="col-lg-4">
                   <div class="search-box">
@@ -21,8 +21,13 @@
                       <button class="btn btn-subtle-danger d-none" id="remove-actions" (click)="deleteRecordModal.show()"><i class="ri-delete-bin-2-line"></i></button>
                       <a href="javascript:void(0);" (click)="addBuyer($event)" class="btn btn-secondary"><i class="bi bi-plus-circle align-baseline me-1"></i> Demande</a>
                       <div>
-                          <button type="button" class="btn btn-info me-1" (click)="openEnd()"><i class="bi bi-funnel align-baseline me-1"></i> Filtrer</button>
+                        <button #toggleButton (click)="togglebtn($event)" class="btn btn-outline-info custom-toggle me-1"
+                                data-bs-toggle="button"
+                                type="button">
+                          <span class="icon-on"><i class="ri-filter-line align-bottom me-1"></i> Filtrer</span>
+                          <span class="icon-off"><i class="ri-filter-fill align-bottom me-1"></i>Filtrer</span>
 
+                        </button>
                       </div>
                   </div>
               </div><!--end col-->
@@ -38,59 +43,51 @@
 
           <div class="card-body">
               <div class="table-responsive table-card">
-                  <table class="table table-centered align-middle table-custom-effect table-nowrap mb-0">
+                  <table class="table table-centered align-middle table-custom-effect w-auto  mb-0">
                       <thead class="text-muted">
                           <tr>
-                              <th>
-                                  <div class="form-check">
-                                      <input class="form-check-input" type="checkbox" value="option" id="checkAll" [(ngModel)]="masterSelected" (change)="checkUncheckAll($event)">
-                                      <label class="form-check-label" for="checkAll"></label>
-                                  </div>
-                              </th>
-                              <th scope="col" class="sort cursor-pointer" listsortable="category" (sort)="onSort($event)">Titre</th>
-                              <th scope="col" class="sort cursor-pointer" listsortable="name" (sort)="onSort($event)">Description</th>
-                              <th scope="col" class="sort cursor-pointer" listsortable="instructor" (sort)="onSort($event)">Date de Publication</th>
-                              <th scope="col" class="sort cursor-pointer" listsortable="lessons" (sort)="onSort($event)">Date de Cloture</th>
-                              <th scope="col" class="sort cursor-pointer" listsortable="duration" (sort)="onSort($event)">Acheteur</th>
-                              <th scope="col">Action</th>
+                            <th scope="col" >No</th>
+                              <th scope="col" class="sort cursor-pointer w-sm" listsortable="reference" (sort)="onSort($event)">Reference</th>
+                              <th scope="col" class="sort cursor-pointer w-md" listsortable="name" (sort)="onSort($event)">Titre</th>
+                              <th scope="col" class="sort cursor-pointer w-md" listsortable="summary" (sort)="onSort($event)">Sommaire</th>
+                              <th scope="col" class="sort cursor-pointer w-sm" listsortable="published_at" (sort)="onSort($event)">Ouverture</th>
+                              <th scope="col" class="sort cursor-pointer w-sm" listsortable="expired_at" (sort)="onSort($event)">Cloture</th>
+                              <th scope="col" class="sort cursor-pointer w-sm" listsortable="status" (sort)="onSort($event)">Status</th>
+                              <th scope="col" class="sort cursor-pointer w-sm" listsortable="buyer" (sort)="onSort($event)">Acheteur</th>
+                              <th scope="col" class="w-sm ">Action</th>
                           </tr>
                       </thead>
                       <tbody class="list form-check-all">
                           <tr *ngFor="let data of listData;let i = index;" id="p_{{data._id}}">
-                              <td>
-                                  <div class="form-check">
-                                      <input class="form-check-input" type="checkbox" name="chk_child" name="checkAll" value="{{data._id}}" [(ngModel)]="data.state" (change)="onCheckboxChange($event)">
-                                      <label class="form-check-label"></label>
-                                  </div>
-                              </td>
+                            <td class="w-10">{{ i + 1}}</td>
                               <td class="id d-none"><a href="javascript:void(0)" class="fw-medium link-primary">#TBS00{{data.id}}</a></td>
-                              <td class="category"><a routerLink="/learning/grid" class="text-reset">{{data.category}}</a></td>
+                              <td class="category"><a routerLink="/learning/grid" class="text-reset">{{data.reference}}</a></td>
                               <td class="course_Name">
                                   <div class="d-flex gap-2 align-items-center">
-                                      <div class="flex-shrink-0">
-                                          <img src="{{data.img}}" alt="" class="avatar-xxs">
-                                      </div>
+
                                       <div class="flex-grow-1">
                                           <a routerLink="/learning/overview" class="text-reset">{{data.name}}</a>
                                       </div>
                                   </div>
                               </td>
-                              <td class="instructor">{{data.instructor}}</td>
-                              <td class="lessons">{{data.lessons}}</td>
-                              <td class="duration">{{data.duration}}</td>
-                              <td>
-                                  <ul class="d-flex gap-2 list-unstyled mb-0">
-                                      <li>
-                                          <a routerLink="/learning/overview" class="btn btn-subtle-primary btn-icon btn-sm "><i class="ph-eye"></i></a>
-                                      </li>
-                                      <li>
-                                          <a href="javascript:void(0);" (click)="editBuyer($event, i)" class="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"><i class="ph-pencil"></i></a>
-                                      </li>
-                                      <li>
-                                          <a href="javascript:void(0);" (click)="removeItem(data.id)" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
-                                      </li>
-                                  </ul>
-                              </td>
+                              <td class="instructor" class="">  {{data.summary | textformat}}</td>
+                              <td class="lessons w-xs">{{ data.published_at | date:'dd-MM-yy' }}</td>
+                              <td class="lessons w-xs">{{ data.expired_at | date:'dd-MM-yy' }}</td>
+                              <td class="duration">{{data.status}}</td>
+                             <td class="duration">{{data.buyer.name}}</td>
+                            <td>
+                              <ul class="d-flex gap-2 list-unstyled mb-0">
+                                <li>
+                                  <a ref="javascript:void(0);" (click)="datailItem($event, data.slug)" class="btn btn-subtle-primary btn-icon btn-sm "><i class="ph-eye"></i></a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0);" (click)="editItem($event, data.slug)" class="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"><i class="ph-pencil"></i></a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0);" (click)="removeItem(data.slug)" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
+                                </li>
+                              </ul>
+                            </td>
                           </tr>
                       </tbody><!-- end tbody -->
                   </table><!-- end table -->
@@ -155,81 +152,113 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /deleteRecordModal -->
 
+
+
 <div class="custom-offcanvas" id="courseFilters">
+
   <div class="offcanvas-header border-bottom p-3">
-      <h5 class="offcanvas-title" id="courseFiltersLabel">Filteur de Demande </h5>
-      <button type="button" class="btn-close" (click)="closeoffcanvas()"></button>
+    <h5 class="offcanvas-title" id="courseFiltersLabel">Filteur de Fournisseur </h5>
+    <button (click)="closeoffcanvas()" class="btn-close" type="button"></button>
   </div>
   <div class="offcanvas-body">
-      <form action="#!">
-          <div class="row">
-              <div class="col-lg-12">
-                  <div class="mb-3">
-                      <label class="select-category-filter form-label fs-md mb-3 text-decoration-underline">Periode de Publication</label>
-                      <div id="product-price-range" data-slider-color="secondary"></div>
-                      <div class="formCost d-flex gap-2 align-items-center mt-4">
-                          <input class="form-control" type="date" id="minCost" value="0"> <span class="fw-semibold text-muted">to</span> <input class="form-control" type="date" id="maxCost" >
-                      </div>
-                  </div>
-              </div>
-              <div class="col-lg-12">
-                  <div class="mb-3">
-                      <label class="select-category-filter form-label fs-md mb-3 text-decoration-underline">Courses
-                          category</label>
-                      <div class="vstack gap-2">
-                          <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="courses-category-all">
-                              <label class="form-check-label" for="courses-category-all">
-                                  Select All
-                              </label>
-                          </div>
-                          <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="courses-category-filter2">
-                              <label class="form-check-label" for="courses-category-filter2">
-                                  Data Science
-                              </label>
-                          </div>
-                          <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="courses-category-filter3">
-                              <label class="form-check-label" for="courses-category-filter3">
-                                  IT & Software
-                              </label>
-                          </div>
-                          <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="courses-category-filter4">
-                              <label class="form-check-label" for="courses-category-filter4">
-                                  Engineering
-                              </label>
-                          </div>
-                          <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="courses-category-filter5">
-                              <label class="form-check-label" for="courses-category-filter5">
-                                  Web Development
-                              </label>
-                          </div>
-                          <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="courses-category-filter6">
-                              <label class="form-check-label" for="courses-category-filter6">
-                                  Finance & Banking
-                              </label>
-                          </div>
-                          <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="courses-category-filter7">
-                              <label class="form-check-label" for="courses-category-filter7">
-                                  Management
-                              </label>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+    <form [formGroup]="filterForm" autocomplete="off" novalidate>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="mb-3">
+            <label class="select-category-filter form-label fs-md  text-decoration-underline">Enregistrement
+              *</label>
+            <br>
+            <div class="col-md-4  mt-3 form-check form-check-inline ">
+              <input (change)="onRestrictedTypeChanged($event)"
+                     class="form-check-input"
+                     formControlName="enregistrement"
+                     id="date"
+                     required
+                     type="radio"
+                     value="date">
+              <label class="form-check-label" for="date">Par date</label>
+            </div>
+            <div class="col-md-4  mt-3 form-check form-check-inline ">
+              <input (change)="onRestrictedTypeChanged($event)"
+                     class="form-check-input"
+                     formControlName="enregistrement"
+                     id="periode"
+                     required
+                     type="radio"
+                     value="periode">
+              <label class="form-check-label" for="periode">Par periode</label>
+            </div>
 
           </div>
-      </form>
+        </div>
+
+        <div *ngIf="enregistrement === 'date'" class="col-lg-12">
+          <div class=" row mb-3 align-items-center">
+            <div class="col-lg-3">
+              <label class="select-category-filter form-label fs-md mb-3   " for="dateen">Date</label>
+            </div>
+            <div class="col-lg-9">
+              <input
+
+                [bsConfig]="bsConfig"
+
+                bsDatepicker
+                class="form-control "
+                dataformatas="yyyy-MM-DD"
+                formControlName="date"
+                id="dateen"
+                type="text">
+            </div>
+
+          </div>
+        </div>
+        <div *ngIf="enregistrement === 'periode'" class="col-lg-12">
+          <div class=" row mb-3 align-items-center">
+            <div class="col-lg-3">
+              <label class="select-category-filter form-label fs-md mb-3 ">Debut</label>
+            </div>
+            <div class="col-lg-9">
+              <input
+                [bsConfig]="bsConfig"
+                bsDatepicker
+                class="form-control "
+                formControlName="startDate"
+                id="minCost"
+                type="text">
+            </div>
+          </div>
+          <div class=" row mb-3 align-items-center">
+            <div class="col-lg-3">
+              <label class="select-category-filter form-label fs-md mb-3 ">Fin</label>
+            </div>
+            <div class="col-lg-9">
+              <input
+                [bsConfig]="bsConfig"
+                bsDatepicker
+                class="form-control "
+                formControlName="endDate"
+                id="maxCost"
+                type="text">
+            </div>
+          </div>
+
+
+        </div>
+
+
+      </div>
+    </form>
   </div>
   <div class="offcanvas-header htsack gap-2 border-top p-3">
-      <button class="btn btn-subtle-danger w-100"><i class="bi bi-x-lg align-baseline me-1"></i> Reset</button>
-      <button class="btn btn-secondary w-100"><i class="bi bi-funnel align-baseline me-1"></i> Filters</button>
+    <button (click)="resetFilter($event)" class="btn btn-subtle-danger w-100"><i
+      class="bi bi-x-lg align-baseline me-1"></i> Reset
+    </button>
+    <button (click)="validateFilter()" class="btn btn-secondary w-100"><i class="bi bi-funnel align-baseline me-1"></i>
+      Filtrer
+    </button>
   </div>
+
 </div>
 
-<div class="offcanvas-backdrop fade backdrop3" id="backdrop" (click)="closeoffcanvas()"></div>
+
+<div (click)="closeoffcanvas()" class="offcanvas-backdrop fade backdrop3" id="backdrop"></div>

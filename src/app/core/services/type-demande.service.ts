@@ -30,7 +30,7 @@ export class TypeDemandeService {
   // Single
   getSingleData(id:any): Observable<TypeDemande> {
 
-    return this.http.get<TypeDemande>(GlobalComponent.API_URL + GlobalComponent.request_type + id, {   responseType: 'json' });
+    return this.http.get<TypeDemande>(GlobalComponent.API_URL + GlobalComponent.request_type + id + "/", {   responseType: 'json' });
   }
 
   // Patch

@@ -48,6 +48,13 @@ import { ContratEditComponent } from './contrat-edit/contrat-edit.component';
 import { ContratListComponent} from './contrat-list/contrat-list.component';
 import { ContratDetailComponent } from './contrat-detail/contrat-detail.component';
 import { NgbdListSortableHeader } from './contrat-list/list-sortable.directive';
+import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
+import {NgArrayPipesModule} from "ngx-pipes";
+import {NgxSliderModule} from "ngx-slider-v2";
+import {RxReactiveFormsModule} from "@rxweb/reactive-form-validators";
+import {LeafletModule} from "@asymmetrik/ngx-leaflet";
+import { CountUpModule } from 'ngx-countup';
+import { TextFormatPipe } from 'src/app/core/helpers/pipe/text-format.pipe';
 
 
 @NgModule({
@@ -75,7 +82,13 @@ import { NgbdListSortableHeader } from './contrat-list/list-sortable.directive';
     NgStepperModule,
     CdkStepperModule,
     RatingModule,
-    NgSelectModule
+    NgSelectModule,
+    BsDatepickerModule,
+    NgArrayPipesModule,
+    NgxSliderModule,
+    RxReactiveFormsModule,
+    LeafletModule,
+    CountUpModule,
   ],
   providers: [
     {

@@ -8,7 +8,7 @@ export const MENU: MenuItem[] = [
     },
     {
       id: 1001,
-      label: 'Dashbord',
+      label: 'Tableau de Bord',
       icon: 'ph-gauge',
       link: '/analytics',
       parentId: 1
@@ -22,24 +22,48 @@ export const MENU: MenuItem[] = [
           {
               id: 1201,
               label: 'Acheteurs',
-              link: '/societe/acheteurs',
-              parentId: 1200
+              parentId: 1200,
+              subItems: [
+                {
+                  id: 12011,
+                  label: "Information Generale",
+                  link: '/societe/acheteurs',
+                  parentId: 1201
+                },
+                {
+                  id: 12012,
+                  label: "Utilisateurs",
+                  link: '/societe/acheteurs/utilisateurs',
+                  parentId: 1201
+                }
+
+            ]
           },
           {
               id: 1202,
               label: 'Fournisseurs',
-              link: '/societe/fournisseurs',
-              parentId: 1200
+
+              parentId: 1200,
+              subItems: [
+              {
+                id: 12021,
+                label: "Information Generale",
+                link: '/societe/fournisseurs',
+                parentId: 1202
+              },
+              {
+                id: 12022,
+                label: "Utilisateurs",
+                link: '/societe/fournisseurs/utilisateurs',
+                parentId: 1202
+              }
+
+            ]
           },
-          {
-              id: 1203,
-              label: 'Personnes de Contacts',
-              link: '/societe/personne-contacts',
-              parentId: 1200
-          },
+       
           {
               id: 1204,
-              label: 'Types de Sociétés',
+              label: 'Forme jurdique',
               link: '/societe/type-societes',
               parentId: 1200
           },
@@ -82,40 +106,23 @@ export const MENU: MenuItem[] = [
          },
          {
           id: 1400,
-          label: 'Paiement',
+          label: 'Abonnement',
           icon: 'ph-money',
           parentId: 1,
           subItems: [
-              {
-                  id: 1301,
-                  label: 'Transactions',
-                  link: '/ecommerce/products',
-                  parentId: 1300
-              },
-              {
-                  id: 1302,
-                  label: "Niveau d'abonnement",
-                  link: '/ecommerce/products-grid',
-                  parentId: 1300
-              },
+             
               {
                   id: 1303,
-                  label: 'Abonnement',
-                  link: '/ecommerce/product-details',
+                  label: 'Paiement',
+                  link: '/abonnement/paiement',
                   parentId: 1300
               },
               {
                 id: 1303,
-                label: 'Mode de Paiment',
-                link: '/ecommerce/product-details',
+                label: 'Mode de Paiement',
+                link: '/abonnement/mode-payement',
                 parentId: 1300
-            },
-            {
-              id: 1303,
-              label: 'Code Promo',
-              link: '/ecommerce/product-details',
-              parentId: 1300
-          },
+            }
 
 
           ]
@@ -143,10 +150,35 @@ export const MENU: MenuItem[] = [
 
 
 
-        ]
-         },
+        ]},
+         {
+            id: 16000,
+            label: 'Gestion des institutions',
+            icon: 'ph-keyhole-thin',
+            parentId: 1,
+            subItems: [
+                {
+                    id: 13010,
+                    label: 'Instituts',
+                    link: '/institution/instituts',
+                    parentId: 16000
+                },
+                {
+                    id: 13020,
+                    label: "Type d'Institut",
+                    link: '/institution/type-instituts',
+                    parentId: 16000
+                },
+    
+    
+    
+    
+            ]
+             }
+    
+             ,
 
-
+/*
 
     {
         id: 2,
@@ -293,12 +325,26 @@ export const MENU: MenuItem[] = [
         link: '/apps/file-manager',
         parentId: 8,
     },
+    */
+   
     {
         id: 24,
-        label: 'MENUITEMS.APPS.LIST.LEARNING',
+        label: 'Gestion des formations',
         icon: 'ph-graduation-cap',
         parentId: 8,
         subItems: [
+            {
+                id: 8001,
+                label: 'Thematique',
+                link: '/learning/thematique',
+                parentId: 8
+            },
+            {
+                id: 8002,
+                label: 'Formation',
+                link: '/learning/formation',
+                parentId: 8
+            },
             {
                 id: 25,
                 label: 'MENUITEMS.APPS.LIST.COURSES',
@@ -389,6 +435,7 @@ export const MENU: MenuItem[] = [
 
         ]
     },
+    /*
     {
         id: 39,
         label: 'MENUITEMS.APPS.LIST.INVOICES',
@@ -907,6 +954,8 @@ export const MENU: MenuItem[] = [
         icon: "ph-paint-brush-broad",
         link: '/apps/widgets'
     },
+
+    */
     {
         id: 125,
         label: 'MENUITEMS.FORMS.TEXT',
@@ -986,6 +1035,7 @@ export const MENU: MenuItem[] = [
             }
         ]
     },
+    /*
     {
         id: 138,
         label: 'MENUITEMS.TABLES.TEXT',
@@ -1230,7 +1280,7 @@ export const MENU: MenuItem[] = [
             }
         ]
     }
-
+*/
 
 
 ]

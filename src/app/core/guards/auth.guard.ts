@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 // Auth Services
-import { environment } from '../../../environments/environment';
 import { AuthentificationService } from '../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { aU } from '@fullcalendar/core/internal-common';
 
 import {JwtHelperService} from '@auth0/angular-jwt';
 
@@ -31,10 +29,6 @@ export class AuthGuard  {
 
             const currentUser = this.authenticationService.currentUserValue;
             const token = this.jwtHelper.tokenGetter()
-
-            
-
-           
             // check if user data is in storage is logged in via API.
             if ((!this.authenticationService.isToken()) || (this.jwtHelper.isTokenExpired()) ) {
               // not logged in so redirect to login page with the return url
@@ -44,7 +38,8 @@ export class AuthGuard  {
                 console.log("une erreur")
                  // logged in so return true
                  this.authenticationService.logout()
-                 this.router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
+                // this.router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
+                 this.router.navigate(['/auth/login']);
                 
                  return false;
             }

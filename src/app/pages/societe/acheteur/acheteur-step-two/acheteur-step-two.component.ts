@@ -10,6 +10,8 @@ import {ToastrService} from "ngx-toastr";
 import {DataService} from "../../../../core/services/data.service";
 import {formatDate} from "@angular/common";
 import {Buyer} from "../../../../core/models/buyer.model";
+import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-acheteur-step-two',
@@ -21,6 +23,12 @@ export class AcheteurStepTwoComponent implements AfterViewInit, OnInit {
   @Output() formTwo = new EventEmitter<Buyer>();
   public formStep2!: UntypedFormGroup;
   submitted = false;
+
+
+  color: any;
+
+  colorTheme: any = 'theme-blue';
+  bsConfig?: Partial<BsDatepickerConfig>;
 
   regionList: Region[]=[];
   prefectureList: Prefecture[]=[];
@@ -102,6 +110,9 @@ export class AcheteurStepTwoComponent implements AfterViewInit, OnInit {
       })
 
     })
+
+    this.bsConfig = Object.assign({}, { containerClass: this.colorTheme, showWeekNumbers: false });
+
 
 
 
@@ -276,10 +287,8 @@ export class AcheteurStepTwoComponent implements AfterViewInit, OnInit {
         this.domaineList.push(e.target.value)
       else{
         e.target.checked = false
-        this.toastService.warning("Vous avez atteint le nombre maximal de domaine d'activité", "Domaine d'activité maximale",{
-          timeOut: 3000,
-        })
-        console.log("Vous avez atteint le nombre maximal de domaine d'activité")
+        Swal.fire({ text: 'Vous avez atteint le nombre maximal de domaine d\'activité', confirmButtonColor: '#4b93ff', showCancelButton: false, });
+
       }
 
     }else{

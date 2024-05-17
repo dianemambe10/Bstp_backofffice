@@ -4,11 +4,10 @@ import { Injectable, PipeTransform } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 
 import { GridModel } from './grid.model';
-import { courseGrid } from './data';
 import { DecimalPipe } from '@angular/common';
 import { debounceTime, delay, switchMap, tap } from 'rxjs/operators';
-import {ListModel} from "../acheteur-list/list.model";
 import {BuyerService} from "../../../../core/services/buyer.service";
+import {FournisseurService} from "../../../../core/services/fournisseur.service";
 
 interface SearchResult {
   countries: GridModel[];
@@ -35,13 +34,13 @@ function sort(countries: GridModel[]): GridModel[] {
 
 
 function matches(country: GridModel, term: string, pipe: PipeTransform) {
-  return country.status.toLowerCase().includes(term.toLowerCase())
-    || country.name.toLowerCase().includes(term.toLowerCase())
-    || country.phone_number.toLowerCase().includes(term.toLowerCase())
-    || country.email.toLowerCase().includes(term.toLowerCase())
-    || country.rccm.toLowerCase().includes(term.toLowerCase())
-    || country.registration_date.toLowerCase().includes(term.toLowerCase())
-    || country.status.toLowerCase().includes(term.toLowerCase())
+  return country.status!.toLowerCase().includes(term.toLowerCase())
+    || country.name!.toLowerCase().includes(term.toLowerCase())
+    || country.phone_number!.toLowerCase().includes(term.toLowerCase())
+    || country.email!.toLowerCase().includes(term.toLowerCase())
+    || country.rccm!.toLowerCase().includes(term.toLowerCase())
+    || country.year_of_registration!.toLowerCase().includes(term.toLowerCase())
+    || country.status!.toLowerCase().includes(term.toLowerCase())
     || country.prefecture?.name!.toLowerCase().includes(term.toLowerCase())
     || country.region?.name!.toLowerCase().includes(term.toLowerCase())
     || country.commune?.name!.toLowerCase().includes(term.toLowerCase())
@@ -70,7 +69,7 @@ export class GridService {
   products: any | undefined;
   Products$: any;
   products$: any;
-  constructor(private pipe: DecimalPipe,private buyerService: BuyerService) {
+  constructor(private pipe: DecimalPipe,private fournisseurService : FournisseurService,) {
     this._search$.pipe(
       tap(() => this._loading$.next(true)),
       debounceTime(200),
@@ -87,7 +86,7 @@ export class GridService {
   }
 
   retrievebuyer(): void {
-    this.buyerService.getData()
+    this.fournisseurService.getData()
       .subscribe({
         next: (data) => {
           this.products = data;

@@ -47,13 +47,11 @@ export class FournisseurStepReferenceComponent implements AfterViewInit, OnInit 
       this.formStep1.controls['role_dans_lentreprise'].setValue(user?.role_dans_lentreprise) */
     })
 
-    this.dataService.selectedActionnaireList$.subscribe((reference: ReferenceCommericiale[])=>{
+    this.dataService.selectedReferenceList$.subscribe((reference: ReferenceCommericiale[])=>{
      // console.log(actionnaire)
       this.referenceList = reference
       console.log(this.referenceList)
     })
-// Fetch Data
-    this.contactlist = contactData;
 
 
 
@@ -93,6 +91,10 @@ export class FournisseurStepReferenceComponent implements AfterViewInit, OnInit 
   editReference(e: any, i: any){
     e.preventDefault()
     this.refEdit.emit(i)
+
+  }
+
+  ngOnDestroy(){
 
   }
 

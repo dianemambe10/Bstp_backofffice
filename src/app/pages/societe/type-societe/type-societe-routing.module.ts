@@ -8,10 +8,10 @@ import { TypeSocieteDetailComponent } from './type-societe-detail/type-societe-d
 const routes: Routes = [
   {
     path: 'nouveau',
-    title: "BSTP |  Ajout d'un type de société",
+    title: "BSTP |  Ajout d'une Forme jurdique",
     component: TypeSocieteAddComponent,
     data: {
-      menu: 'Type de société',
+      menu: 'Forme jurdique',
       sousmenu: 'Ajout',
       role: []
     },
@@ -19,21 +19,21 @@ const routes: Routes = [
   },
   {
     path: 'edit/:id',
-    title: "BSTP | Modification d'un type de societe",
+    title: "BSTP | Modification d'une forme jurdique",
     component: TypeSocieteEditComponent,
     data: {
-      menu: 'Type de société',
+      menu: 'Forme jurdique',
       sousmenu: 'Edit',
       role: []
     },
     canActivate: []
   },
   {
-    path: 'detail/:id',
-    title: "BSTP | Detail d'un type de societe",
+    path: 'details/:id',
+    title: "BSTP | Detail d'une forme jurdique",
     component: TypeSocieteDetailComponent,
     data: {
-      menu: 'Type de société',
+      menu: 'Forme jurdique',
       sousmenu: 'Detail',
       role: []
     },
@@ -44,7 +44,7 @@ const routes: Routes = [
     title: "BSTP |  Liste des types de sociétés",
     component: TypeSocieteListComponent,
     data: {
-      menu: 'Type de société',
+      menu: 'Forme jurdique',
       sousmenu: 'Liste',
       role: []
     },

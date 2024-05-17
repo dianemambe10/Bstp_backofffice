@@ -1,13 +1,12 @@
 export interface ListModel {
   id?: any;
-  category?: any;
-  img?: any;
-  name?: any;
-  instructor?: any;
-  lessons?: any;
-  duration?: any;
-  students?: any;
-  fees?: any;
-  rating?: any;
-  status?: any;
+  bstp_member?: any;
+  other_company?: any;
+  amount?: any;
+  description?: any;
+  signature_date?: any;
+  observation?: any;
+  request?: any;
+  company?: any;
+  action_user?: any;
 }

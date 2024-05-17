@@ -24,24 +24,24 @@ export class BuyerService {
 
   // POST
   postData(data: any): Observable<any> {
-    return this.http.post(GlobalComponent.API_URL + GlobalComponent.  buyer,JSON.stringify(data), httpOptions);
+    return this.http.post(GlobalComponent.API_URL + GlobalComponent.buyer,JSON.stringify(data), httpOptions);
   }
 
   // Single
   getSingleData(id:any): Observable<Buyer> {
 
-    return this.http.get<Buyer>(GlobalComponent.API_URL + GlobalComponent.  buyer + id, {   responseType: 'json' });
+    return this.http.get<Buyer>(GlobalComponent.API_URL + GlobalComponent.buyer + id + "/", {   responseType: 'json' });
   }
 
   // Patch
   patchData(data: Buyer): Observable<any> {
-    return this.http.patch(GlobalComponent.API_URL + GlobalComponent.  buyer + data.slug + "/", JSON.stringify(data), httpOptions);
+    return this.http.patch(GlobalComponent.API_URL + GlobalComponent.buyer + data.slug + "/", JSON.stringify(data), httpOptions);
   }
 
   // Delete
   delete(id:any): Observable<any> {
 
-    return this.http.delete(GlobalComponent.API_URL + GlobalComponent.  buyer + id, {  responseType: 'text' });
+    return this.http.delete(GlobalComponent.API_URL + GlobalComponent.buyer + id, {  responseType: 'text' });
   }
 
 

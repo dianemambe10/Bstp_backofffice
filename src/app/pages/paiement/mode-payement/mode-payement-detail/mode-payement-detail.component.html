@@ -1,0 +1,59 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="MODE DE PAIEMENT" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="flex-grow-1">
+
+          </div>
+          <div class="flex-shrink-0">
+            <div class="d-flex flex-wrap align-items-start gap-2">
+              <a ActivatedRoute class="btn btn-subtle-primary  btn-icon " routerLink="../../"><i
+                class="bi bi-list-task"></i></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!--end col-->
+</div><!--end row-->
+
+<div class="row" *ngIf="modePayement">
+  <div class="col-xxl-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row align-items-center justify-content-center g-3">
+
+          <div class="col-xl-8 col-md-7 align-self-start">
+            <div class="table-responsive">
+              <table class="table table-sm table-nowrap table-borderless mb-0">
+                <tbody>
+                <tr>
+                  <th>Libelle:</th>
+                  <td>{{ modePayement.name}}</td>
+                </tr>
+                <tr>
+                  <th>Instruction:</th>
+                  <td>{{ modePayement.instructions}}</td>
+                </tr>
+                <tr>
+                  <th>Description:</th>
+                  <td>{{ modePayement.description}}</td>
+                </tr>
+
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

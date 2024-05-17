@@ -11,6 +11,8 @@ import Swal from 'sweetalert2';
 import { courseGrid } from './data';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { ActivatedRoute, Router } from '@angular/router';
+import {BuyerService} from "../../../../core/services/buyer.service";
+import {ToastrService} from "ngx-toastr";
 
 
 @Component({
@@ -41,11 +43,15 @@ export class AcheteurGridComponent {
 
    deleteID: any;
 
+  imageURL: string = './assets/images/defaultlogo.jpg';
+  avatarURL: string = './assets/images/users/user-dummy-img.jpg';
    constructor(
                 public service: GridService,
                 private formBuilder: UntypedFormBuilder,
                 private route: ActivatedRoute,
                 private router: Router,
+                private  buyerService: BuyerService,
+                public toastService: ToastrService,
                 ) {
      this.CoursesList = service.countries$;
      this.total = service.total$;
@@ -124,8 +130,6 @@ export class AcheteurGridComponent {
 
    uploadedFiles: any[] = [];
 
-   // File Upload
-   imageURL: any;
    onUploadSuccess(event: any) {
      setTimeout(() => {
        this.uploadedFiles.push(event[0]);
@@ -162,6 +166,22 @@ export class AcheteurGridComponent {
      this.listForm.controls['img'].setValue(editData.img);
    }
 
+  editBuyer(e: Event, id: any){
+    e.preventDefault()
+    this.router.navigate(['../societe/acheteurs/edit', id]);
+  }
+  gridBuyer(e: Event){
+    e.preventDefault()
+    this.router.navigate(['../societe/acheteurs/grid']);
+  }
+  listBuyer(e: Event){
+    e.preventDefault()
+    this.router.navigate(['../societe/acheteurs']);
+  }
+  detailBuyer(e: Event, id: any){
+    e.preventDefault()
+    this.router.navigate(['../societe/acheteurs/details', id]);
+  }
 
    // Delete Product
    removeItem(id: any) {
@@ -169,11 +189,45 @@ export class AcheteurGridComponent {
      this.deleteRecordModal?.show()
    }
 
-   confirmDelete() {
-     courseGrid.splice(this.deleteID, 1)
-     this.deleteRecordModal?.hide()
-   }
 
+
+  confirmDelete() {
+    if (this.deleteID) {
+      this.buyerService.delete(this.deleteID).subscribe({
+        next: (res)=> {
+
+          this.toastService.success('La suppression d\' un domaine d\'activité a été effectué avec success', 'Succèss',{
+            timeOut: 3000,
+          })
+          this.service.products = this.service.products.filter((product: any) => {
+            return this.deleteID != product.id;
+          });
+          this.deleteID = ''
+
+
+        },
+        error:(err)=>{
+          this.toastService.error('Une erreur survenue', 'Erreur',{
+            timeOut: 3000,
+          })
+
+        }
+      })
+
+    } else {
+
+    }
+    this.deleteRecordModal?.hide()
+    this.masterSelected = false;
+  }
+
+
+
+
+  openEnd() {
+    document.getElementById('courseFilters')?.classList.add('show')
+    document.querySelector('.backdrop3')?.classList.add('show')
+  }
  }
 
 

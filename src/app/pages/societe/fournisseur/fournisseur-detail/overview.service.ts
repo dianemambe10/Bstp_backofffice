@@ -3,10 +3,10 @@ import { Injectable, PipeTransform } from '@angular/core';
 
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 
-import { EstatelistModel } from '../../grid/grid.model';
-import { estateList } from '../../grid/data';
 import { DecimalPipe } from '@angular/common';
 import { debounceTime, delay, switchMap, tap } from 'rxjs/operators';
+import {EstatelistModel} from "./grid.model";
+import {estateList} from "./data";
 
 interface SearchResult {
   countries: EstatelistModel[];
@@ -140,7 +140,7 @@ export class AgenciesOverviewService {
     if (this.endIndex > this.totalRecords) {
       this.endIndex = this.totalRecords;
     }
-    // 5. Rate Filter       
+    // 5. Rate Filter
     if (this.productRate) {
       countries = countries.filter(country => country.rating >= this.productRate);
     }

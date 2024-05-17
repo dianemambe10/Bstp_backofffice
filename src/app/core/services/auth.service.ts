@@ -25,7 +25,7 @@ export class AuthentificationService {
     headerToken = {'Authorization': `JWT `+ localStorage.getItem('access_token')};
 
 
-    private currentUserSubject: BehaviorSubject<User>;
+    public currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
 
 
@@ -56,7 +56,7 @@ export class AuthentificationService {
         // });
 
         // Register Api
-        return this.http.post(AUTH_API + 'token/', {
+        return this.http.post(AUTH_API + 'v1/token/', {
             email,
             first_name,
             password,
@@ -74,7 +74,16 @@ export class AuthentificationService {
         //     return user;
         // });
 
-        return this.http.post(AUTH_API + 'token/',
+
+    /*   const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*', // Allow requests from any origin
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE', // Allow these HTTP methods
+          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept' // Allow these headers
+        });
+    */
+       
+        return this.http.post(API_URL +  'v1/auth/token/',
         {
           username,
           password
@@ -110,7 +119,7 @@ export class AuthentificationService {
   // User profile
   getUserProfile(): Observable<any> {
 
-    return this.http.get( API_URL  + 'user/current_user/', { headers: this.headerToken }).pipe(map(res => {
+    return this.http.get( 'v1/user/current_user/', { headers: this.headerToken }).pipe(map(res => {
       // login successful if there's a jwt token in the response
       console.log(res)
       if (res ) {

@@ -30,7 +30,7 @@ const routes: Routes = [
     canActivate: []
   },
   {
-    path: 'detail/:id',
+    path: 'details/:id',
     title: "BSTP | Detail d'un domaine d'activité",
     component: DomaineActiviteDetailComponent,
     data: {

@@ -13,36 +13,36 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class DemandeService {
+export class DocumentService {
 
   constructor(private http: HttpClient) { }
 
    // Get
    getData(): Observable<any[]> {
 
-    return this.http.get<any[]>(GlobalComponent.API_URL + GlobalComponent.request, {  responseType: 'json'  });
+    return this.http.get<any[]>(GlobalComponent.API_URL + GlobalComponent.documents, {  responseType: 'json'  });
   }
 
   // POST
   postData(customers: any): Observable<any> {
-    return this.http.post(GlobalComponent.API_URL + GlobalComponent.request,JSON.stringify(customers), httpOptions);
+    return this.http.post(GlobalComponent.API_URL + GlobalComponent.documents,JSON.stringify(customers), httpOptions);
   }
 
   // Single
   getSingleData(id:any): Observable<any> {
 
-    return this.http.get<any>(GlobalComponent.API_URL + GlobalComponent.request + id, {   responseType: 'json' });
+    return this.http.get<any>(GlobalComponent.API_URL + GlobalComponent.documents + id + "/", {   responseType: 'json' });
   }
 
   // Patch
   patchData(data: any): Observable<any> {
-    return this.http.patch(GlobalComponent.API_URL + GlobalComponent.request + data.id + "/", JSON.stringify(data), httpOptions);
+    return this.http.patch(GlobalComponent.API_URL + GlobalComponent.documents + data.id + "/", JSON.stringify(data), httpOptions);
   }
 
   // Delete
   delete(id:any): Observable<any> {
 
-    return this.http.delete(GlobalComponent.API_URL + GlobalComponent.request + id, {  responseType: 'text' });
+    return this.http.delete(GlobalComponent.API_URL + GlobalComponent.documents + id, {  responseType: 'text' });
   }
 
 

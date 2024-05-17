@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { GlobalComponent } from 'src/app/global-component';
-import {Buyer} from "../models/buyer.model";
+import {Actionnaire} from "../models/actionnaire.model";
 
 
 const httpOptions = {
@@ -12,36 +12,49 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class CommercialesService {
+export class ActionnaireService {
 
   constructor(private http: HttpClient) { }
 
    // Get
-  getData(): Observable<Buyer[]> {
+  getData(): Observable<Actionnaire[]> {
 
-     return this.http.get<Buyer[]>(GlobalComponent.API_URL + GlobalComponent.commeriale, {responseType: 'json'});
+     return this.http.get<Actionnaire[]>(GlobalComponent.API_URL + GlobalComponent.actionnaire, {responseType: 'json'});
   }
 
   // POST
   postData(data: any): Observable<any> {
-    return this.http.post(GlobalComponent.API_URL + GlobalComponent.commeriale,JSON.stringify(data), httpOptions);
+    return this.http.post(GlobalComponent.API_URL + GlobalComponent.actionnaire,JSON.stringify(data), httpOptions);
   }
 
   // Single
-  getSingleData(id:any): Observable<Buyer> {
+  getSingleData(id:any): Observable<Actionnaire> {
 
-    return this.http.get<Buyer>(GlobalComponent.API_URL + GlobalComponent.commeriale + id, {   responseType: 'json' });
+    return this.http.get<Actionnaire>(GlobalComponent.API_URL + GlobalComponent.actionnaire + id + "/", {   responseType: 'json' });
   }
 
   // Patch
-  patchData(data: Buyer): Observable<any> {
-    return this.http.patch(GlobalComponent.API_URL + GlobalComponent.commeriale + data.slug + "/", JSON.stringify(data), httpOptions);
+  patchData(data: Actionnaire): Observable<any> {
+    return this.http.patch(GlobalComponent.API_URL + GlobalComponent.actionnaire + data.id + "/", JSON.stringify(data), httpOptions);
   }
 
   // Delete
   delete(id:any): Observable<any> {
 
-    return this.http.delete(GlobalComponent.API_URL + GlobalComponent.commeriale + id, {  responseType: 'text' });
+    return this.http.delete(GlobalComponent.API_URL + GlobalComponent.actionnaire + id, {  responseType: 'text' });
+  }
+
+
+  postDataBySupplier(data: any): Observable<any> {
+    return this.http.post(GlobalComponent.API_URL + GlobalComponent.actionnaire +"get_supplier_associes/",JSON.stringify(data), httpOptions);
+  }
+
+  
+   // Get member by supplier
+   getMember(tag: any): Observable<Actionnaire[]> {
+
+    return this.http.get<Actionnaire[]>(GlobalComponent.API_URL + GlobalComponent.actionnaire +  "get_supplier_associes/" + tag + "/", {responseType: 'json'});
+ 
   }
 
 

@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, UntypedFormBuilder, UntypedFormGroup, Validat
 import { Demandeur } from 'src/app/core/models/demandeur.model';
 import {User} from "../../../../core/models/auth.models";
 import {DataService} from "../../../../core/services/data.service";
+import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-acheteur-step-one',
@@ -17,6 +19,11 @@ export class AcheteurStepOneComponent implements AfterViewInit, OnInit {
   @Output() formOne = new EventEmitter<User>();
   public formStep1!: UntypedFormGroup;
   submitted = false;
+
+  color: any;
+
+  colorTheme: any = 'theme-blue';
+  bsConfig?: Partial<BsDatepickerConfig>;
 
   constructor(private fb: UntypedFormBuilder,
               private dataService: DataService
@@ -35,6 +42,7 @@ export class AcheteurStepOneComponent implements AfterViewInit, OnInit {
       this.formStep1.controls['role_dans_lentreprise'].setValue(user?.role_dans_lentreprise)
     })
 
+    this.bsConfig = Object.assign({}, { containerClass: this.colorTheme, showWeekNumbers: false });
 
 
 
@@ -116,6 +124,9 @@ export class AcheteurStepOneComponent implements AfterViewInit, OnInit {
   firstStep(){
 
     this.formStep1.get('username')?.setValue(this.formStep1.get('email')?.value)
+    let yr = formatDate(this.formStep1.get('date_of_birth')?.value,'yyyy-MM-dd',"en-US")
+    this.formStep1.get('date_of_birth')?.patchValue(yr)
+
 
     console.log(this.formStep1.value)
 

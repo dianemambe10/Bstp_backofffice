@@ -59,11 +59,11 @@
                    <input type="radio"
                    [ngClass]="{ 'is-invalid': formRef.submitted && ff['gender'].errors }"
                       class="form-check-input"
-                      id="validationFormCheck3"
+                      [id]="civ.name"
                       formControlName="gender"
                       [value]="civ.id"
                        required>
-                   <label class="form-check-label" for="validationFormCheck3">{{ civ.name}}</label>
+                   <label class="form-check-label" [for]="civ.name">{{ civ.name}}</label>
 
                </div>
                <div class="invalid-feedback">
@@ -79,13 +79,14 @@
       <div class="mb-3">
         <label class="form-label" for="validationCustom01d">Date de Naissance</label>
         <input
+          type="text"
           id="validationCustom01d"
           [ngClass]="{ 'is-invalid': formRef.submitted && ff['date_of_birth'].errors }"
-          required
-          type="date"
+          class="form-control"
+          showWeekNumbers="false"
           formControlName="date_of_birth"
-          class="form-control "
-        >
+          bsDatepicker [bsConfig]="bsConfig">
+
         <div class="invalid-feedback">
           <div *ngIf=" formRef.submitted && ff['date_of_birth'].errors" >
             <div *ngIf="ff['date_of_birth'].errors?.['required']" >
@@ -163,7 +164,7 @@
      <div class="d-flex align-items-start gap-3 mt-4">
          <button type="submit"
 
-                 class="btn btn-success btn-label right ms-auto nexttab nexttab" data-nexttab="steparrow-description-info-tab"  cdkStepperNext><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Suivant</button>
+                 class="btn btn-success btn-label right ms-auto nexttab nexttab" data-nexttab="steparrow-description-info-tab" [disabled]="formStep1.invalid"  cdkStepperNext><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Suivant</button>
      </div>
 
    </form>

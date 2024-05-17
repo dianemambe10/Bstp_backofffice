@@ -1,12 +1,7 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
+import {Component, TemplateRef, ViewChild} from '@angular/core';
+import { FormBuilder,  UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Demandeur } from 'src/app/core/models/demandeur.model';
 import { Entreprise } from 'src/app/core/models/entreprise.model';
-import { FournisseurStepOneComponent } from '../fournisseur-step-one/fournisseur-step-one.component';
-import { FournisseurStepTwoComponent } from '../fournisseur-step-two/fournisseur-step-two.component';
-import {Documents} from "../../../../core/models/document.model";
-import {format_d} from "echarts/types/dist/shared";
 import {UserProfileService} from "../../../../core/services/user.service";
 import {ToastrService} from "ngx-toastr";
 import {User} from "../../../../core/models/auth.models";
@@ -21,13 +16,15 @@ import {DataService} from "../../../../core/services/data.service";
 import {HelpsService} from "../../../../core/services/helps.service";
 import {TypeSocieteService} from "../../../../core/services/type-societe.service";
 import {DomaineActiviteService} from "../../../../core/services/domaine-activite.service";
-import {chatMessagesData} from "../../../forms/advance/data";
-import {
-  FournisseurStepActionnaireComponent
-} from "../fournisseur-step-actionnaire/fournisseur-step-actionnaire.component";
 import {Actionnaire} from "../../../../core/models/actionnaire.model";
-import {errorValidation} from "../../../../core/helpers/utility";
 import {ReferenceCommericiale} from "../../../../core/models/referenceCommericiale.model";
+import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
+import {formatDate} from "@angular/common";
+import {ActionnaireService} from "../../../../core/services/actionnaire.service";
+import {CommercialesService} from "../../../../core/services/commerciales.service";
+import {DomaineActivite} from "../../../../core/models/domaine-activite.model";
+import {TypeSociete} from "../../../../core/models/type-societe.model";
+import { chatMessagesData } from './data';
 
 @Component({
   selector: 'app-fournisseur-add',
@@ -36,23 +33,17 @@ import {ReferenceCommericiale} from "../../../../core/models/referenceCommericia
 })
 export class FournisseurAddComponent {
 
-  @ViewChild('stepOne')
-  acheteurStepOneComponent!: FournisseurStepOneComponent;
-  @ViewChild('stepTwo')
-  acheteurStepTwoComponent!: FournisseurStepTwoComponent;
-
-  @ViewChild(FournisseurStepActionnaireComponent) actionnaireComponent!: FournisseurStepActionnaireComponent
-
   @ViewChild('successContent', { static: false }) successContent?: ModalDirective;
   @ViewChild('addActionnaire', { static: false }) addActionnaire?: ModalDirective;
   @ViewChild('addReference', { static: false }) addReference?: ModalDirective;
   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
+  @ViewChild('errorContent', { static: false }) errorContent?: ModalDirective;
 
-
-  demandeur!: any;
-  entreprise!: Entreprise;
-  entrepriseInfo!: Entreprise;
+  demandeur = {} as  any;
+  entreprise = {} as  any;
   entrepriseDocument!: Entreprise;
+  succes = false
+
 
   document!: any
 
@@ -64,23 +55,60 @@ export class FournisseurAddComponent {
 
   modalAjoutTitle = "Ajout d'un actionnaire"
   actsave = "ajout"
+  type= 'act'
 
 
   actionnaireArray = [] as Actionnaire[]
   referenceArray = [] as ReferenceCommericiale[]
 
-
     // bread crumb items
   breadCrumbItems!: Array<{}>;
 
 
+
+  color: any;
+
+  colorTheme: any = 'theme-blue';
+  bsConfig?: Partial<BsDatepickerConfig>;
+
+
   modalRef?: BsModalRef;
+  config = {
+    backdrop: true,
+    ignoreBackdropClick: true
+  };
 
 
-
+  public registrationForm!: UntypedFormGroup;
   public formActionnaire!: UntypedFormGroup;
   public formReference!: UntypedFormGroup;
+  public formStep1!: UntypedFormGroup;
+  public formStep2!: UntypedFormGroup;
+  public formStep3!: UntypedFormGroup;
+  public formDocu!: UntypedFormGroup;
+
   listForm!: UntypedFormGroup;
+
+
+
+  regionList =  [] as Region[];
+  prefectureList= [] as Prefecture[];
+  prefectureRegion = [] as Prefecture[];
+  communeList = [] as Commune[];
+  communePrefecture = [] as Commune[];
+  domaineActivites = [] as DomaineActivite[];
+  typeSocietes = [] as TypeSociete[];
+  domaineList= [] as  number[];
+
+  regionDefault: number | undefined = 0;
+  prefectureDefault: number | undefined = 0;
+  communeDefault: number | undefined = 0;
+
+  imageURL: string = './assets/images/defaultlogo.png';
+
+  messageArray = [] as any[]
+  errorArray = [] as any[]
+  keyArray = [] as any[]
 
 
   public Default = chatMessagesData;
@@ -96,6 +124,9 @@ export class FournisseurAddComponent {
     private  helperService: HelpsService,
     private typeSocieteService: TypeSocieteService,
     private domaineActiviteService: DomaineActiviteService,
+    private actionnaireService : ActionnaireService,
+    private commercialesService : CommercialesService,
+    private modalService: BsModalService
   ) {}
 
 
@@ -111,23 +142,24 @@ export class FournisseurAddComponent {
     })
 
     this.helperService.getRegion().subscribe((data: Region[]) =>{
-      this.dataService.setDataRegionList$(data)
+      this.regionList = data
+      this.formStep2.get('region')?.patchValue(0)
     })
 
     this.helperService.getPrefecture().subscribe((data: Prefecture[]) =>{
-      this.dataService.setDataPrefectureList$(data)
+      this.prefectureList = data
     })
 
     this.helperService.getCommmune().subscribe((data: Commune[]) =>{
-      this.dataService.setDataCommuneList$(data)
+      this.communeList = data
     })
 
     this.domaineActiviteService.getData().subscribe((data )=>{
-      this.dataService.setDataDomaineList$(data)
+      this.domaineActivites = data
     })
 
     this.typeSocieteService.getData().subscribe(data =>{
-      this.dataService.setDataTypeList$(data)
+      this.typeSocietes = data
     })
 
     /**
@@ -137,31 +169,18 @@ export class FournisseurAddComponent {
       { label: this.menu, active: true },
       { label: this.sousmenu, active: true }
     ];
+
+    this.bsConfig = Object.assign({}, { containerClass: this.colorTheme, showWeekNumbers: false });
+
   }
 
-
+  selectedIndex =  0
   change(event: any) {
+    this.selectedIndex = event?.selectedIndex
 
-
-    }
-
-    formEmitStep1(d: User){
-      this.demandeur = d
-      console.log(this.demandeur)
-    }
-
-    formEmitStep2(e: Entreprise){
-     this.entrepriseInfo = e
-     console.log(this.entreprise)
-    }
-
-    formEmitStep3(d: Entreprise){
-
-      this.entrepriseDocument  = d
+    console.log(event)
 
     }
-
-
 
   /**
    * Stet actionnaire model
@@ -171,7 +190,14 @@ export class FournisseurAddComponent {
     { id: 'F', name: "Femme" },
     { id: 'M', name: "Homme" },
   ];
+
+
   get f() { return this.formActionnaire.controls; }
+  get ff() { return this.formReference.controls; }
+
+  get f1(){ return this.formStep1.controls  }
+  get f2(){ return this.formStep2.controls  }
+  get f3(){ return this.formDocu.controls  }
 
 
   createForm(){
@@ -180,83 +206,213 @@ export class FournisseurAddComponent {
       id: [''],
       last_name: ['Mohamed', [Validators.required]],
       first_name: ['Diane', [Validators.required]],
-      date_of_birth: ['1990/02/02', [Validators.required]],
+      date_of_birth: ['11/02/2023', [Validators.required]],
       gender: ['M', [Validators.required]],
       phone_number: ['628492536', []],
       email: ['dianemambe@gmail.com', [Validators.required, Validators.email]],
-      role_dans_lentreprise: ['PDG', []],
+      role: ['PDG', []],
       username: ['', []],
-      part_action: ['62', [Validators.required]],
-      nationalite: ['', []]
+      associate_percentage: ['62', [Validators.required]],
+      nationality: ['', []]
     });
 
     this.formReference = this.fb.group({
       id: [''],
-      company_name: ['Mohamed', [Validators.required]],
+      company_name: ['Gac', [Validators.required]],
+      contact_full_name: ['Mohamed Diane', [Validators.required]],
+      contact_phone_number: ['628492536', []],
+      contact_designation: ['dg', []],
+      contact_email: ['dianemambe@gmail.com', [ Validators.email]],
+      contact_approx_amount: ['1000000', []],
+      reference: ['PDG', []],
+      supplier: ['', []],
+      doc: ['', []],
+      contact_approx_amount_currency: ['FG', []]
+    });
+
+    this.formStep1 = this.fb.group({
+      last_name: ['Mohamed', [Validators.required]],
       first_name: ['Diane', [Validators.required]],
-      date_of_birth: ['1990/02/02', [Validators.required]],
+      date_of_birth: ['11/02/2023', [Validators.required]],
       gender: ['M', [Validators.required]],
       phone_number: ['628492536', []],
       email: ['dianemambe@gmail.com', [Validators.required, Validators.email]],
       role_dans_lentreprise: ['PDG', []],
       username: ['', []],
-      part_action: ['62', [Validators.required]],
-      nationalite: ['', []]
+      slug: ['', []],
+    });
+
+    this.formStep2 = this.fb.group({
+      rccm: ['12336654789633', [Validators.required]],
+      name: ['Dsoft', [Validators.required]],
+      social_capital: ['100000', [Validators.required]],
+      chiffre_affaire: ['100000', [Validators.required]],
+      categories: ['0', [Validators.required]],
+      description: ['une entreprise de developpement ', [Validators.required]],
+      type: ['sarl', [Validators.required]],
+      year_of_registration: ['11/02/2023', [Validators.required]],
+      phone_number: ['628492536', [Validators.required]],
+      website: ['https://www.micodus.net', []],
+      email: ['dianemambe@gmail.com', [Validators.required, Validators.email]],
+      address: ['ratoma', [Validators.required]],
+      region: ['', [Validators.required]],
+      prefecture: ['', [Validators.required]],
+      commune: ['', [Validators.required]]
+    });
+
+    this.formStep3 = this.fb.group({   });
+
+    this.formDocu = this.fb.group({
+      doc_rccm: ['', [Validators.nullValidator]],
+      doc_nif: ['', [Validators.nullValidator]],
+      doc_dni: ['', [Validators.nullValidator]],
+      doc_cnss: ['', [Validators.nullValidator]],
+      doc_status: ['', [Validators.nullValidator]],
+      doc_aguipe: ['', [Validators.nullValidator]]
+
     });
   }
 
-  modalAddEmit(e: any){
 
-    this.modalAjoutTitle = "Ajout d'un actionnaire"
-    this.actsave = "ajout"
-    this.addActionnaire?.show()
+  /**
+   * first step
+   */
+
+  firstStep(e: any){
+    e.preventDefault()
+    this.formStep1.get('username')?.setValue(this.formStep1.get('email')?.value)
+    let yr = formatDate(this.formStep1.get('date_of_birth')?.value,'yyyy-MM-dd',"en-US")
+    this.formStep1.get('date_of_birth')?.patchValue(yr)
+
+    this.demandeur = this.formStep1.value
   }
 
-  modalEditEmit(e: any){
-    this.modalAjoutTitle = "Editon d'un actionnaire"
-    this.actsave = "edit"
-    let actionnaire = this.actionnaireArray.at(e)
-    console.log(actionnaire)
-    this.formActionnaire.controls['last_name'].setValue(actionnaire?.last_name)
-    this.formActionnaire.controls['first_name'].setValue(actionnaire?.first_name)
-    this.formActionnaire.controls['gender'].setValue(actionnaire?.gender)
-    this.formActionnaire.controls['date_of_birth'].setValue(actionnaire?.date_of_birth)
-    this.formActionnaire.controls['phone_number'].setValue(actionnaire?.phone_number)
-    this.formActionnaire.controls['email'].setValue(actionnaire?.email)
-    this.formActionnaire.controls['part_action'].setValue(actionnaire?.part_action)
-    this.formActionnaire.controls['nationalite'].setValue(actionnaire?.nationalite)
-    this.formActionnaire.controls['role_dans_lentreprise'].setValue(actionnaire?.role_dans_lentreprise)
-    this.addActionnaire?.show()
-  }
-  modalDeleteEmit(e: any){
-    this.idDelete = e
-    this.deleteRecordModal?.show()
+  /**
+   * second step
+   */
+
+  secondStep(e: any){
+    e.preventDefault()
+    let yr = formatDate(this.formStep2.get('year_of_registration')?.value,'yyyy-MM-dd',"en-US")
+    this.formStep2.get('year_of_registration')?.patchValue(yr)
+    this.formStep2.get('categories')?.patchValue(this.domaineList)
+
+    this.entreprise = this.formStep2.value
   }
 
-  saveProduct(e: any) {
+  fileChange(event: any) {
+    let fileList: any = (event.target as HTMLInputElement);
+    let file: File = fileList.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      this.imageURL = reader.result as string;
 
-    if(e == "ajout"){
-      if(this.formActionnaire.valid){
-        this.actionnaireArray.push(this.formActionnaire.value)
-        this.dataService.setActionnaireList$(this.actionnaireArray)
-        this.formActionnaire.reset()
-        errorValidation(this.formActionnaire.controls)
-        this.addActionnaire?.hide()
+      document.querySelectorAll('#user-img').forEach((element: any) => {
+        element.src = this.imageURL;
+      });
+      if(this.formStep2.contains('logo')){
+        this.formStep2.setControl('logo', this.fb.control(reader.result) )
+      }else{
+        this.formStep2.addControl('logo',this.fb.control(reader.result) )
       }
-    }else if(e== "edit"){
 
     }
   }
 
-  confirmDelete() {
+  onRegionSelect(e: any, type: any = 0){
+    let k = 0
+    type? k= e : k = e.target.value
+    this.prefectureRegion = this.prefectureList.filter((prefecture)=> prefecture.region!.id == k)
+
+    console.log(this.prefectureRegion)
+  }
+
+  onPrefectureSelect(e: any, type: any = 0){
+    let k = 0
+    type? k= e : k = e.target.value
+    this.communePrefecture= this.communeList.filter(commune=> commune.prefecture!.id == k)
+    console.log(this.communePrefecture)
+  }
+
+  onChangeDomaine(e: any){
+    if(e.target.checked){
+      if(this.domaineList.length < 5){
+        this.domaineList.push(e.target.value)
+        this.formStep2.get('categories')?.patchValue(this.domaineList)
+      }
+      else{
+        e.target.checked = false
+        Swal.fire({ text: 'Vous avez atteint le nombre maximal de domaine d\'activité', confirmButtonColor: '#4b93ff', showCancelButton: false, });
+
+      }
+
+    }else{
+      let index = this.domaineList.findIndex(item => item=== e.target.value); //find index in your array
+      this.domaineList.splice(index, 1);//remove element from array
+    }
+  }
+
+  /**
+   *
+   * thrid step
+   */
+
+  saveActionnaire(e: any){
+    let yr = formatDate(this.formActionnaire.get('date_of_birth')?.value,'yyyy-MM-dd',"en-US")
+    this.formActionnaire.get('date_of_birth')?.patchValue(yr)
+    this.submitted = true
+    if(this.formActionnaire.valid){
+      if(e == "ajout"){
+        this.actionnaireArray.push(this.formActionnaire.value)
+      }else if(e == "edit") {
+        this.actionnaireArray[this.idDelete] = this.formActionnaire.value
+      }
+      console.log(this.actionnaireArray)
+      this.dataService.setActionnaireList$(this.actionnaireArray)
+      this.formActionnaire.reset()
+     // this.submitted = false
+      this.addActionnaire?.hide()
+    }
 
 
-    this.actionnaireArray.splice(this.idDelete, 1)
+  }
+
+  openDeleteActionnaire(e: any, i: any){
+    e.preventDefault()
+    this.type = "act"
+    this.idDelete = i
+    this.deleteRecordModal?.show()
+  }
+
+  editActionnaire(e: any, i: any){
+    e.preventDefault()
+    this.submitted = false
+    this.modalAjoutTitle = "Editon d'un actionnaire"
+    this.actsave = "edit"
+    this.idDelete = i
+    this.formActionnaire.patchValue(this.actionnaireArray[i])
+    this.formActionnaire.controls['date_of_birth'].patchValue(formatDate(this.actionnaireArray[i].date_of_birth, 'MM/dd/yyyy',"en-US") )
+    this.addActionnaire?.show()
+
+  }
+
+  openActionnaireModal(){
+    this.modalAjoutTitle = "Ajout d'un actionnaire"
+    this.actsave = "ajout"
+    //this.formActionnaire.reset()
+    this.submitted = false
+    this.addActionnaire?.show()
+  }
+
+  confirmDelete(e: any, type: any) {
+    e.preventDefault()
+    if(type == "act"){
+      this.actionnaireArray.splice(this.idDelete, 1)
+    }else if(type == "ref"){
+      this.referenceArray.splice(this.idDelete, 1)
+    }
     this.deleteRecordModal?.hide()
-    //this.successContent?.show()
-
-
-
   }
 
   /**
@@ -264,49 +420,157 @@ export class FournisseurAddComponent {
    * @param e
    */
 
-  modalAddEmitReference(e: any){
-
-    this.modalAjoutTitle = "Ajout d'un actionnaire"
+  openReferenceModal(e:any){
+    e.preventDefault()
+    //this.formReference.reset()
+    this.submitted = false
+    this.modalAjoutTitle = "Ajout d'une référence Commerciale"
     this.actsave = "ajout"
     this.addReference?.show()
   }
 
-  modalEditEmitReference(e: any){
-    this.modalAjoutTitle = "Editon d'un actionnaire"
+  editReference(template: TemplateRef<any>, e: any, i: any){
+    e.preventDefault()
+    this.submitted = false
+    this.modalAjoutTitle = "Editon d'une référence Commerciale"
     this.actsave = "edit"
-    let actionnaire = this.actionnaireArray.at(e)
-    console.log(actionnaire)
-    this.formActionnaire.controls['last_name'].setValue(actionnaire?.last_name)
-    this.formActionnaire.controls['first_name'].setValue(actionnaire?.first_name)
-    this.formActionnaire.controls['gender'].setValue(actionnaire?.gender)
-    this.formActionnaire.controls['date_of_birth'].setValue(actionnaire?.date_of_birth)
-    this.formActionnaire.controls['phone_number'].setValue(actionnaire?.phone_number)
-    this.formActionnaire.controls['email'].setValue(actionnaire?.email)
-    this.formActionnaire.controls['part_action'].setValue(actionnaire?.part_action)
-    this.formActionnaire.controls['nationalite'].setValue(actionnaire?.nationalite)
-    this.formActionnaire.controls['role_dans_lentreprise'].setValue(actionnaire?.role_dans_lentreprise)
-    this.addReference?.show()
+    this.idDelete = i
+    this.formReference.patchValue(this.referenceArray[i])
+    this.modalRef = this.modalService.show(template, this.config);
   }
-  modalDeleteEmitReference(e: any){
-    this.idDelete = e
+
+  openDeleteReference(e: any, i: any){
+    this.type = "ref"
+    this.idDelete = i
     this.deleteRecordModal?.show()
   }
 
 
   saveReference(e: any) {
-
-    if(e == "ajout"){
-      if(this.formReference.valid){
-        this.referenceArray.push(this.formActionnaire.value)
-        this.dataService.setActionnaireList$(this.actionnaireArray)
-        this.formActionnaire.reset()
-        errorValidation(this.formActionnaire.controls)
-        this.addActionnaire?.hide()
-      }
-    }else if(e== "edit"){
-
+    this.submitted = true
+    if(this.formReference.valid){
+        if(e == "ajout"){
+            this.referenceArray.push(this.formReference.value)
+        }else if(e == "edit") {
+            this.referenceArray[this.idDelete] = this.formReference.value
+        }
+        //console.log(this.referenceArray)
+        this.dataService.setReferenceList$(this.referenceArray)
+        //this.formReference.reset()
+        this.submitted = false
+        this.modalRef?.hide()
     }
   }
 
-  protected readonly chatMessagesData = chatMessagesData;
+  onChangeFile(event: any, type: any){
+    event.preventDefault()
+  }
+
+  device(e: any){
+    console.log(e)
+    this.formReference.controls['contact_approx_amount'].setValue(e)
+
+  }
+  ngSelectChange(e: any){
+    console.log(e)
+    this.formActionnaire.controls['nationality'].setValue(e)
+  }
+
+  onChange(event: any, type: any){
+
+    if(event.target.files && event.target.files.length){
+
+      const reader = new FileReader();
+      const file: File = event.target.files[0]
+      reader.readAsDataURL(file);
+      reader.onload = () =>
+      {
+        if(this.formStep3.contains(type)){
+          this.formStep3.setControl(type,this.fb.control(reader.result))
+        }else{
+          this.formStep3.addControl(type,this.fb.control(reader.result) )
+        }
+
+      }
+    }
+
+  }
+
+  save(e: any){
+
+    e.preventDefault()
+
+    this.entrepriseDocument  = this.formDocu.value
+
+
+    this.userProfileService.postData(this.formStep1.value).subscribe({
+      next: (res: User)=> {
+        let data = {...this.formStep2.value,  ...{"user": res.id}, ...this.formStep3.value}
+        this.fournisseurService.postData(data).subscribe({
+
+
+          next: (res: Entreprise) => {
+
+            this.actionnaireArray.forEach((actionnaire: Actionnaire) =>{
+              let data = { ...actionnaire, ...{"supplier": res.id}}
+              this.actionnaireService.postData(data).subscribe(data => console.log(data))
+            })
+
+            this.referenceArray.forEach((commericiale: ReferenceCommericiale) =>{
+              let data = { ...commericiale, ...{"supplier": res.id}}
+              this.commercialesService.postData(data).subscribe(data => console.log(data))
+            })
+
+            this.succes = true
+          },
+          error: (err) => {
+            this.handleError(err)
+            this.userProfileService.delete(res.id).subscribe()
+          }
+
+        })
+      },
+      error:(err)=>{
+        this.handleError(err)
+
+      }
+    })
+
+  }
+
+  reload(e: any){
+    window.location.reload()
+
+  }
+
+
+  nameRegion = (id: any) => this.regionList.find((r : Region) => r.id == id)?.name!
+
+  namePrefecture = (id: any) => this.prefectureList.find((p : Prefecture) => p.id == id)?.name!
+
+  nameCommune = (id: any) => this.communeList.find((c : Commune) => c.id == id)?.name!
+
+  nametypeSociete = (id: any) =>  this.typeSocietes.find((c : TypeSociete) => c.id == id)?.name!
+
+  nameDomaineActivite = (id: any) =>  this.domaineActivites.find((c : DomaineActivite) => c.id == id)?.name!
+
+  handleError(err: any){
+
+    this.errorArray = err.error
+    this.messageArray =  Object.values(err.error)
+    this.keyArray =  Object.keys(err.error)
+    this.errorContent?.show()
+  }
+
+  addReferenceModal(template: TemplateRef<any>) {
+
+    this.modalAjoutTitle = "Ajout d'une référence commerciale"
+    this.modalRef = this.modalService.show(template, this.config);
+  }
+  ReferenceModal(template: TemplateRef<any>) {
+
+    this.modalAjoutTitle = "Ajout d'une référence commerciale"
+    this.modalRef = this.modalService.show(template, this.config);
+  }
+
 }

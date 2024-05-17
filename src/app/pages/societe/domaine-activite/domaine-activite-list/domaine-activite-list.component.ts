@@ -105,10 +105,16 @@ export class DomaineActiviteListComponent {
 
    */
 
-  editBuyer(e: Event, id: any){
+  editItem(e: Event, id: any){
 
     e.preventDefault()
     this.router.navigate(['../societe/domaines-activites/edit', id]);
+
+  }
+  detailItem(e: Event, id: any){
+
+    e.preventDefault()
+    this.router.navigate(['../societe/domaines-activites/details', id]);
 
   }
 

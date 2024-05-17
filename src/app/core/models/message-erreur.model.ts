@@ -1,4 +1,4 @@
-export class Region {
-  id?: number;
-  name?: string;
+export class messageErreur {
+  field?: any;
+  message?: any;
 }

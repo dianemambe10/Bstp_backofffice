@@ -1,14 +1,16 @@
 {
-  "name": "steex",
+  "name": "bstp",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --aot --output-hashing=all ",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "ng-high-memory": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build",
-    "mserve": "set NODE_OPTIONS=--max_old_space_size=8192 & ng serve --open"
+    "mserve": "set NODE_OPTIONS=--max_old_space_size=8192 & ng serve --configuration production --proxy-config proxy-config.json --open",
+ 
+    "mdev": "set NODE_OPTIONS=--max_old_space_size=8192 & ng serve  --proxy-config proxy-config.json --open"
   },
   "private": true,
   "dependencies": {

@@ -1,1 +1,36 @@
-<p>domaine-activite-detail works!</p>
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="DETAIL D'UNE DOMAINE D'ACTIVITE" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row" *ngIf="domaine">
+  <div class="col-xxl-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row align-items-center justify-content-center g-3">
+
+          <div class="col-xl-8 col-md-7 align-self-start">
+            <div class="table-responsive">
+              <table class="table table-sm table-nowrap table-borderless mb-0">
+                <tbody>
+                <tr>
+                  <th>Libelle:</th>
+                  <td>{{ domaine.name}}</td>
+                </tr>
+                <tr>
+                  <th>Code Apip:</th>
+                  <td>{{domaine.code_apip}}</td>
+                </tr>
+                <tr>
+                  <th>Code Afristat:</th>
+                  <td>{{domaine.code_africa}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

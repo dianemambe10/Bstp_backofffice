@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 // Component
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import {AlertModule} from "ngx-bootstrap/alert";
 
 
 @NgModule({
@@ -16,12 +17,13 @@ import { RegisterComponent } from './register/register.component';
     LoginComponent,
     RegisterComponent
   ],
-  imports: [
-    CommonModule,
-    AccountRoutingModule,
-    AuthModule,
-    FormsModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        AccountRoutingModule,
+        AuthModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AlertModule
+    ]
 })
 export class AccountModule { }

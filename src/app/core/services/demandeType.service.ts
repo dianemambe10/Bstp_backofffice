@@ -12,7 +12,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class DemandeService {
+export class DemandeTypeService {
 
   constructor(private http: HttpClient) { }
 
@@ -30,7 +30,7 @@ export class DemandeService {
   // Single
   getSingleData(id:any): Observable<TypeDemande> {
 
-    return this.http.get<TypeDemande>(GlobalComponent.API_URL + GlobalComponent.request_type + id, {   responseType: 'json' });
+    return this.http.get<TypeDemande>(GlobalComponent.API_URL + GlobalComponent.request_type + id + "/", {   responseType: 'json' });
   }
 
   // Patch

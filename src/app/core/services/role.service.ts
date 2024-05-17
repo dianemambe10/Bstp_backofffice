@@ -30,7 +30,7 @@ export class RolService {
   // Single
   getSingleData(id:any): Observable<Role> {
 
-    return this.http.get<Role>(GlobalComponent.API_URL + GlobalComponent.role + id, {   responseType: 'json' });
+    return this.http.get<Role>(GlobalComponent.API_URL + GlobalComponent.role + id + "/", {   responseType: 'json' });
   }
 
   // Patch

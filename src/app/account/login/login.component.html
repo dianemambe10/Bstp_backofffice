@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-5 ">
               <div class="mb-4 text-center">
-                <img src="assets/images/BSTP_logo2.png" width="180" alt="" />
+                <img src="assets/images/LOGO-BSTP-B.png" width="160" />
               </div>
 
                 <div class="card mb-0">
@@ -14,18 +14,27 @@
                             <div class="card mb-0 border-0 shadow-none mb-0 align-top">
                                 <div class="card-body  align-items-start">
                                     <div class="text-center mt-5">
-                                        <h5 class="fs-3xl">Bienvenu </h5>
+                                        <h5 class="fs-3xl">Bienvenue </h5>
                                         <p class="text-muted">Connnectez-vous pour continuer.</p>
                                     </div>
-                                    <div class="p-2 mt-5">
+
+                                  <!-- Danger Alert -->
+                                  <alert *ngIf="error" type="danger alert-dismissible text-white bg-danger alert-label-icon fade show"
+                                         role="alert" [dismissible]="true">
+                                    <i class="ri-error-warning-line label-icon"></i><strong>
+                                    Email ou mot de passe erroné</strong>
+                                  </alert>
+
+
+                                    <div class="p-2 mt-2">
                                         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" action="index.html">
 
                                             <div class="mb-3">
                                                 <label for="username" class="form-label">Email <span class="text-danger">*</span></label>
                                                 <div class="position-relative ">
-                                                    <input type="text" class="form-control  password-input" formControlName="email" id="username" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" placeholder="Enter username" required>
+                                                    <input type="text" class="form-control  password-input" formControlName="email" id="username" (focus)="initError($event)" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" placeholder="Enter username" required>
                                                     <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
-                                                        <div *ngIf="f['email'].errors['required']">L'email est obligatoire</div>
+                                                        <div *ngIf="f['email'].errors?.['required']">L'email est obligatoire</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -36,11 +45,11 @@
                                                 </div>
                                                 <label class="form-label" for="password-input">Mot de Passe <span class="text-danger">*</span></label>
                                                 <div class="position-relative auth-pass-inputgroup mb-3">
-                                                    <input [type]="fieldTextType ? 'text' : 'password'" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" type="password" class="form-control pe-5 password-input " placeholder="Enter password" id="password-input" required>
+                                                    <input [type]="fieldTextType ? 'text' : 'password'" formControlName="password" (focus)="initError($event)" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" type="password" class="form-control pe-5 password-input " placeholder="Enter password" id="password-input" required>
                                                     <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle" [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType
                                                     }" (click)="toggleFieldTextType()"></i></button>
                                                     <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-                                                        <span *ngIf="f['password'].errors['required']">Le mot de passe est obligatoire</span>
+                                                        <span *ngIf="f['password'].errors?.['required']">Le mot de passe est obligatoire</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -51,7 +60,7 @@
                                             </div>
 
                                             <div class="mt-4">
-                                                <button class="btn btn-primary w-100" type="submit"><i class="bx bxs-lock-open"></i>Connnectez</button>
+                                                <button class="btn btn-primary w-100" type="submit"><i class="bx bxs-lock-open"></i>Se connecter</button>
                                             </div>
 
 

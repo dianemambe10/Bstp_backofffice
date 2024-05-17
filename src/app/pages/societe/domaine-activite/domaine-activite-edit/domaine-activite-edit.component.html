@@ -83,16 +83,16 @@
               <label class="form-label" for="validationCustom021">Code Afristat</label>
               <input
                 id="validationCustom021"
-                [ngClass]="{ 'is-invalid': formRef.submitted && ff['code_afristat'].errors }"
+                [ngClass]="{ 'is-invalid': formRef.submitted && ff['code_africa'].errors }"
                 placeholder=""
                 required
                 type="text"
-                formControlName="code_afristat"
+                formControlName="code_africa"
                 class="form-control "
               >
               <div class="invalid-feedback">
-                <div *ngIf=" formRef.submitted && ff['code_afristat'].errors" >
-                  <div *ngIf="ff['code_afristat'].errors?.['required']" >
+                <div *ngIf=" formRef.submitted && ff['code_africa'].errors" >
+                  <div *ngIf="ff['code_africa'].errors?.['required']" >
                     Le code afristat est obligatoire
                   </div>
                 </div>

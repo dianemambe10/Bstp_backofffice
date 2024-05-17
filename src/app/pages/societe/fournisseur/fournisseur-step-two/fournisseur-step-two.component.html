@@ -1,4 +1,9 @@
-<form #formRef="ngForm" (ngSubmit)="firstTwo()" [formGroup]="formStep2" class="row g-3 needs-validation" novalidate>
+
+<form
+  #formRef="ngForm"
+  (ngSubmit)="firstTwo()"
+  [formGroup]="formStep2"
+  class="row g-3 needs-validation" novalidate>
 
   <div class="col-lg-12">
     <div class="mb-3">
@@ -38,7 +43,7 @@
   <div class="col-lg-6">
     <div class="mb-3">
       <label class="form-label" for="steparrow-gen-info-creation-input">Date de création</label>
-      <input
+     <!-- <input
         [ngClass]="{ 'is-invalid': formRef.submitted && f['year_of_registration'].errors }"
 
         class="form-control "
@@ -46,6 +51,15 @@
         id="steparrow-gen-info-creation-input"
         required
         type="date"
+      >
+      -->
+      <input
+        type="text"
+        id="steparrow-gen-info-creation-input"
+        [ngClass]="{ 'is-invalid': formRef.submitted && f['year_of_registration'].errors }"
+        class="form-control"
+        formControlName="year_of_registration"
+        bsDatepicker [bsConfig]="bsConfig"
       >
 
       <div *ngIf="formRef.submitted && f['year_of_registration'].errors" class="invalid-feedback">
@@ -66,7 +80,7 @@
                id="{{j.id}}"
                type="radio"
         >
-        <label class="form-check-label" for="{{j.id}}">{{j.name}}</label>
+        <label class="form-check-label" for="{{j.id}}">{{j.code}}</label>
       </div>
 
 
@@ -186,7 +200,7 @@
       </div>
     </div>
   </div>
-  <br>
+  <p></p>
   <div class="col-lg-4">
     <div class="mb-3">
       <label class="form-label" for="steparrow-gen-info-region-input">Region</label>
@@ -222,7 +236,7 @@
       </div>
     </div>
   </div>
-  <p></p>
+
   <div class="col-lg-4">
     <div class="mb-3">
       <label class="form-label" for="steparrow-gen-info-com-input">Commune</label>
@@ -266,7 +280,7 @@
             type="button"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
       Précédent
     </button>
-    <button cdkStepperNext class="btn btn-success btn-label right ms-auto nexttab nexttab"
+    <button cdkStepperNext class="btn btn-success btn-label right ms-auto nexttab nexttab" [disabled]="formStep2.invalid"
             data-nexttab="pills-experience-tab" type="submit"><i
       class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Suivant
     </button>

@@ -11,7 +11,7 @@ export class User {
   date_of_birth?: string;
   gender?: string;
   phone_number?: string;
-  role?:string;
+  role?: any;
   role_dans_lentreprise?:string;
-  role_id?: number;
+  slug?:string;
 }

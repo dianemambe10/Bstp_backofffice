@@ -2,12 +2,12 @@ export const GlobalComponent = {
     // Api Calling
    // API_URL : 'https://api-node.themesbrand.website/',
 
-    API_URL : 'http://localhost:8000/',
-    // API_URL : 'http://127.0.0.1:3000/',
+    //API_URL : 'https://api.bstpgn.com/',
+     API_URL : '',
     headerToken : {'Authorization': `Bearer ${localStorage.getItem('token')}`},
 
     // Auth Api
-    AUTH_API:"http://localhost:8000/auth/",
+    AUTH_API:"/api/",
     // AUTH_API:"http://127.0.0.1:3000/auth/",
 
 
@@ -20,40 +20,67 @@ export const GlobalComponent = {
     orderId:'apps/order/',
 
     // type societe Api
-    type_societe:'company-type/',
+    type_societe:'v1/company_type/',
 
   // Domaine activite Api
-    domaine_activite:'categories/',
+    domaine_activite:'v1/categories/',
 
   // region Api
-    region:'region/',
+    region:'v1/region/',
 
 
   //prerecture Api
-    prefecture:'prefectures/',
+    prefecture:'v1/prefectures/',
 
   // commune Api
-    commune:'communes/',
+    commune:'v1/communes/',
 
   // Role Api
-    role:'role/',
+    role:'v1/role/',
 
   // User Api
-  user:'user/',
+  user:'v1/user/',
 
   // Fournisseur Api
-  fournisseur:'company/',
+  fournisseur:'v1/company/',
 
 
  // Buyer Api
-  buyer:'buyer/',
+  buyer:'v1/buyer/',
 
 
   // request Api
-  request:'request/',
+  request:'v1/request/',
 
   // request type Api
-  request_type:'request-type/',
+  request_type:'v1/request_type/',
+
+  // actionnaire Api
+  actionnaire:'v1/member/',
+
+ // reference commercial Api
+  commeriale:'v1/commerciales/',
+
+// reference commercial Api
+  documents:'v1/documents/',
+
+
+  contrat:'v1/contract/',
+
+  payment_mode:'v1/payment_mode/',
+
+
+  abonnement:'v1/payment/',
+
+  thematique: 'v1/thematique/',
+
+
+  formation: 'v1/formation/',
+
+  institution_type: 'v1/institution_type/',
+
+  institution: 'v1/institution/',
+
 
 
 }

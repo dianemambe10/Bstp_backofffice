@@ -1,0 +1,10 @@
+{
+    "/v1/*": {
+        "target": "https://api.bstpgn.com",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug",
+        "pathRewrite": {"^/api" : "https://api.bstpgn.com/v1"}
+    }
+    
+}

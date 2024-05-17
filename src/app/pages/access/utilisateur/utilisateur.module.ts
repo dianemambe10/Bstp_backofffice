@@ -53,6 +53,10 @@ import { NgbdListSortableHeader } from './utilisateur-list/list-sortable.directi
 import { UtilisateurProfilSettingsComponent } from './utilisateur-profil-settings/utilisateur-profil-settings.component';
 import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
 import {ProgressbarModule} from "ngx-bootstrap/progressbar";
+import {LeafletModule} from "@asymmetrik/ngx-leaflet";
+import {RxReactiveFormsModule} from "@rxweb/reactive-form-validators";
+import { UtilisateurListFournisseurComponent } from './utilisateur-list-fournisseur/utilisateur-list-fournisseur.component';
+import { UtilisateurListBuyerComponent } from './utilisateur-list-buyer/utilisateur-list-buyer.component';
 
 
 @NgModule({
@@ -63,8 +67,15 @@ import {ProgressbarModule} from "ngx-bootstrap/progressbar";
     UtilisateurDetailComponent,
     UtilisateurEditComponent,
     UtilisateurGridComponent,
-    UtilisateurProfilSettingsComponent
+    UtilisateurProfilSettingsComponent,
+    UtilisateurListFournisseurComponent,
+    UtilisateurListBuyerComponent
 
+  ],
+  exports: [
+    UtilisateurListComponent,
+    UtilisateurListFournisseurComponent,
+    UtilisateurListBuyerComponent
   ],
   imports: [
     CommonModule,
@@ -85,7 +96,9 @@ import {ProgressbarModule} from "ngx-bootstrap/progressbar";
     RatingModule,
     NgSelectModule,
     BsDatepickerModule,
-    ProgressbarModule
+    ProgressbarModule,
+    LeafletModule,
+    RxReactiveFormsModule
   ],
   providers: [
     {

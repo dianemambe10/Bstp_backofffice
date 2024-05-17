@@ -3,9 +3,6 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthentificationService } from 'src/app/core/services/auth.service';
-//import { AuthentificationService } from 'src/app/core/services/authentification.service';
-//import { AuthenticationService } from 'src/app/core/services/auth.service';
-//import { AuthfakeauthenticationService } from 'src/app/core/services/authfake.service';
 
 @Component({
   selector: 'app-login',
@@ -20,10 +17,12 @@ export class LoginComponent {
   loginForm!: UntypedFormGroup;
   submitted = false;
   fieldTextType!: boolean;
-  error = '';
+  error = false;
   returnUrl!: string;
 
   toast!: false;
+
+
 
   // set the current year
   year: number = new Date().getFullYear();
@@ -51,8 +50,8 @@ export class LoginComponent {
      * Form Validatyion
      */
     this.loginForm = this.formBuilder.group({
-      email: ['diane@gmail.com', [Validators.required]],
-      password: ['123456789', [Validators.required]],
+      email: ['dianemambe10@gmail.com', [Validators.required]],
+      password: ['BSTP@2024', [Validators.required]],
     });
     // get return url from route parameters or default to '/'
     // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
@@ -77,6 +76,7 @@ export class LoginComponent {
         })
       }
     },error: (e) => {
+      this.error = true
           console.log(e.error.detail);
           this.toastService.error(e.error.detail, 'Erreur',{
             timeOut: 3000,
@@ -114,5 +114,11 @@ export class LoginComponent {
    */
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
+  }
+
+  initError(e: any){
+    this.error = false
+    //this.loginForm.controls['email'].setValue('')
+    //this.loginForm.controls['password'].setValue('')
   }
 }

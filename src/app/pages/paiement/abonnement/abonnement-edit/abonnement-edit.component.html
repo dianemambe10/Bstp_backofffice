@@ -1,0 +1,183 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Paiement" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+
+<div class="row">
+  <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+
+            </div>
+            <div class="flex-shrink-0">
+                <div class="d-flex flex-wrap align-items-start gap-2">
+                         <a routerLink="../" ActivatedRoute class="btn btn-subtle-primary  btn-icon "><i class="bi bi-list-task"></i></a>
+                </div>
+            </div>
+        </div>
+
+      </div>
+      </div>
+  </div><!--end col-->
+</div><!--end row-->
+
+
+<div class="row">
+
+
+    <div class="col-xl-12">
+        <div class="card">
+          <div class="card-body">
+
+
+                <form [formGroup]="formRegister"
+                      (ngSubmit)="register()"
+                      autocomplete="off"
+                      #formRef="ngForm"
+                      class="row g-3 needs-validation"
+                      novalidate>
+                       <div class="col-lg-6" >
+                        <div class="mb-3">
+                          <label class="form-label" for="company">Fournisseurs</label>
+                          <ng-select 
+                                     [hideSelected]="true" [addTag]="true"
+                                     [ngClass]="{ 'is-invalid': formRef.submitted && ff['company'].errors }"
+                                     [clearable]="true"
+                                     [searchable]="true"
+                                     formControlName="company"
+                                     id="company">
+                            <ng-option *ngFor="let company of fournisseurs" [value]="company.id">{{ company.name }}</ng-option>
+                          </ng-select>
+                          <div *ngIf="formRef.submitted && ff['company'].errors" class="invalid-feedback">
+                            <div *ngIf="ff['company'].errors?.['required']">Choisissez un fournisseur</div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-lg-6" >
+                        <div class="mb-3">
+                          <label class="form-label" for="companyinput">Le mode de paiement</label>
+                          <ng-select 
+                                     [hideSelected]="true" [addTag]="true"
+                                     [ngClass]="{ 'is-invalid': formRef.submitted && ff['mode'].errors }"
+                                     [clearable]="true"
+                                     [searchable]="true"
+                                     formControlName="mode"
+                                     id="companyinput">
+                            <ng-option *ngFor="let reg of modePaiement" [value]="reg.name">{{ reg.name }}</ng-option>
+                          </ng-select>
+                          <div *ngIf="formRef.submitted && ff['mode'].errors" class="invalid-feedback">
+                            <div *ngIf="ff['mode'].errors?.['required']">Choisissez un  mode de paiement</div>
+                          </div>
+                        </div>
+                      </div> 
+                      <br>
+                      <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="validationreference">La reference</label>
+                            <input
+                              id="validationreference"
+                              [ngClass]="{ 'is-invalid': formRef.submitted && ff['reference'].errors }"
+                              placeholder=""
+                              required
+                              type="text"
+                              formControlName="reference"
+                              class="form-control "
+                            >
+                        <div class="invalid-feedback">
+                          <div *ngIf=" formRef.submitted && ff['reference'].errors" >
+                            <div *ngIf="ff['reference'].errors['required']" >
+                               Le reference est obligatoire
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                    </div>
+                    <br>      
+                    <div class="row col-lg-12">
+                      <div class="col-lg-2">
+                        <div class="mb-3">
+                            <label class="form-label" for="validationmois">Nombre d'année</label>
+                            <input
+                            (change)="onMois($event)"
+                              id="validationmois"
+                              [ngClass]="{ 'is-invalid': formRef.submitted && ff['numbreOfMounth'].errors }"
+                              placeholder=""
+                              required
+                              type="number"
+                              formControlName="numbreOfMounth"
+                              class="form-control "
+                            >
+                        <div class="invalid-feedback">
+                          <div *ngIf=" formRef.submitted && ff['numbreOfMounth'].errors" >
+                            <div *ngIf="ff['numbreOfMounth'].errors['required']" >
+                               Le nombre de mois est obligatoire
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                    </div>   
+  
+                    <div class="col-lg-4">
+                          <div class="mb-3">
+                              <label class="form-label" for="validationamount">Montant</label>
+                              <div class="input-group">
+                                <input
+                                
+                                id="validationamount"
+                                [ngClass]="{ 'is-invalid': formRef.submitted && ff['amount'].errors }"
+                                placeholder=""
+                                required
+                                type="text"
+                                formControlName="amount"
+                                class="form-control "
+                              >
+                                <span class="input-group-text">GNF</span>
+                                </div>
+                              
+                          <div class="invalid-feedback">
+                            <div *ngIf=" formRef.submitted && ff['amount'].errors" >
+                              <div *ngIf="ff['amount'].errors['required']" >
+                                 Le montant est obligatoire
+                              </div>
+                            </div>
+                          </div>
+                          </div>
+                      </div>
+                    </div>
+                   
+                    <div class="col-lg-6">
+                      <div class="mb-3">
+                        <label class="form-label" for="steparrow-gen-info-remarks-sommaire-input">Remarque</label>
+                        <textarea class="form-control"
+                                  formControlName="remarks"
+                                  id="steparrow-gen-info-remarks-sommaire-input"
+                                  rows="3"
+                        ></textarea>
+          
+                        <div *ngIf="formRef.submitted && ff['remarks'].errors" class="invalid-feedback">
+                          <div *ngIf="ff['remarks'].errors?.['remarks']">La remarque est obligatoire
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+
+                  
+                    <div class="hstack gap-2 justify-content-start mb-3">
+                      <button class="btn btn-danger" (click)="cancel($event)"><i class="ph-x align-middle"></i> Annuler</button>
+                      <button class="btn btn-primary"><i class="ph ph-floppy-disk align-middle"></i> Enregistrer</button>
+                  </div>
+
+                  </form>
+                    <!-- </div> -->
+
+          </div>
+        </div>
+    </div>
+    <!-- end col -->
+</div><!-- end row -->
+
+<!-- end row -->

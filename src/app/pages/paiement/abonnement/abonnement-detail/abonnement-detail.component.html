@@ -1,0 +1,71 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="PAIEMENT" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="flex-grow-1">
+
+          </div>
+          <div class="flex-shrink-0">
+            <div class="d-flex flex-wrap align-items-start gap-2">
+              <a ActivatedRoute class="btn btn-subtle-primary  btn-icon " routerLink="../../"><i
+                class="bi bi-list-task"></i></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!--end col-->
+</div><!--end row-->
+
+<div class="row" *ngIf="payement">
+  <div class="col-xxl-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row align-items-center justify-content-center g-3">
+
+          <div class="col-xl-8 col-md-7 align-self-start">
+            <div class="table-responsive">
+              <table class="table table-sm table-nowrap table-borderless mb-0">
+                <tbody>
+                  <tr>
+                    <th>Fournisseur:</th>
+                    <td>{{ payement.company.name}}</td>
+                  </tr>
+                <tr>
+                  <th>Reference:</th>
+                  <td>{{ payement.reference}}</td>
+                </tr>
+                <tr>
+                  <th>Motant:</th>
+                  <td>{{ payement.amount + ' ' + payement.amount_currency}} </td>
+                </tr>
+                <tr>
+                  <th>Date de transaction:</th>
+                  <td>{{ payement.transaction_time}}</td>
+                </tr>
+                <tr>
+                  <th>Mode de paiment:</th>
+                  <td>{{ payement.mode}}</td>
+                </tr>
+                <tr>
+                  <th>Remarque:</th>
+                  <td>{{ payement.remarks}}</td>
+                </tr>
+
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

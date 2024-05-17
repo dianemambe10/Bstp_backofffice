@@ -4,7 +4,8 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HTTP_INTERCEPTORS
+  HTTP_INTERCEPTORS,
+  HttpHeaders
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthentificationService } from '../services/auth.service';
@@ -28,14 +29,31 @@ intercept(
   
     const token = this.authenticationService.getToken()
 
+    
+   
+
         // add authorization header with jwt token if available
         const currentUser = this.jwtHelper.tokenGetter()
         if (currentUser) {
             request = request.clone({
                 setHeaders: {
                     Authorization: `JWT ${token}`,
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*', // Allow requests from any origin
+                    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE', // Allow these HTTP methods
+                    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept' // Allow these headers
                 },
             });
+        }
+        else{
+          request = request.clone({
+    
+            setHeaders:{
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*', // Allow requests from any origin
+        
+            }
+           })
         }
 
     return next.handle(request);

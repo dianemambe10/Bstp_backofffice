@@ -39,28 +39,22 @@
               autocomplete="off"
               class="row g-3 needs-validation"
               novalidate>
-          <div class="col-lg-8">
+          <div class="col-lg-6">
             <div class="mb-3">
-              <label class="form-label" for="validationCustom01">Titre</label>
-              <input
-                [ngClass]="{ 'is-invalid': formRef.submitted && f['name'].errors }"
-                class="form-control "
-                formControlName="name"
-                id="validationCustom01"
-                placeholder=""
-                required
-                type="text"
-              >
-              <div class="invalid-feedback">
-                <div *ngIf=" formRef.submitted && f['name'].errors">
-                  <div *ngIf="f['name'].errors?.['required']">
-                    Le nom est obligatoire
-                  </div>
-                </div>
+              <label class="form-label" for="steparrow-gen-info-buyer-id-input">Fournisseur</label>
+              <select [ngClass]="{ 'is-invalid': formRef.submitted && f['buyer'].errors }"
+                      class="form-select mb-3"
+                      formControlName="buyer"
+                      id="steparrow-gen-info-buyer-id-input">
+                <option value="">Choisissez un fournisseur</option>
+                <option *ngFor="let reg of buyer" [value]="reg.id">{{ reg.name }}</option>
+              </select>
+
+              <div *ngIf="formRef.submitted && f['buyer'].errors" class="invalid-feedback">
+                <div *ngIf="f['buyer'].errors?.['required']">Choisissez un acheteur</div>
               </div>
             </div>
           </div>
-
           <div class="col-lg-6">
             <div class="mb-3">
               <label class="form-label" for="validationCustom011">Reference</label>
@@ -82,9 +76,28 @@
               </div>
             </div>
           </div>
-          <p></p>
-
-          <div class="col-lg-4">
+          <div class="col-lg-8">
+            <div class="mb-3">
+              <label class="form-label" for="validationCustom01">Titre</label>
+              <input
+                [ngClass]="{ 'is-invalid': formRef.submitted && f['name'].errors }"
+                class="form-control "
+                formControlName="name"
+                id="validationCustom01"
+                placeholder=""
+                required
+                type="text"
+              >
+              <div class="invalid-feedback">
+                <div *ngIf=" formRef.submitted && f['name'].errors">
+                  <div *ngIf="f['name'].errors?.['required']">
+                    Le nom est obligatoire
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
             <div class="mb-3">
               <label class="form-label" for="steparrow-gen-info-type-demande-input">Type </label>
               <select [ngClass]="{ 'is-invalid': formRef.submitted && f['type'].errors }"
@@ -100,9 +113,6 @@
               </div>
             </div>
           </div>
-
-
-
           <div class="col-lg-12">
             <div class="mb-3">
               <label class="form-label" for="steparrow-gen-info-description-sommaire-input">Description Sommaire</label>
@@ -139,13 +149,16 @@
             <div class="mb-3">
               <label class="form-label" for="validationCustom0122">Date de Publication</label>
               <input
+
+                [bsConfig]="bsConfig"
+                bsDatepicker
                 [ngClass]="{ 'is-invalid': formRef.submitted && f['published_at'].errors }"
                 class="form-control "
                 formControlName="published_at"
                 id="validationCustom0122"
                 placeholder=""
                 required
-                type="date"
+                type="text"
               >
               <div class="invalid-feedback">
                 <div *ngIf=" formRef.submitted && f['published_at'].errors">
@@ -160,13 +173,16 @@
             <div class="mb-3">
               <label class="form-label" for="validationCustom0111">Date de Clôture</label>
               <input
+
+                [bsConfig]="bsConfig"
+                bsDatepicker
                 [ngClass]="{ 'is-invalid': formRef.submitted && f['expired_at'].errors }"
                 class="form-control "
                 formControlName="expired_at"
                 id="validationCustom0111"
                 placeholder=""
                 required
-                type="date"
+                type="text"
               >
               <div class="invalid-feedback">
                 <div *ngIf=" formRef.submitted && f['expired_at'].errors">
@@ -177,16 +193,9 @@
               </div>
             </div>
           </div>
+             <h5 class="fs-md">Restriction</h5>
+            <div class="border  border-dashed"></div>
           <div class="col-lg-12">
-            <div class="mb-3">
-              <div class="form-check form-switch form-switch-md" dir="ltr">
-                <input class="form-check-input" id="customSwitchsizemd" type="checkbox"  (change)="onChangeRectriction($event)">
-                <label class="form-check-label" for="customSwitchsizemd">Demande est restricte?</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-12" *ngIf="restriction">
             <div class="mb-3">
               <label class="form-label">Veuillez choisir le type de restriction que vous souhaitez pour cette offre
                 *</label>
@@ -206,14 +215,15 @@
               <div class="invalid-feedback">
                 <div *ngIf=" formRef.submitted && f['restricted_type'].errors">
                   <div *ngIf="f['restricted_type'].errors?.['required']">
-                    Choisissez un mode de sousmission
+                    Choisissez un mode de restriction
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <div class="border mb-3 border-dashed"></div>
           <div class="col-lg-12" *ngIf="sector">
-            <div class="mb-3">
+            <div class="mb-5">
               <label class="form-label" >Domaines d'Activités</label>
               <br>
               <div class="col-md-3  form-check form-check-inline " *ngFor=" let dom of domaineActivites">
@@ -232,22 +242,36 @@
                 <div *ngIf="f['categories'].errors?.['required']">Le domaine d'activité est obligatoire</div>
               </div>
             </div>
-          </div>
+            <h5 class="fs-md">Chiffre d'affaire</h5>
+            <div class="border border-dashed"></div>
 
+            <div class="my-4">
+              <div class="row">
+
+                <div class="col-lg-12">
+                  <div id="nonlinear"></div>
+                  <ngx-slider [(value)]="value1" [highValue]="maxVal" (valueChange)="rangeValueChange($event)" (userChange)="valueChange($event)"
+                              [options]="option1">
+
+                  </ngx-slider>
+                </div><!-- end col -->
+              </div><!-- end row -->
+            </div>
+
+          </div>
           <div class="col-lg-6" *ngIf="supplier">
             <div class="mb-3">
               <label class="form-label" for="restricted_suppliers">Fournisseurs</label>
-
               <ng-select [multiple]="true"
                          (change)="onSuppliersChange($event)"
-                         [clearable]="false"
+                         [hideSelected]="true" [addTag]="true"
+                         [ngClass]="{ 'is-invalid': formRef.submitted && f['restricted_suppliers'].errors }"
+                         [clearable]="true"
                          [searchable]="true"
                          formControlName="restricted_suppliers"
-                         id="restricted_suppliers"
-                         (change)="onCheckboxSuppliersChange($event)">
+                         id="restricted_suppliers">
                 <ng-option *ngFor="let company of fournisseurs" [value]="company.id">{{ company.name }}</ng-option>
               </ng-select>
-
               <div *ngIf="formRef.submitted && f['restricted_suppliers'].errors" class="invalid-feedback">
                 <div *ngIf="f['restricted_suppliers'].errors?.['required']">Choisissez un acheteur</div>
               </div>
@@ -255,34 +279,46 @@
           </div>
 
           <br />
+          <h5>Document</h5> <!-- Small Button -->
 
-          <div class="col-lg-6">
-            <div class="mb-3">
-              <label class="form-label" for="validationCustom01121">Dao</label>
-              <input
-                [ngClass]="{ 'is-invalid': formRef.submitted && f['document'].errors }"
-                class="form-control "
-                formControlName="document"
-                id="validationCustom01121"
-                placeholder=""
-                required
-                type="file"
-              >
-              <div class="invalid-feedback">
-                <div *ngIf=" formRef.submitted && f['document'].errors">
-                  <div *ngIf="f['document'].errors?.['required']">
-                    Le dao est obligatoire
-                  </div>
+          <div class="border  border-dashed"></div>
+          <div class="row align-items-end g-3 ">
+            <div class="col-sm-auto ">
+              <div class="d-flex flex-wrap align-items-end justify-content-end gap-2">
+                <div>
+                  <button (click)="addDocumentModal(varying)" type="button" class="btn btn-primary btn-sm"><i class="ri-file-add-line"></i></button>
                 </div>
               </div>
-            </div>
+            </div><!--end col-->
+          </div><!--end row-->
+          <div class="table-responsive table-nowrap col-md-12 col-xl-6">
+
+            <table class="table align-middle">
+
+              <tbody>
+              <tr *ngFor="let doc of documentArray, let i = index;">
+                <td class="w-lg">{{ doc.name}}</td>
+                <td class="w-sm">
+                  <div class="hstack gap-3 fs-base">
+                    <a  (click)="documentView($event, i)" href="javascript:void(0);" class="link-primary"><i
+                      class="ri-file-line"></i></a>
+                    <a (click)="documentDelete($event, i)" href="javascript:void(0);" class="link-danger"><i
+                      class="ri-delete-bin-5-line"></i></a>
+                  </div>
+                </td>
+              </tr>
+               </tbody>
+            </table>
+
           </div>
+
+
 
           <div class="col-lg-12">
             <div class="mb-3">
-              <label class="form-label">Mode de Sousmission</label>
-              <br>
-              <div *ngFor=" let mode of modeSoumission" class="col-md-4  form-check form-check-inline ">
+              <label class="form-label"><h5>Mode de Sousmission</h5></label>
+              <div class="border  border-dashed"></div>
+              <div *ngFor=" let mode of modeSoumission" class="col-md-4  mt-3 form-check ">
                 <input [id]="mode.id"
                        [ngClass]="{ 'is-invalid': formRef.submitted && f['modality'].errors }"
                        [value]="mode.id"
@@ -324,24 +360,6 @@
               </div>
             </div>
           </div>
-          <br />
-
-          <div class="col-lg-6">
-            <div class="mb-3">
-              <label class="form-label" for="steparrow-gen-info-buyer-id-input">Buyer</label>
-              <select [ngClass]="{ 'is-invalid': formRef.submitted && f['buyer'].errors }"
-                      class="form-select mb-3"
-                      formControlName="buyer"
-                      id="steparrow-gen-info-buyer-id-input">
-                <option value="">Choose your city</option>
-                <option *ngFor="let reg of buyer" [value]="reg.id">{{ reg.name }}</option>
-              </select>
-
-              <div *ngIf="formRef.submitted && f['buyer'].errors" class="invalid-feedback">
-                <div *ngIf="f['buyer'].errors?.['required']">Choisissez un acheteur</div>
-              </div>
-            </div>
-          </div>
 
           <div class="hstack gap-2 justify-content-start mb-3">
             <button (click)="cancel($event)" class="btn btn-danger"><i class="ph-x align-middle"></i> Annuler</button>
@@ -358,3 +376,210 @@
 </div><!-- end row -->
 
 <!-- end row -->
+<div bsModal #successContent="bs-modal" class="modal fade">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"
+                (click)="successContent.hide()"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="mt-3">
+          <img src="assets/images/success-img.png" alt="" height="150">
+          <div class="mt-4 pt-2 fs-base">
+            <h4>Effectué !</h4>
+            <p class="text-muted mx-4 mb-0">Vous avez ajouté une nouvelle demande.</p>
+          </div>
+        </div>
+        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+          <button type="button" class="swal2-cancel btn btn-primary w-xs mb-1" aria-label=""
+                  style="display: inline-block;" (click)="nouveau($event)">Nouveau</button>
+          <button type="button" class="swal2-cancel btn btn-primary w-xs mb-1" aria-label=""
+                  style="display: inline-block;" (click)="liste($event)">Liste</button>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div>
+</div>
+
+
+<div #addDocument="bs-modal" bsModal class="modal fade" id="addActionnaire">
+  <div class="modal-dialog">
+    <div class="modal-content border-0">
+      <div class="modal-header bg-vertical-gradient-2 p-3">
+        <h5 class="modal-title text-white" id="addActionnaireModalLabel">AJOUT D'UN DOCUMENT</h5>
+        <button (click)="addDocument.hide()" class="btn-close btn-close-white" type="button"></button>
+      </div>
+      <form #formDoc="ngForm"
+            (ngSubmit)="saveDocument()"
+            [formGroup]="formDocument"
+            autocomplete="off"
+            class="row g-3 needs-validation"
+            novalidate>
+        <div class="modal-body ">
+          <div class="row mb-3">
+            <div class="col-lg-3">
+              <label class="form-label" for="validationCustom0P1">Nom du document</label>
+            </div>
+            <div class="col-lg-9">
+              <input
+                [ngClass]="{ 'is-invalid': formDoc.submitted && ff['name'].errors }"
+                class="form-control form-control-sm"
+                formControlName="name"
+                id="validationCustom0P1"
+                placeholder=""
+                required
+                type="text"
+              >
+              <div class="invalid-feedback">
+                <div *ngIf="  ff['name'].errors && formDoc.submitted ">
+                  <div *ngIf="ff['name'].errors?.['required']">
+                    Le nom du document est obligatoire
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-lg-3">
+              <label class="form-label" for="validationDocuments">Document</label>
+            </div>
+            <div class="col-lg-9">
+              <input
+                (change)="onChangeFile($event)"
+                [ngClass]="{ 'is-invalid': formDoc.submitted && ff['document'].errors }"
+                accept="application/pdf"
+                class="form-control form-control-sm"
+                formControlName="doc"
+                id="validationDocuments"
+                type="file"
+              >
+
+              <div *ngIf="formDoc.submitted && ff['document'].errors" class="invalid-feedback">
+                <div *ngIf="ff['document'].errors?.['required']">Le document est obligatoire</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="hstack gap-2 justify-content-end">
+            <button (click)="addDocument.hide()" class="btn btn-ghost-danger" type="button"><i
+              class="bi bi-x-lg align-baseline me-1 btn-sm"></i> Fermer
+            </button>
+            <button   [disabled]="formDocument.invalid" class="btn btn-primary btn-sm" id="add-btn" type="submit">Ajouter</button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+    <!-- modal-content -->
+  </div>
+</div><!--end add Property modal-->
+
+<ng-template #varying class="modal fade" id="varyingcontentModal">
+
+  <div class="modal-content border-0">
+    <div class="modal-header bg-vertical-gradient-2">
+      <h5 class="modal-title text-white" id="addActionnaireModalLabele">AJOUT D'UN DOCUMENT</h5>
+    </div>
+    <form #formDoc="ngForm"
+          (ngSubmit)="saveDocument()"
+          [formGroup]="formDocument"
+          autocomplete="off"
+          class="row g-3 needs-validation"
+          novalidate>
+      <div class="modal-body ">
+        <div class="row mb-3">
+          <div class="col-lg-3">
+            <label class="form-label" for="validationCustome0P1">Nom</label>
+          </div>
+          <div class="col-lg-9">
+            <input
+              [ngClass]="{ 'is-invalid': formDoc.submitted && ff['name'].errors }"
+              class="form-control form-control-sm"
+              formControlName="name"
+              id="validationCustome0P1"
+              placeholder=""
+              required
+              type="text"
+            >
+            <div class="invalid-feedback">
+              <div *ngIf="  ff['name'].errors && formDoc.submitted ">
+                <div *ngIf="ff['name'].errors?.['required']">
+                  Le nom du document est obligatoire
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-lg-3">
+            <label class="form-label" for="validationDocument">Document</label>
+          </div>
+          <div class="col-lg-9">
+            <input
+              (change)="onChangeFile($event)"
+              [ngClass]="{ 'is-invalid': formDoc.submitted && ff['document'].errors }"
+              accept="application/pdf"
+              class="form-control form-control-sm"
+              formControlName="doc"
+              id="validationDocument"
+              type="file"
+            >
+
+            <div *ngIf="formDoc.submitted && ff['document'].errors" class="invalid-feedback">
+              <div *ngIf="ff['document'].errors?.['required']">Le document est obligatoire</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="hstack gap-2 justify-content-end">
+          <button (click)="modalRef?.hide()" class="btn btn-ghost-danger btn-sm" type="button"><i
+            class="bi bi-x-lg align-baseline me-1 btn-sm"></i> Fermer
+          </button>
+          <button   [disabled]="formDocument.invalid" class="btn btn-primary btn-sm" id="add-btns" type="submit">Ajouter</button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</ng-template>
+
+
+
+
+<div bsModal #errorContent="bs-modal" class="modal fade">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-closev"
+                (click)="errorContent.hide()"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="mt-3">
+          <i class="bi bi-exclamation-triangle display-5 text-warning"></i>
+          <div class="mt-4 pt-2 fs-base">
+            <h4>Oops...! des erreurs survenues !</h4>
+            <!--  <div *ngFor="let k of keyArray">
+                <p class="text-muted mx-4 mb-0" >{{ k }}</p>
+                -->
+            <ul class="text-muted vstack gap-2 mb-4 list-unstyled">
+              <li *ngFor="let e of messageArray"><i class="bi bi-check-lg text-danger"></i> {{ e }}</li>
+
+            </ul>
+
+            <!-- </div>  -->
+
+
+          </div>
+        </div>
+        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+          <button type="button" class="swal2-cancel btn btn-primary w-xs mb-1" aria-label=""
+                  style="display: inline-block;" (click)="errorContent.hide()">Dismiss</button>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div>
+</div>
+

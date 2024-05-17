@@ -8,6 +8,7 @@ import { courseList } from './data';
 import { DecimalPipe } from '@angular/common';
 import { debounceTime, delay, switchMap, tap } from 'rxjs/operators';
 import { SortColumn, SortDirection } from './list-sortable.directive';
+import { ContratService } from 'src/app/core/services/contrat.service';
 
 interface SearchResult {
   countries: ListModel[];
@@ -41,15 +42,11 @@ function sort(countries: ListModel[], column: SortColumn, direction: string): Li
 }
 
 function matches(country: ListModel, term: string, pipe: PipeTransform) {
-  return country.category.toLowerCase().includes(term.toLowerCase())
-    || country.name.toLowerCase().includes(term.toLowerCase())
-    || country.instructor.toLowerCase().includes(term.toLowerCase())
-    || country.lessons.toLowerCase().includes(term.toLowerCase())
-    || country.duration.toLowerCase().includes(term.toLowerCase())
-    || country.students.toLowerCase().includes(term.toLowerCase())
-    || country.fees.toLowerCase().includes(term.toLowerCase())
-    || country.rating.toLowerCase().includes(term.toLowerCase())
-    || country.status.toLowerCase().includes(term.toLowerCase())
+  return country.bstp_member?.toLowerCase().includes(term.toLowerCase())
+    || country?.other_company?.toLowerCase().includes(term.toLowerCase())
+    || country.amount?.toLowerCase().includes(term.toLowerCase())
+    || country.request.reference.toLowerCase().includes(term.toLowerCase())
+    || country?.company?.name.toLowerCase().includes(term.toLowerCase())
     ;
 }
 
@@ -75,10 +72,11 @@ export class ListService {
     totalRecords: 0
   };
   user = [];
-  products: any | undefined;
-  Products$: any;
-  products$: any;
-  constructor(private pipe: DecimalPipe) {
+  contrats: any | undefined;
+  contrats_back: any | undefined;
+  Contrats$: any;
+  contrats$: any;
+  constructor(private pipe: DecimalPipe, private  contratService : ContratService) {
     this._search$.pipe(
       tap(() => this._loading$.next(true)),
       debounceTime(200),
@@ -90,12 +88,22 @@ export class ListService {
       this._total$.next(result.total);
     });
     this._search$.next();
+    this.retrieveAbonnement()
+  }
 
-    this.products = courseList.reverse();
+  retrieveAbonnement(): void {
+    this.contratService.getData()
+      .subscribe({
+        next: (data) => {
+          this.contrats = data;
+          this.contrats_back = data;
+        },
+        error: (e) => console.error(e)
+      });
   }
 
   get countries$() { return this._countries$.asObservable(); }
-  get product() { return this.products; }
+  get contrat() { return this.contrats; }
   get total$() { return this._total$.asObservable(); }
   get datas$() { return this._datas$.asObservable(); }
   get loading$() { return this._loading$.asObservable(); }
@@ -130,7 +138,7 @@ export class ListService {
 
   private _search(): Observable<SearchResult> {
 
-    const datas = (this.product) ?? [];
+    const datas = (this.contrat) ?? [];
     const { sortColumn, sortDirection, pageSize, page, searchTerm } = this._state;
 
     // 1. sort
@@ -153,8 +161,8 @@ export class ListService {
     if (this.endIndex > this.totalRecords) {
       this.endIndex = this.totalRecords;
     }
-
-    // 5. Rate Filter       
+/*
+    // 5. Rate Filter
     if (this.productRate) {
       countries = countries.filter(country => country.rating >= this.productRate);
     }
@@ -169,6 +177,8 @@ export class ListService {
     else {
       countries = countries;
     }
+
+ */
 
     const total = countries.length;
 

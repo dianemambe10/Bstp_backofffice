@@ -53,6 +53,10 @@ import { AcheteurStepOneComponent } from './acheteur-step-one/acheteur-step-one.
 import { AcheteurStepTwoComponent } from './acheteur-step-two/acheteur-step-two.component';
 import { AcheteurStepEndComponent } from './acheteur-step-end/acheteur-step-end.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import {LeafletModule} from "@asymmetrik/ngx-leaflet";
+import {UtilisateurModule} from "../../access/utilisateur/utilisateur.module";
+import {RxReactiveFormsModule} from "@rxweb/reactive-form-validators";
+import {NgxMaskDirective, provideNgxMask} from "ngx-mask";
 
 
 
@@ -69,28 +73,33 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     AcheteurStepTwoComponent,
     AcheteurStepEndComponent
   ],
-  imports: [
+    imports: [
 
-    AcheteurRoutingModule,
-    CommonModule,
-    SharedModule,
-    BsDropdownModule.forRoot(),
-    PaginationModule.forRoot(),
-    ModalModule.forRoot(),
-    FormsModule,
-    ReactiveFormsModule,
-    AccordionModule.forRoot(),
-    TabsModule.forRoot(),
-    SimplebarAngularModule,
-    CKEditorModule,
-    DropzoneModule,
-    NgStepperModule,
-    CdkStepperModule,
-    RatingModule,
-    NgSelectModule,
-    BsDatepickerModule
-  ],
+        AcheteurRoutingModule,
+        CommonModule,
+        SharedModule,
+        BsDropdownModule.forRoot(),
+        PaginationModule.forRoot(),
+        ModalModule.forRoot(),
+        FormsModule,
+        ReactiveFormsModule,
+        AccordionModule.forRoot(),
+        TabsModule.forRoot(),
+        SimplebarAngularModule,
+        CKEditorModule,
+        DropzoneModule,
+        NgStepperModule,
+        CdkStepperModule,
+        RatingModule,
+        NgSelectModule,
+        BsDatepickerModule,
+        LeafletModule,
+        UtilisateurModule,
+        RxReactiveFormsModule,
+        NgxMaskDirective
+    ],
   providers: [
+    provideNgxMask(),
     {
       provide: DROPZONE_CONFIG,
       useValue: DEFAULT_DROPZONE_CONFIG

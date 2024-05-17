@@ -45,6 +45,8 @@ function sort(countries: ListModel[], column: SortColumn, direction: string): Li
 function matches(country: ListModel, term: string, pipe: PipeTransform) {
   return country.slug.toLowerCase().includes(term.toLowerCase())
     || country.name.toLowerCase().includes(term.toLowerCase())
+    || country.code_africa?.toLowerCase().includes(term.toLowerCase())
+    || country.code_apip?.toLowerCase().includes(term.toLowerCase())
     ;
 }
 

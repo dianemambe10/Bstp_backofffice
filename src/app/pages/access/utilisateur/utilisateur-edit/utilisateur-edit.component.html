@@ -1,5 +1,5 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs [breadcrumbItems]="breadCrumbItems" title="Utilisateur"></app-breadcrumbs>
+<app-breadcrumbs [breadcrumbItems]="breadCrumbItems" title="{{ this.categorie + ' | ' }} Utilisteurs"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
 
@@ -230,17 +230,17 @@
                     <div class="col-lg-4">
                       <div class="mb-3">
                         <label class="form-label" for="steparrow-gen-info-region-input">Role</label>
-                        <select [ngClass]="{ 'is-invalid': formRef.submitted && ff['role_id'].errors }"
+                        <select [ngClass]="{ 'is-invalid': formRef.submitted && ff['role'].errors }"
                                 class="form-select mb-3"
-                                formControlName="role_id"
+                                formControlName="role"
                                 [value]="defaultRole"
                                 id="steparrow-gen-info-region-input">
                           <option value="">Choississez un role</option>
                           <option *ngFor="let r of roleList" [value]="r.id">{{ r.name }}</option>
                         </select>
 
-                        <div *ngIf="formRef.submitted && ff['role_id'].errors" class="invalid-feedback">
-                          <div *ngIf="ff['role_id'].errors?.['required']">Choisissez un role</div>
+                        <div *ngIf="formRef.submitted && ff['role'].errors" class="invalid-feedback">
+                          <div *ngIf="ff['role'].errors?.['required']">Choisissez un role</div>
                         </div>
                       </div>
                     </div>

@@ -80,12 +80,12 @@
       <div class="mb-3">
         <label class="form-label" for="validationCustom01d">Date de Naissance</label>
         <input
+          type="text"
           id="validationCustom01d"
           [ngClass]="{ 'is-invalid': formRef.submitted && ff['date_of_birth'].errors }"
-          required
-          type="date"
+          class="form-control"
           formControlName="date_of_birth"
-          class="form-control "
+          bsDatepicker [bsConfig]="bsConfig"
         >
         <div class="invalid-feedback">
           <div *ngIf=" formRef.submitted && ff['date_of_birth'].errors" >

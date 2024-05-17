@@ -1,5 +1,5 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Paremetre d'utilisateur" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="Parametre d'utilisateur" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
 <div class="row">
@@ -113,11 +113,11 @@
                         <input type="radio"
                                [ngClass]="{ 'is-invalid': formRef.submitted && ff['gender'].errors }"
                                class="form-check-input"
-                               id="validationFormCheck3"
+                               id="validationFormCheck3-{{civ.id}}"
                                formControlName="gender"
                                [value]="civ.id"
                                required>
-                        <label class="form-check-label" for="validationFormCheck3">{{ civ.name}}</label>
+                        <label class="form-check-label" for="validationFormCheck3-{{civ.id}}">{{ civ.name}}</label>
 
                       </div>
                       <div class="invalid-feedback">

@@ -52,7 +52,7 @@ export class Entreprise {
   rccm?:  string;
   rccm_document?:  string;
   region?:  Region;
-  registered_by?:  User;
+  registered_by?:  any;
   slug?:  string;
   status?:  string;
   statut_document?:  string;
@@ -63,7 +63,9 @@ export class Entreprise {
   understand_risk?:  string;
   website?:  string;
   woman_ownership_percentage?:  string;
-  year_of_registration?:  string;
+  year_of_registration?:  any;
+  social_capital?:  string;
+  chiffre_affaire?:  string;
 
 }
 
