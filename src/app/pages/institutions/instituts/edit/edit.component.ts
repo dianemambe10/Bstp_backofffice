@@ -96,13 +96,16 @@ export class EditComponent implements OnInit {
     this.formRegister = this.fb.group({
       name: ["",[Validators.required,Validators.minLength(3)]],
       type: ['', [Validators.required]],
-      phone_number: ['628492536', []],
-      website: ['https://www.micodus.net', []],
-      email: ['dianemambe@gmail.com', [Validators.required, Validators.email]],
+      phone_number: ['', [Validators.required]],
+      website: ['', []],
+      email: ['', [Validators.required, Validators.email]],
       address: ['ratoma', []],
       region: ['0', []],
       prefecture: ['0', []],
-      commune: ['0', []]
+      commune: ['0', []],
+      description: ['', []],
+      rccm: ['', [Validators.required]],
+      id: ['', [Validators.required]]
     });
   }
 
@@ -110,28 +113,6 @@ export class EditComponent implements OnInit {
   getData(){
 
     this.id = this.route.snapshot.params['id']
-
-    this.institutService.getSingleData(this.id).subscribe((data: any)=>{
-      this.institut = data
-      this.formRegister.controls['id'].setValue(this.institut.id)
-      this.formRegister.controls['name'].setValue(this.institut.name)
-      this.formRegister.controls['type'].setValue(this.institut.type)
-      this.formRegister.controls['phone_number'].setValue(this.institut.phone_number)
-      this.formRegister.controls['website'].setValue(this.institut.website)
-      this.formRegister.controls['address'].setValue(this.institut.address)
-      this.formRegister.controls['region'].setValue(this.institut.region)
-      this.formRegister.controls['prefecture'].setValue(this.institut.prefecture)
-      this.formRegister.controls['commune'].setValue(this.institut.commune)
-
-
-      this.regionDefault = <number> this.institut?.region
-      this.prefectureDefault = <number> this.institut?.prefecture
-      this.communeDefault = <number> this.institut?.commune?.id
-  
-      this.onRegionSelect(this.regionDefault , 1)
-      this.onPrefectureSelect(this.prefectureDefault, 1)
-
-    })
 
     this.helperService.getCommmune().pipe(
       tap(this.helperService.getPrefecture().subscribe((data: Prefecture[]) => {
@@ -144,6 +125,33 @@ export class EditComponent implements OnInit {
       next: (commune: Commune[]) => {
         this.communeList = commune
 
+        
+    this.institutService.getSingleData(this.id).subscribe((data: any)=>{
+      this.institut = data
+      console.log(this.institut)
+      this.formRegister.controls['id'].setValue(this.institut.id)
+      this.formRegister.controls['name'].setValue(this.institut.name)
+      this.formRegister.controls['rccm'].setValue(this.institut.rccm)
+      this.formRegister.controls['type'].setValue(this.institut.type?.id)
+      this.formRegister.controls['phone_number'].setValue(this.institut.phone_number)
+      this.formRegister.controls['email'].setValue(this.institut.email)
+      this.formRegister.controls['website'].setValue(this.institut.website)
+      this.formRegister.controls['address'].setValue(this.institut.address)
+      this.formRegister.controls['region'].setValue(this.institut.region?.id)
+      this.formRegister.controls['prefecture'].setValue(this.institut.prefecture?.id)
+      this.formRegister.controls['commune'].setValue(this.institut.commune?.id)
+      this.formRegister.controls['description'].setValue(this.institut.description)
+
+
+      this.regionDefault = <number> this.institut?.region?.id
+      this.prefectureDefault = <number> this.institut?.prefecture?.id
+      this.communeDefault = <number> this.institut?.commune?.id
+  
+      this.onRegionSelect(this.regionDefault , 1)
+      this.onPrefectureSelect(this.prefectureDefault, 1)
+
+    })
+
       }, error(er) {
 
       }
@@ -152,6 +160,9 @@ export class EditComponent implements OnInit {
     this.typeInstitutService.getData().subscribe((data )=>{
       this.typeInstitut = data
     })
+
+    
+
   
 
   }

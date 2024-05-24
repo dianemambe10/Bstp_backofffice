@@ -93,13 +93,15 @@ export class AddComponent implements OnInit {
     this.formRegister = this.fb.group({
       name: ["",[Validators.required,Validators.minLength(3)]],
       type: ['', [Validators.required]],
-      phone_number: ['628492536', []],
-      website: ['https://www.micodus.net', []],
-      email: ['dianemambe@gmail.com', [Validators.required, Validators.email]],
+      phone_number: ['', [Validators.required]],
+      website: ['', []],
+      email: ['', [Validators.required, Validators.email]],
       address: ['ratoma', []],
       region: ['0', []],
       prefecture: ['0', []],
-      commune: ['0', []]
+      commune: ['0', []],
+      description: ['', []],
+      rccm: ['', [Validators.required]]
     });
   }
 

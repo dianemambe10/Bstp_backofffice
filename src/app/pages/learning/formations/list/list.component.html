@@ -19,7 +19,7 @@
               <div class="col-lg-auto">
                   <div class="hstack flex-wrap gap-2">
                       <button class="btn btn-subtle-danger d-none" id="remove-actions" (click)="deleteRecordModal.show()"><i class="ri-delete-bin-2-line"></i></button>
-                      <a href="javascript:void(0);" (click)="addBuyer($event)" class="btn btn-secondary"><i class="bi bi-plus-circle align-baseline me-1"></i> Formation</a>
+                      <a href="javascript:void(0);" (click)="addBuyer($event)" class="btn btn-info"><i class="bi bi-plus-circle align-baseline me-1"></i> Formation</a>
 
                   </div>
               </div><!--end col-->
@@ -39,11 +39,11 @@
                       <thead class="text-muted">
                           <tr>
                               <th scope="col" >No</th>
-                              <th scope="col" class="sort cursor-pointer" listsortable="titre" (sort)="onSort($event)">Titre </th>
-                              <th scope="col" class="sort cursor-pointer" listsortable="thematique" (sort)="onSort($event)">Thematique </th>
+                              <th scope="col" class="sort cursor-pointer" listsortable="title" (sort)="onSort($event)">Titre </th>
+                              <th scope="col" class="sort cursor-pointer" listsortable="thematiques" (sort)="onSort($event)">Thematique </th>
                               <th scope="col" class="sort cursor-pointer" listsortable="date_publication" (sort)="onSort($event)">Date de Publication </th>
                               <th scope="col" class="sort cursor-pointer" listsortable="date_expiration" (sort)="onSort($event)">Date d'Expiration </th>
-                              <th scope="col" class="sort cursor-pointer" listsortable="status" (sort)="onSort($event)">Status </th>
+                              <th scope="col" class="sort cursor-pointer" listsortable="status" (sort)="onSort($event)">Audience </th>
 
 
                               <th scope="col">Action</th>
@@ -53,8 +53,8 @@
                           <tr *ngFor="let data of listData;let i = index;" id="p_{{data._id}}">
                               <td class="w-10">{{ i + 1}}</td>
                               <td class="id d-none"><a href="javascript:void(0)" class="fw-medium link-primary">#TBS00{{data.id}}</a></td>
-                              <td class="category">{{data.titre}}</td>
-                              <td class="category">{{data.thematique}}</td>
+                              <td class="category">{{data.title}}</td>
+                              <td class="category">{{data.thematiques}}</td>
                               <td class="category">{{data.date_publication}}</td>
                               <td class="category">{{data.date_expiration}}</td>
                               <td class="category">{{data.status}}</td>

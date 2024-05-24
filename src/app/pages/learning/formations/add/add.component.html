@@ -43,16 +43,16 @@
                             <label class="form-label" for="validationCustom01">Titre<span class="text-danger">*</span></label>
                             <input
                               id="validationCustom01"
-                              [ngClass]="{ 'is-invalid': formRef.submitted && f['titre'].errors }"
+                              [ngClass]="{ 'is-invalid': formRef.submitted && f['title'].errors }"
                               placeholder=""
                               required
-                              thematique="text"
-                              formControlName="titre"
+                              type="text"
+                              formControlName="title"
                               class="form-control "
                             >
                         <div class="invalid-feedback">
-                          <div *ngIf=" formRef.submitted && f['titre'].errors" >
-                            <div *ngIf="f['titre'].errors?.['required']" >
+                          <div *ngIf=" formRef.submitted && f['title'].errors" >
+                            <div *ngIf="f['title'].errors?.['required']" >
                                Le titre est obligatoire
                             </div>
                           </div>
@@ -71,7 +71,7 @@
                         <option *ngFor="let typ of instituts" [value]="typ.id">{{ typ.name }}</option>
                       </select>
         
-                      <div *ngIf="formRef.submitted && f['thematique'].errors" class="invalid-feedback">
+                      <div *ngIf="formRef.submitted && f['centre'].errors" class="invalid-feedback">
                         <div *ngIf="f['centre'].errors?.['required']">Choisissez un centre de formation</div>
                       </div>
                     </div>
@@ -80,31 +80,40 @@
                   <div class="col-lg-6">
                     <div class="mb-3">
                       <label class="form-label" for="steparrow-gen-info-thematique-demande-input">Thematique<span class="text-danger">*</span> </label>
-                      <select [ngClass]="{ 'is-invalid': formRef.submitted && f['thematique'].errors }"
+                  <!--   <select [ngClass]="{ 'is-invalid': formRef.submitted && f['thematiques'].errors }"
                               class="form-select mb-3"
-                              formControlName="thematique"
+                              formControlName="thematiques"
                               id="steparrow-gen-info-thematique-demande-input">
                         <option value="">Choisissez une thematique</option>
-                        <option *ngFor="let typ of thematiques" [value]="typ.id">{{ typ.libelle }}</option>
+                        <option *ngFor="let typ of thematiquesListe" [value]="typ.id">{{ typ.name }}</option>
                       </select>
+
+                    --> 
+
+                      <ng-select [items]="thematiquesListe" [multiple]="true" bindLabel="name" bindValue="id"
+                                        formControlName="thematiques" [clearable]="false">
+                                        <ng-template ng-optgroup-tmp let-item="item">
+                                            {{item.id}}
+                                        </ng-template>
+                                    </ng-select>
         
-                      <div *ngIf="formRef.submitted && f['thematique'].errors" class="invalid-feedback">
-                        <div *ngIf="f['thematique'].errors?.['required']">Choisissez une thematique</div>
+                      <div *ngIf="formRef.submitted && f['thematiques'].errors" class="invalid-feedback">
+                        <div *ngIf="f['thematiques'].errors?.['required']">Choisissez une thematique</div>
                       </div>
                     </div>
                   </div>
                   <div class="col-lg-12">
                     <label class="form-label">Description<span class="text-danger">*</span></label>
-                    <ckeditor [editor]="Editor" data=""></ckeditor>
+                    <ckeditor [editor]="Editor" formControlName="description"></ckeditor>
                 </div>
                 <div class="col-lg-4">
                   <div class="mb-3">
-                    <label class="form-label"><h6>Status</h6></label>
+                    <label class="form-label"><h6>Audience</h6></label>
                     <div class="border  border-dashed"></div>
                     <div *ngFor=" let mode of status" class="col-md-4  mt-3 form-check ">
                       <input [id]="mode.id"
                              [ngClass]="{ 'is-invalid': formRef.submitted && f['status'].errors }"
-                             [value]="mode.name"
+                             [value]="mode.id"
                              class="form-check-input"
                              formControlName="status"
                              required
@@ -115,7 +124,7 @@
                     <div class="invalid-feedback">
                       <div *ngIf=" formRef.submitted && f['status'].errors">
                         <div *ngIf="f['status'].errors?.['required']">
-                          Choisissez un status
+                          Choisissez une audience
                         </div>
                       </div>
                     </div>
@@ -123,24 +132,46 @@
                 </div>
                 <div class="col-lg-4">
                   <div class="mb-3">
-                    <label class="form-label"><h6>Etat</h6></label>
+                    <label class="form-label"><h6>Status</h6></label>
                     <div class="border  border-dashed"></div>
                     <div *ngFor=" let mode of etat" class="col-md-4  mt-3 form-check ">
                       <input [id]="mode.id"
-                             [ngClass]="{ 'is-invalid': formRef.submitted && f['etat'].errors }"
-                             [value]="mode.name"
+                             [ngClass]="{ 'is-invalid': formRef.submitted && f['state'].errors }"
+                             [value]="mode.id"
                              class="form-check-input"
-                             formControlName="etat"
+                             formControlName="state"
                              required
                              type="radio">
                       <label [for]="mode.id" class="form-check-label">{{ mode.name}}</label>
       
                     </div>
                     <div class="invalid-feedback">
-                      <div *ngIf=" formRef.submitted && f['etat'].errors">
-                        <div *ngIf="f['etat'].errors?.['required']">
-                          Choisissez un etat
-                        </div>
+                      <div *ngIf=" formRef.submitted && f['state'].errors">
+                        <div *ngIf="f['state'].errors?.['required']">
+                          Choisissez un status                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="mb-3">
+                    <label class="form-label"><h6>Mode</h6></label>
+                    <div class="border  border-dashed"></div>
+                    <div *ngFor=" let mod of mode" class="col-md-4  mt-3 form-check ">
+                      <input [id]="mod.id"
+                             [ngClass]="{ 'is-invalid': formRef.submitted && f['state'].errors }"
+                             [value]="mod.id"
+                             class="form-check-input"
+                             formControlName="mode"
+                             required
+                             type="radio">
+                      <label [for]="mod.id" class="form-check-label">{{ mod.name}}</label>
+      
+                    </div>
+                    <div class="invalid-feedback">
+                      <div *ngIf=" formRef.submitted && f['state'].errors">
+                        <div *ngIf="f['state'].errors?.['required']">
+                          Choisissez un status                        </div>
                       </div>
                     </div>
                   </div>
@@ -183,12 +214,11 @@
                       </div>
                       <div class="col-6">
                         <div class="mb-3">
-                          <label class="form-label" for="validationTitre01">Lien YouTube<span class="text-danger">*</span></label>
+                          <label class="form-label" for="validationTitre01">Lien YouTube</label>
                           <input
                             id="validationTitre01"
                             [ngClass]="{ 'is-invalid': formRef.submitted && f['lien'].errors }"
                             placeholder=""
-                            required
                             thematique="text"
                             formControlName="lien"
                             class="form-control "

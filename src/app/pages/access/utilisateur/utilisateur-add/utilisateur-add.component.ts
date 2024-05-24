@@ -47,11 +47,10 @@ export class UtilisateurAddComponent {
 
       this.createForm()
 
-      this.route.data.subscribe((data) =>{
-        const {menu, sousmenu, categorie} = data
-        this.menu = menu
-        this.sousmenu = sousmenu
-        this.categorie = categorie
+      this.route.paramMap.subscribe((params) => {
+
+         this.categorie = params.get('categorie')!;
+         
 
         switch (this.categorie){
           case "bstp": this.groupe_id = 1;
@@ -67,6 +66,14 @@ export class UtilisateurAddComponent {
           this.formRegister.updateValueAndValidity()
         }
         this.formRegister.get('groupe_id')?.setValue(this.groupe_id)
+       });
+
+      this.route.data.subscribe((data) =>{
+        const {menu, sousmenu, categorie} = data
+        this.menu = menu
+        this.sousmenu = sousmenu
+
+       
 
       })
 

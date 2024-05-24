@@ -19,7 +19,7 @@
               <div class="col-lg-auto">
                   <div class="hstack flex-wrap gap-2">
                       <button class="btn btn-subtle-danger d-none" id="remove-actions" (click)="deleteRecordModal.show()"><i class="ri-delete-bin-2-line"></i></button>
-                      <a href="javascript:void(0);" (click)="addBuyer($event)" class="btn btn-secondary"><i class="bi bi-plus-circle align-baseline me-1"></i> Thematique</a>
+                      <a href="javascript:void(0);" (click)="addBuyer($event)" class="btn btn-info"><i class="bi bi-plus-circle align-baseline me-1"></i> Thematique</a>
 
                   </div>
               </div><!--end col-->
@@ -39,7 +39,7 @@
                       <thead class="text-muted">
                           <tr>
                               <th scope="col" >No</th>
-                              <th scope="col" class="sort cursor-pointer" listsortable="libelle" (sort)="onSort($event)">Libelle </th>
+                              <th scope="col" class="sort cursor-pointer" listsortable="name" (sort)="onSort($event)">Libelle </th>
 
 
                               <th scope="col">Action</th>
@@ -49,7 +49,7 @@
                           <tr *ngFor="let data of listData;let i = index;" id="p_{{data._id}}">
                               <td class="w-10">{{ i + 1}}</td>
                               <td class="id d-none"><a href="javascript:void(0)" class="fw-medium link-primary">#TBS00{{data.id}}</a></td>
-                              <td class="category"><a routerLink="/learning/grid" class="text-reset">{{data.libelle}}</a></td>
+                              <td class="category"><a routerLink="/learning/grid" class="text-reset">{{data.name}}</a></td>
 
 
                               <td class="w-20">

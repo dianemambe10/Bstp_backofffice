@@ -10,7 +10,7 @@ export const MENU: MenuItem[] = [
       id: 1001,
       label: 'Tableau de Bord',
       icon: 'ph-gauge',
-      link: '/analytics',
+      link: '',
       parentId: 1
      },
      {
@@ -26,7 +26,7 @@ export const MENU: MenuItem[] = [
               subItems: [
                 {
                   id: 12011,
-                  label: "Information Generale",
+                  label: "Informations générales ",
                   link: '/societe/acheteurs',
                   parentId: 1201
                 },
@@ -47,7 +47,7 @@ export const MENU: MenuItem[] = [
               subItems: [
               {
                 id: 12021,
-                label: "Information Generale",
+                label: "Informations générales",
                 link: '/societe/fournisseurs',
                 parentId: 1202
               },
@@ -345,6 +345,7 @@ export const MENU: MenuItem[] = [
                 link: '/learning/formation',
                 parentId: 8
             },
+            /*
             {
                 id: 25,
                 label: 'MENUITEMS.APPS.LIST.COURSES',
@@ -432,7 +433,7 @@ export const MENU: MenuItem[] = [
                     }
                 ]
             },
-
+*/
         ]
     },
     /*
@@ -954,8 +955,8 @@ export const MENU: MenuItem[] = [
         icon: "ph-paint-brush-broad",
         link: '/apps/widgets'
     },
+ 
 
-    */
     {
         id: 125,
         label: 'MENUITEMS.FORMS.TEXT',
@@ -1035,7 +1036,7 @@ export const MENU: MenuItem[] = [
             }
         ]
     },
-    /*
+  
     {
         id: 138,
         label: 'MENUITEMS.TABLES.TEXT',

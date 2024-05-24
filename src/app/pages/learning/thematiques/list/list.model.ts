@@ -1,4 +1,4 @@
 export interface ListModel {
   id?: any;
-  libelle?: any;
+  name?: any;
 }

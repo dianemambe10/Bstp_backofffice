@@ -3,19 +3,6 @@
 <!-- End Breadcrumbs -->
 
 
-<div class="row row-cols-xxl-5 row-cols-lg-3 row-cols-md-2 row-cols-1">
-  <div *ngFor="let data of listingcards" class="col">
-      <div class="card border-bottom border-3 card-animate border-{{data.border}}">
-          <div class="card-body">
-              <span class="badge bg-{{data.iconColor}}-subtle text-{{data.iconColor}} float-end"><i class="{{data.icon}} align-middle me-1"></i> {{data.persent}}%</span>
-              <h4 class="mb-4"><span class="counter-value" [countUp]="data.target"></span>
-              </h4>
-
-              <p class="text-muted fw-medium text-uppercase mb-0">{{data.title}}</p>
-          </div>
-      </div>
-  </div><!--end col-->
-</div><!---end row-->
 
 <div class="row">
   <div class="col-lg-12">
@@ -34,7 +21,7 @@
               <div class="col-lg-auto">
                   <div class="hstack flex-wrap gap-2">
                       <button class="btn btn-subtle-danger d-none" id="remove-actions" (click)="deleteRecordModal.show()"><i class="ri-delete-bin-2-line"></i></button>
-                      <a href="javascript:void(0);" (click)="addBuyer($event)" class="btn btn-secondary"><i class="bi bi-plus-circle align-baseline me-1"></i> Paiement</a>
+                      <a href="javascript:void(0);" (click)="addBuyer($event)" class="btn btn-info"><i class="bi bi-plus-circle align-baseline me-1"></i> Paiement</a>
                       <div>
                         <button #toggleButton (click)="togglebtn($event)" class="btn btn-outline-info custom-toggle me-1"
                                 data-bs-toggle="button"

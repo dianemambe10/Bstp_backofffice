@@ -15,7 +15,7 @@ const routes: Routes = [
     title: "Les utilisateur",
     children: [
       {
-        path: 'nouveau',
+        path: 'nouveau/:categorie',
         title: "BSTP |  Ajout d'un utilisateur",
         component: UtilisateurAddComponent,
         data: {

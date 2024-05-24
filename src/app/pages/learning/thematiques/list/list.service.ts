@@ -42,7 +42,7 @@ function sort(countries: ListModel[], column: SortColumn, direction: string): Li
 }
 
 function matches(country: ListModel, term: string, pipe: PipeTransform) {
-  return  country.libelle?.toLowerCase().includes(term.toLowerCase())
+  return  country.name?.toLowerCase().includes(term.toLowerCase())
     ;
 }
 

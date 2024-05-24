@@ -127,7 +127,7 @@ export class UtilisateurListComponent {
   addBuyer(e: Event){
 
     e.preventDefault()
-      this.router.navigate(['../access/utilisateur/nouveau']);
+      this.router.navigate(['../access/utilisateur/nouveau/categorie' , this.categorie]);
 
   }
 

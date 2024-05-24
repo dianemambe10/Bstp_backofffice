@@ -7,8 +7,7 @@ import { ListModel } from './list.model';
 import { DecimalPipe } from '@angular/common';
 import { debounceTime, delay, switchMap, tap } from 'rxjs/operators';
 import { SortColumn, SortDirection } from './list-sortable.directive';
-import { TypeSocieteService } from 'src/app/core/services/type-societe.service';
-import { ThematiqueService } from 'src/app/core/services/thematique.service';
+import { FormationServices } from 'src/app/core/services/formation.service';
 
 interface SearchResult {
   countries: ListModel[];
@@ -42,8 +41,8 @@ function sort(countries: ListModel[], column: SortColumn, direction: string): Li
 }
 
 function matches(country: ListModel, term: string, pipe: PipeTransform) {
-  return  country.titre?.toLowerCase().includes(term.toLowerCase()) || country.etat?.toLowerCase().includes(term.toLowerCase())
-  || country.status?.toLowerCase().includes(term.toLowerCase()) || country.thematique?.toLowerCase().includes(term.toLowerCase())
+  return  country.title?.toLowerCase().includes(term.toLowerCase()) || country.etat?.toLowerCase().includes(term.toLowerCase())
+  || country.status?.toLowerCase().includes(term.toLowerCase()) || country.thematiques?.toLowerCase().includes(term.toLowerCase())
     ;
 }
 
@@ -73,7 +72,7 @@ export class ListService {
   Products$: any;
   products$: any;
   constructor(
-    public thematiqueService: ThematiqueService,
+    private formationService: FormationServices,
     private pipe: DecimalPipe) {
     this._search$.pipe(
       tap(() => this._loading$.next(true)),
@@ -87,13 +86,11 @@ export class ListService {
     });
     this._search$.next();
 
-    this.typesocietes = courseList.reverse();
-
    this.retrieveTypeSociete()
   }
 
   retrieveTypeSociete(): void {
-    this.thematiqueService.getData()
+    this.formationService.getData()
       .subscribe({
         next: (data: ListModel[]) => {
           this.typesocietes = data;

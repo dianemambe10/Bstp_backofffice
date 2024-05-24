@@ -3,11 +3,11 @@ export const GlobalComponent = {
    // API_URL : 'https://api-node.themesbrand.website/',
 
     //API_URL : 'https://api.bstpgn.com/',
-     API_URL : '',
+     API_URL : 'api/',
     headerToken : {'Authorization': `Bearer ${localStorage.getItem('token')}`},
 
     // Auth Api
-    AUTH_API:"/api/",
+    AUTH_API:"/",
     // AUTH_API:"http://127.0.0.1:3000/auth/",
 
 
@@ -20,66 +20,66 @@ export const GlobalComponent = {
     orderId:'apps/order/',
 
     // type societe Api
-    type_societe:'v1/company_type/',
+    type_societe:'company_type/',
 
   // Domaine activite Api
-    domaine_activite:'v1/categories/',
+    domaine_activite:'categories/',
 
   // region Api
-    region:'v1/region/',
+    region:'region/',
 
 
   //prerecture Api
-    prefecture:'v1/prefectures/',
+    prefecture:'prefectures/',
 
   // commune Api
-    commune:'v1/communes/',
+    commune:'communes/',
 
   // Role Api
-    role:'v1/role/',
+    role:'role/',
 
   // User Api
-  user:'v1/user/',
+  user:'user/',
 
   // Fournisseur Api
-  fournisseur:'v1/company/',
+  fournisseur:'company/',
 
 
  // Buyer Api
-  buyer:'v1/buyer/',
+  buyer:'buyer/',
 
 
   // request Api
-  request:'v1/request/',
+  request:'request/',
 
   // request type Api
-  request_type:'v1/request_type/',
+  request_type:'request_type/',
 
   // actionnaire Api
-  actionnaire:'v1/member/',
+  actionnaire:'member/',
 
  // reference commercial Api
-  commeriale:'v1/commerciales/',
+  commeriale:'commerciales/',
 
 // reference commercial Api
-  documents:'v1/documents/',
+  documents:'documents/',
 
 
-  contrat:'v1/contract/',
+  contrat:'contract/',
 
-  payment_mode:'v1/payment_mode/',
-
-
-  abonnement:'v1/payment/',
-
-  thematique: 'v1/thematique/',
+  payment_mode:'payment_mode/',
 
 
-  formation: 'v1/formation/',
+  abonnement:'payment/',
 
-  institution_type: 'v1/institution_type/',
+  thematique: 'thematique/',
 
-  institution: 'v1/institution/',
+
+  formation: 'formation/',
+
+  institution_type: 'institution_type/',
+
+  institution: 'institution/',
 
 
 

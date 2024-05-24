@@ -13,6 +13,7 @@ import { Editor, TOOLBAR_FULL } from 'ngx-editor';
 import { ListModel } from '../list/list.model';
 import { InstitutService } from 'src/app/core/services/institut.service';
 import { Institut } from 'src/app/core/models/institut.model';
+import { Thematique } from 'src/app/core/models/thematique';
 
 @Component({
   selector: 'app-add',
@@ -26,7 +27,7 @@ export class AddComponent implements OnInit {
   currentFile?: File;
   menu = '';
   sousmenu = '';
-  thematiques : any;
+  thematiquesListe = [] as Thematique[];
 
   editor: any = Editor;
   public Editor = ClassicEditor;
@@ -78,32 +79,42 @@ export class AddComponent implements OnInit {
        */
 
       this.createForm()
-      this.thematiqueService.getData().subscribe(data => this.thematiques = data)
+      this.thematiqueService.getData().subscribe(data => this.thematiquesListe = data)
 
       this.institutService.getData().subscribe(data => this.instituts = data)
 
      }
 
      status: Array<{ id: string, name: string }> = [
-      {id: 'Public', name: "Public"},
-      {id: 'Prive', name: "Privé"}
+      {id: 'public', name: "Public"},
+      {id: 'private', name: "Privé"}
     ];
 
     etat: Array<{ id: string, name: string }> = [
-      {id: 'Publie', name: "Publié"},
-      {id: 'NonPublie', name: "Non Publié"}
+      {id: 'publish', name: "Publié"},
+      {id: 'unpublish', name: "Non Publié"}
     ];
+    mode: Array<{ id: string, name: string }> = [
+      {id: 'presentiel', name: "Presentiel"},
+      {id: 'virtuel', name: "Virtuel"}
+    ];
+    
+
 
   createForm(){
 
     this.formRegister = this.fb.group({
-      titre: ["",[Validators.required,Validators.minLength(3)]],
-      thematique: ["",[Validators.required,Validators.minLength(3)]],
+      title: ["",[Validators.required,Validators.minLength(3)]],
+      centre: ["",[Validators.required]],
+      thematiques: ["",[Validators.required]],
       description: ["",[Validators.required,Validators.minLength(3)]],
-      status: [true,[Validators.required]],
-      etat: [true,[Validators.required]],
-      support_pdf: [[],[Validators.required]],
-      lien: ["",[Validators.required]],
+      status: ['',[Validators.required]],
+      state: ['',[Validators.required]],
+      support_pdf: ['',[Validators.required]],
+      lien: ["",[],],
+      date_publication: ['',[]],
+      date_expiration: ['',[]],
+      mode: ['',[Validators.required]]
 
     });
   }
@@ -111,10 +122,13 @@ export class AddComponent implements OnInit {
 
 
     register(){
+     // let data = { ...this.formRegister.value, ...{'support_pdf': this.uploadedFiles}}
+    // let data = { ...this.formRegister.value, ...{'support_pdf': "ok"}}
+     
+      this.formRegister.get('support_pdf')?.setValue(this.uploadedFiles)
+      console.log(this.formRegister.value)
       if(this.formRegister.valid){
-
-
-
+      
         this.formationService.postData(this.formRegister.value).subscribe({
           next: (res)=> {
             this.formRegister.reset()
@@ -133,6 +147,8 @@ export class AddComponent implements OnInit {
           }
         })
       }else{
+
+        console.log(this.formRegister.errors)
 
       }
 
@@ -163,8 +179,10 @@ export class AddComponent implements OnInit {
       setTimeout(() => {
         this.uploadedFiles.push(event[0]);
       }, 100);
-      console.log(this.uploadedFiles)
-    }
+     // console.log(this.uploadedFiles)
+     
+     
+       }
   
     // File Remove
     removeFile(event: any) {

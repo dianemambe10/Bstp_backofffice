@@ -83,7 +83,7 @@ export class AddComponent implements OnInit {
             this.toastService.success('Nouveau thematique a été ajouté avec success', 'Succèss',{
               timeOut: 3000,
             })
-            this.router.navigate(['../learning/thematique/nouveau'])
+            this.router.navigate(['../learning/thematique'])
 
           },
           error:(err)=>{

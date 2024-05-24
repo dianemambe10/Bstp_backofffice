@@ -19,7 +19,7 @@
               <div class="col-lg-auto">
                   <div class="hstack flex-wrap gap-2">
                       <button class="btn btn-subtle-danger d-none" id="remove-actions" (click)="deleteRecordModal.show()"><i class="ri-delete-bin-2-line"></i></button>
-                      <a href="javascript:void(0);" (click)="addBuyer($event)" class="btn btn-secondary"><i class="bi bi-plus-circle align-baseline me-1"></i> Institut</a>
+                      <a href="javascript:void(0);" (click)="addBuyer($event)" class="btn btn-info"><i class="bi bi-plus-circle align-baseline me-1"></i> Institut</a>
 
                   </div>
               </div><!--end col-->
@@ -39,7 +39,10 @@
                       <thead class="text-muted">
                           <tr>
                               <th scope="col" >No</th>
-                              <th scope="col" class="sort cursor-pointer" listsortable="name" (sort)="onSort($event)">Libelle </th>
+                              <th scope="col" class="sort cursor-pointer" listsortable="name" (sort)="onSort($event)">Nom </th>
+                              <th scope="col" class="sort cursor-pointer" listsortable="type" (sort)="onSort($event)">Type </th>
+                              <th scope="col" class="sort cursor-pointer" listsortable="phone_number" (sort)="onSort($event)">Numero de Telephone </th>
+                              <th scope="col" class="sort cursor-pointer" listsortable="email" (sort)="onSort($event)">Email </th>
 
 
                               <th scope="col">Action</th>
@@ -50,6 +53,9 @@
                               <td class="w-10">{{ (i * service.page) + 1}}</td>
                               <td class="id d-none"><a href="javascript:void(0)" class="fw-medium link-primary">#TBS00{{data.id}}</a></td>
                               <td class="category">{{data.name}}</td>
+                              <td class="category">{{data.type.name}}</td>
+                              <td class="category">{{data.phone_number}}</td>
+                              <td class="category">{{data.email}}</td>
 
 
                               <td class="w-20">

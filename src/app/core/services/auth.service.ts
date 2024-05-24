@@ -56,7 +56,7 @@ export class AuthentificationService {
         // });
 
         // Register Api
-        return this.http.post(AUTH_API + 'v1/token/', {
+        return this.http.post(AUTH_API + 'token/', {
             email,
             first_name,
             password,
@@ -83,7 +83,7 @@ export class AuthentificationService {
         });
     */
        
-        return this.http.post(API_URL +  'v1/auth/token/',
+        return this.http.post(API_URL +  'auth/token/',
         {
           username,
           password
@@ -119,7 +119,7 @@ export class AuthentificationService {
   // User profile
   getUserProfile(): Observable<any> {
 
-    return this.http.get( 'v1/user/current_user/', { headers: this.headerToken }).pipe(map(res => {
+    return this.http.get( API_URL + 'user/current_user/', { headers: this.headerToken }).pipe(map(res => {
       // login successful if there's a jwt token in the response
       console.log(res)
       if (res ) {
