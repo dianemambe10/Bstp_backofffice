@@ -95,7 +95,7 @@ export class ListComponent implements OnInit {
   addBuyer(e: Event){
 
     e.preventDefault()
-      this.router.navigate(['../institution/type-instituts/nouveau']);
+      this.router.navigate(['../organismes/type-organismes/nouveau']);
 
   }
 
@@ -109,11 +109,11 @@ export class ListComponent implements OnInit {
 
   editItem(e: Event, id: any){
     e.preventDefault()
-      this.router.navigate(['../institution/type-instituts/edit', id]);
+      this.router.navigate(['../organismes/type-organismes/edit', id]);
   }
   detailItem(e: Event, id: any){
     e.preventDefault()
-      this.router.navigate(['../institution/type-instituts/details', id]);
+      this.router.navigate(['../organismes/type-organismes/details', id]);
   }
 
 
@@ -185,7 +185,7 @@ export class ListComponent implements OnInit {
      this.typeInstitutService.delete(this.deleteID).subscribe({
        next: (res)=> {
 
-         this.toastService.success('La suppression d\' un domaine d\'activité a été effectué avec success', 'Succèss',{
+         this.toastService.success('La suppression d\' un type d\'organisme a été effectué avec success', 'Succèss',{
            timeOut: 3000,
          })
          this.service.typesocietes = this.service.typesocietes.filter((product: any) => {

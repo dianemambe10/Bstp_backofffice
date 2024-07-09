@@ -1,0 +1,329 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="financement" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+
+<div class="row">
+  <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+
+            </div>
+            <div class="flex-shrink-0">
+                <div class="d-flex flex-wrap align-items-start gap-2">
+                         <a routerLink="../" ActivatedRoute class="btn btn-subtle-primary  btn-icon "><i class="bi bi-list-task"></i></a>
+                </div>
+            </div>
+        </div>
+
+      </div>
+      </div>
+  </div><!--end col-->
+</div><!--end row-->
+
+
+<div class="row">
+
+
+    <div class="col-xl-12">
+        <div class="card">
+          <div class="card-body">
+
+
+                <form [formGroup]="formRegister"
+                      (ngSubmit)="register()"
+                      autocomplete="off"
+                      #formRef="ngForm"
+                      class="row g-3 needs-validation"
+                      novalidate>
+                      <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="validationCustom01">Titre<span class="text-danger">*</span></label>
+                            <input
+                              id="validationCustom01"
+                              [ngClass]="{ 'is-invalid': formRef.submitted && f['title'].errors }"
+                              placeholder=""
+                              required
+                              type="text"
+                              formControlName="title"
+                              class="form-control "
+                            >
+                        <div class="invalid-feedback">
+                          <div *ngIf=" formRef.submitted && f['title'].errors" >
+                            <div *ngIf="f['title'].errors?.['required']" >
+                               Le titre est obligatoire
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                    </div>
+                  <br>
+                  <div class="col-lg-6">
+                    <div class="mb-3">
+                      <label class="form-label" for="steparrow-gen-info-organisme-demande-input">Organisme de financement<span class="text-danger">*</span> </label>
+                      <select [ngClass]="{ 'is-invalid': formRef.submitted && f['organisme'].errors }"
+                              class="form-select mb-3"
+                              formControlName="organisme"
+                              id="steparrow-gen-info-organisme-demande-input">
+                        <option value="">Choisissez un organisme de financement</option>
+                        <option *ngFor="let typ of instituts" [value]="typ.id">{{ typ.name }}</option>
+                      </select>
+        
+                      <div *ngIf="formRef.submitted && f['organisme'].errors" class="invalid-feedback">
+                        <div *ngIf="f['organisme'].errors?.['required']">Choisissez un organisme de financement</div>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="col-lg-6">
+                    <div class="mb-3">
+                      <label class="form-label" for="steparrow-gen-info-thematique-demande-input">Thematique<span class="text-danger">*</span> </label>
+                  <!--   <select [ngClass]="{ 'is-invalid': formRef.submitted && f['thematiques'].errors }"
+                              class="form-select mb-3"
+                              formControlName="thematiques"
+                              id="steparrow-gen-info-thematique-demande-input">
+                        <option value="">Choisissez une thematique</option>
+                        <option *ngFor="let typ of thematiquesListe" [value]="typ.id">{{ typ.name }}</option>
+                      </select>
+
+                    --> 
+
+                      <ng-select [items]="thematiquesListe" [multiple]="true" bindLabel="name" bindValue="id"
+                                        formControlName="thematiques" [clearable]="false">
+                                        <ng-template ng-optgroup-tmp let-item="item">
+                                            {{item.id}}
+                                        </ng-template>
+                                    </ng-select>
+        
+                      <div *ngIf="formRef.submitted && f['thematiques'].errors" class="invalid-feedback">
+                        <div *ngIf="f['thematiques'].errors?.['required']">Choisissez une thematique</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12">
+                    <label class="form-label">Description<span class="text-danger">*</span></label>
+                    <ckeditor [editor]="Editor" formControlName="description"></ckeditor>
+                </div>
+                <div class="col-lg-4">
+                  <div class="mb-3">
+                    <label class="form-label"><h6>Audience</h6></label>
+                    <div class="border  border-dashed"></div>
+                    <div *ngFor=" let mode of status" class="col-md-4  mt-3 form-check ">
+                      <input [id]="mode.id"
+                             [ngClass]="{ 'is-invalid': formRef.submitted && f['status'].errors }"
+                             [value]="mode.id"
+                             class="form-check-input"
+                             formControlName="status"
+                             required
+                             type="radio">
+                      <label [for]="mode.id" class="form-check-label">{{ mode.name}}</label>
+      
+                    </div>
+                    <div class="invalid-feedback">
+                      <div *ngIf=" formRef.submitted && f['status'].errors">
+                        <div *ngIf="f['status'].errors?.['required']">
+                          Choisissez une audience
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="mb-3">
+                    <label class="form-label"><h6>Status</h6></label>
+                    <div class="border  border-dashed"></div>
+                    <div *ngFor=" let mode of etat" class="col-md-4  mt-3 form-check ">
+                      <input [id]="mode.id"
+                             [ngClass]="{ 'is-invalid': formRef.submitted && f['state'].errors }"
+                             [value]="mode.id"
+                             class="form-check-input"
+                             formControlName="state"
+                             required
+                             type="radio">
+                      <label [for]="mode.id" class="form-check-label">{{ mode.name}}</label>
+      
+                    </div>
+                    <div class="invalid-feedback">
+                      <div *ngIf=" formRef.submitted && f['state'].errors">
+                        <div *ngIf="f['state'].errors?.['required']">
+                          Choisissez un status                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="mb-3">
+                    <label class="form-label"><h6>Mode</h6></label>
+                    <div class="border  border-dashed"></div>
+                    <div *ngFor=" let mod of mode" class="col-md-4  mt-3 form-check ">
+                      <input [id]="mod.id"
+                             [ngClass]="{ 'is-invalid': formRef.submitted && f['state'].errors }"
+                             [value]="mod.id"
+                             class="form-check-input"
+                             formControlName="mode"
+                             required
+                             type="radio">
+                      <label [for]="mod.id" class="form-check-label">{{ mod.name}}</label>
+      
+                    </div>
+                    <div class="invalid-feedback">
+                      <div *ngIf=" formRef.submitted && f['state'].errors">
+                        <div *ngIf="f['state'].errors?.['required']">
+                          Choisissez un status                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="mb-3">
+                      <label class="form-label" for="dvalidationCustom01">Date de debut<span class="text-danger">*</span></label>
+                      <input
+                        id="dvalidationCustom01"
+                        [ngClass]="{ 'is-invalid': formRef.submitted && f['periode'].errors }"
+                        placeholder=""
+                        required
+                        type="date"
+                        formControlName="periode"
+                        class="form-control "
+                      >
+                  <div class="invalid-feedback">
+                    <div *ngIf=" formRef.submitted && f['periode'].errors" >
+                      <div *ngIf="f['periode'].errors?.['required']" >
+                         La periode  est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="mb-3">
+                    <label class="form-label" for="validationCustomd01">Durée<span class="text-danger">*</span></label>
+                    <input
+                      id="validationCustomd01"
+                      [ngClass]="{ 'is-invalid': formRef.submitted && f['duree'].errors }"
+                      placeholder=""
+                      required
+                      type="text"
+                      formControlName="duree"
+                      class="form-control "
+                    >
+                <div class="invalid-feedback">
+                  <div *ngIf=" formRef.submitted && f['duree'].errors" >
+                    <div *ngIf="f['duree'].errors?.['required']" >
+                       Le titre est obligatoire
+                    </div>
+                  </div>
+                </div>
+                </div>
+            </div>
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                      <label class="form-label" for="certification01">Certification<span class="text-danger">*</span></label>
+                      <input
+                        id="certification01"
+                        [ngClass]="{ 'is-invalid': formRef.submitted && f['certification'].errors }"
+                        placeholder=""
+                        required
+                        type="text"
+                        formControlName="certification"
+                        class="form-control "
+                      >
+                  <div class="invalid-feedback">
+                    <div *ngIf=" formRef.submitted && f['certification'].errors" >
+                      <div *ngIf="f['certification'].errors?.['required']" >
+                         Le certification est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+              </div>
+                <div class="col-lg-12">
+                  <div class="mb-3">
+                    <label class="form-label"><h6>MEDIA ET PIECE JOINTE</h6></label>
+                    <div class="border  border-dashed"></div>
+
+
+
+
+                    
+                    <div class="row  mt-3">
+                      <div class="col-6">
+                          <div class="row align-items-end g-3 ">
+                            <div class="col-sm-auto ">
+                              <div class="d-flex flex-wrap align-items-end justify-content-end gap-2">
+                                <div >
+                                  <input hidden #filepath type="file"   accept="application/pdf"  (change)="onFileChange('files', $event)">
+                                  <button type="button" (click)="filepath.click()"  class="btn btn-primary btn-sm"><i class="ri-file-add-line"></i>
+                                  Selectionnez un fichier<i class="fa fa-upload"></i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div><!--end col-->
+                          </div><!--end row-->
+
+                          <ul *ngIf="documents" class="list-unstyled mb-0" id="dropzone-preview">
+                              <li class="mt-2" *ngFor="let file of documents;let i = index" id="dropzone-preview-list">
+                                  <div class="border rounded">
+                                      <div class="d-flex flex-wrap gap-2 p-2">
+                                          <div class="flex-shrink-0 me-3">
+                                              <div class="avatar-sm bg-light rounded p-2">
+                                                  <img *ngIf="file.name" class="img-fluid rounded d-block" src="assets/images/icons8-pdf-64.png"alt="Dropzone-Image" />
+                                              </div>
+                                          </div>
+                                          <div class="flex-grow-1">
+                                              <div class="pt-1">
+                                                  <h5 *ngIf="file.name" class="fs-md mb-1">{{ file.name }}</h5>
+                                                  <p *ngIf="file.size" class="fs-sm text-muted mb-0">{{ file.size/1024 | number:'1.0-0' }}KB</p>
+                                              </div>
+                                          </div>
+                                          <div class="flex-shrink-0 ms-3">
+                                              <button (click)="removeFile(i)" class="btn btn-sm btn-danger">Delete</button>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </li>
+                          </ul>
+                          
+                      </div>
+                      <div class="col-6">
+
+                        <div class="row mb-3">
+                          <div class="col-lg-4">
+                            <label class="form-label" for="steparrow-gen-info-lentreprise-input">Lien YouTube </label>
+                          </div>
+                          <div class="col-lg-8">
+                            <input
+                            [ngClass]="{ 'is-invalid': formRef.submitted && f['link_url'].errors }"
+                            class="form-control "
+                            formControlName="link_url"
+                            id="steparrow-gen-info-lentreprise-input"
+                            type="text"
+                          >
+                          <div *ngIf="formRef.submitted && f['link_url'].errors" class="invalid-feedback">
+                            <div *ngIf="f['link_url'].errors?.['required']">Le lien youtube est obligatoire</div>
+                          </div>
+                          </div>
+                      </div>
+                      </div>
+                     
+                    </div>
+                    
+                  </div>
+                </div>
+                    <div class="hstack gap-2 justify-content-start mb-3">
+                      <button class="btn btn-danger" (click)="cancel($event)"><i class="ph-x align-middle"></i> Annuler</button>
+                      <button class="btn btn-primary"><i class="ph ph-floppy-disk align-middle"></i> Enregistrer</button>
+                    </div>
+
+                  </form>
+                    <!-- </div> -->
+
+          </div>
+        </div>
+    </div>
+    <!-- end col -->
+</div><!-- end row -->
+
+<!-- end row -->

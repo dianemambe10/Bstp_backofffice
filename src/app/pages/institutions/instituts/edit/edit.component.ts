@@ -105,7 +105,8 @@ export class EditComponent implements OnInit {
       commune: ['0', []],
       description: ['', []],
       rccm: ['', [Validators.required]],
-      id: ['', [Validators.required]]
+      id: ['', [Validators.required]],
+      slug: ['', [Validators.required]]
     });
   }
 
@@ -141,7 +142,7 @@ export class EditComponent implements OnInit {
       this.formRegister.controls['prefecture'].setValue(this.institut.prefecture?.id)
       this.formRegister.controls['commune'].setValue(this.institut.commune?.id)
       this.formRegister.controls['description'].setValue(this.institut.description)
-
+      this.formRegister.controls['slug'].setValue(this.institut.slug)
 
       this.regionDefault = <number> this.institut?.region?.id
       this.prefectureDefault = <number> this.institut?.prefecture?.id
@@ -182,7 +183,7 @@ export class EditComponent implements OnInit {
             this.toastService.success('Un  institut a été modifié avec success', 'Succèss',{
               timeOut: 3000,
             })
-            this.router.navigate(['../institution/instituts'])
+            this.router.navigate(['../organismes/organismes'])
 
           },
           error:(err)=>{

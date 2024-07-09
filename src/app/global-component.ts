@@ -75,11 +75,13 @@ export const GlobalComponent = {
   thematique: 'thematique/',
 
 
-  formation: 'formation/',
+  formation: 'formations/',
 
-  institution_type: 'institution_type/',
+  institution_type: '/organisme_type/',
 
-  institution: 'institution/',
+  institution: '/organisme/',
+
+  financement: 'financement'
 
 
 

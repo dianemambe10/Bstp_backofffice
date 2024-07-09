@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { an } from '@fullcalendar/core/internal-common';
 import { ToastrService } from 'ngx-toastr';
@@ -36,7 +36,11 @@ export class AddComponent implements OnInit {
   files: File[] = [];
   files1: File[] = [];
   instituts = [] as Institut[];
+  documentArray = [] as any[];
 
+  documents: Array<any> = [];
+  file!: File | null;
+  doc!: FormArray;
   constructor(
     public toastService: ToastrService,
     private fb: UntypedFormBuilder,
@@ -83,6 +87,8 @@ export class AddComponent implements OnInit {
 
       this.institutService.getData().subscribe(data => this.instituts = data)
 
+      this.doc = <FormArray>this.formRegister.get("files")  ;
+
      }
 
      status: Array<{ id: string, name: string }> = [
@@ -96,7 +102,7 @@ export class AddComponent implements OnInit {
     ];
     mode: Array<{ id: string, name: string }> = [
       {id: 'presentiel', name: "Presentiel"},
-      {id: 'virtuel', name: "Virtuel"}
+      {id: 'online', name: "Virtuel"}
     ];
     
 
@@ -105,16 +111,19 @@ export class AddComponent implements OnInit {
 
     this.formRegister = this.fb.group({
       title: ["",[Validators.required,Validators.minLength(3)]],
-      centre: ["",[Validators.required]],
       thematiques: ["",[Validators.required]],
       description: ["",[Validators.required,Validators.minLength(3)]],
       status: ['',[Validators.required]],
       state: ['',[Validators.required]],
-      support_pdf: ['',[Validators.required]],
-      lien: ["",[],],
-      date_publication: ['',[]],
-      date_expiration: ['',[]],
-      mode: ['',[Validators.required]]
+      organisme: ["",[Validators.required]],
+      mode: ['',[Validators.required]],
+      link_url: ["",[],],
+      files: this.fb.array([], []),
+      search: ['', []],
+      certification: ['', []],
+      periode: ['', []],
+      duree: ['', []]
+      
 
     });
   }
@@ -125,8 +134,9 @@ export class AddComponent implements OnInit {
      // let data = { ...this.formRegister.value, ...{'support_pdf': this.uploadedFiles}}
     // let data = { ...this.formRegister.value, ...{'support_pdf': "ok"}}
      
-      this.formRegister.get('support_pdf')?.setValue(this.uploadedFiles)
-      console.log(this.formRegister.value)
+     // this.formRegister.get('files')?.patchValue(this.uploadedFiles.values)
+      //console.log(this.formRegister.value)
+      this.formRegister.setControl('files',this.doc)
       if(this.formRegister.valid){
       
         this.formationService.postData(this.formRegister.value).subscribe({
@@ -148,7 +158,7 @@ export class AddComponent implements OnInit {
         })
       }else{
 
-        console.log(this.formRegister.errors)
+        console.log(this.formRegister.value)
 
       }
 
@@ -179,14 +189,24 @@ export class AddComponent implements OnInit {
       setTimeout(() => {
         this.uploadedFiles.push(event[0]);
       }, 100);
-     // console.log(this.uploadedFiles)
+      console.log(this.uploadedFiles)
+
+      for(let i=0; i < this.uploadedFiles.length; i++ ){
+        this.documentArray.push(this.fb.group({
+          name: this.fb.control(<File>this.uploadedFiles[i]['name']),
+          document: this.fb.control(<File>this.uploadedFiles[i]['dataURL']),
+        }))
+      }
+
+      console.log(this.documentArray.values)
      
      
        }
   
     // File Remove
-    removeFile(event: any) {
-      this.uploadedFiles.splice(this.uploadedFiles.indexOf(event), 1);
+    removeFile(index: any) {
+      this.documents.splice(index, 1);
+      this.doc.removeAt(index);
     }
   
     // File Upload
@@ -205,6 +225,64 @@ export class AddComponent implements OnInit {
     }
 
     */
+
+/*
+    onFileChange(filename: string, event: any) {
+      
   
+    //  documents.clear();
+      this.documents = [];
+  
+      if (event.target.files && event.target.files.length) {
+        for(let i = 0; i < event.target.files.length; i++) {
+          this.file = event.target.files[i];
+          const reader = new FileReader();
+          
+          console.log(this.file);
+  
+          this.documents.push({
+            name: this.file?.name,
+          })
+  
+          reader.readAsDataURL(this.file!);
+  
+          reader.onload = () => {
+            this.doc.push(this.fb.group({
+              name: this.fb.control(this.file?.name),
+              document: this.fb.control(reader.result),
+            }))
+          };
+        }
+
+        console.log(this.doc)
+       // this.formRegister.setControl('files',doc)
+      }
+    }
+  
+  */
+
+    onFileChange(filename: string, event: any) {
+
+      if(event.target.files && event.target.files.length){
+        const reader = new FileReader();
+        const file: File = event.target.files[0]
+        this.documents.push({
+          name: file?.name,
+          size: file?.size
+        })
+        console.log(this.documents.values)
+        reader.readAsDataURL(file);
+        reader.onload = () =>
+        {
+           this.doc.push(this.fb.group({
+            name: this.fb.control(file?.name),
+            document: this.fb.control(reader.result),
+          }))
+        }
+      }
+
+      console.log(this.doc.value)
+    }
+
 
 }

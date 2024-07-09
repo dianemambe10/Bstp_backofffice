@@ -1,6 +1,6 @@
 {
     "/api/*": {
-        "target": "https://bstpgn.com/api/v1/",
+        "target":   "http://dev-api.bstpgn.com/api/v1/",
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug",

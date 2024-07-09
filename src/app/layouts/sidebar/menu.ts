@@ -153,20 +153,20 @@ export const MENU: MenuItem[] = [
         ]},
          {
             id: 16000,
-            label: 'Gestion des institutions',
+            label: 'Gestion des organismes',
             icon: 'ph-keyhole-thin',
             parentId: 1,
             subItems: [
                 {
                     id: 13010,
-                    label: 'Instituts',
-                    link: '/institution/instituts',
+                    label: 'Organismes',
+                    link: '/organismes/organismes',
                     parentId: 16000
                 },
                 {
                     id: 13020,
-                    label: "Type d'Institut",
-                    link: '/institution/type-instituts',
+                    label: "Type d'Organismes",
+                    link: '/organismes/type-organismes',
                     parentId: 16000
                 },
     
@@ -326,6 +326,12 @@ export const MENU: MenuItem[] = [
         parentId: 8,
     },
     */
+    {
+        id: 8888,
+        label: 'financement',
+        icon: 'ph-graduation-cap',
+        link: '/learning/financement',
+    },
    
     {
         id: 24,

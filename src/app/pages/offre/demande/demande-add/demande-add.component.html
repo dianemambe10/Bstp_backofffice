@@ -41,12 +41,12 @@
               novalidate>
           <div class="col-lg-6">
             <div class="mb-3">
-              <label class="form-label" for="steparrow-gen-info-buyer-id-input">Fournisseur</label>
+              <label class="form-label" for="steparrow-gen-info-buyer-id-input">Acheteur</label>
               <select [ngClass]="{ 'is-invalid': formRef.submitted && f['buyer'].errors }"
                       class="form-select mb-3"
                       formControlName="buyer"
                       id="steparrow-gen-info-buyer-id-input">
-                <option value="">Choisissez un fournisseur</option>
+                <option value="">Choisissez un acheteur</option>
                 <option *ngFor="let reg of buyer" [value]="reg.id">{{ reg.name }}</option>
               </select>
 

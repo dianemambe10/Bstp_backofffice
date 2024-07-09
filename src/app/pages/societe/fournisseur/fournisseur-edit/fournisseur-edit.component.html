@@ -38,6 +38,7 @@
             </div>
             <ng-stepper (selectionChange)="change($event)" [linear]="true" cdkStepper
                         class="cdksteppercontent nav nav-pills progress-bar-tab custom-nav ">
+                        <!--
               <cdk-step [optional]="false" [stepControl]="formStep1">
                 <ng-template cdkStepLabel class="wizard-nav mb-5">
                   <button aria-controls="pills-gen-info" aria-selected="true" class="nav-link rounded-pill "
@@ -187,21 +188,21 @@
                     </div>
                     <div class="col-lg-6">
                       <div class="mb-3">
-                        <label class="form-label" for="steparrow-gen-info-role_dans_lentreprise">Fonction dans
+                        <label class="form-label" for="steparrow-gen-info-profession">Fonction dans
                           l'Entreprise</label>
                         <input
-                          [ngClass]="{ 'is-invalid': formAct.submitted && f1['role_dans_lentreprise'].errors }"
+                          [ngClass]="{ 'is-invalid': formAct.submitted && f1['profession'].errors }"
                           class="form-control "
-                          formControlName="role_dans_lentreprise"
-                          id="steparrow-gen-info-role_dans_lentreprise"
+                          formControlName="profession"
+                          id="steparrow-gen-info-profession"
                           placeholder="Entrer son role dans l'entreprise"
                           required
                           type="text"
                         >
 
                         <div class="invalid-feedback">
-                          <div *ngIf=" formAct.submitted && f1['role_dans_lentreprise'].errors">
-                            <div *ngIf="f1['role_dans_lentreprise'].errors?.['required']">
+                          <div *ngIf=" formAct.submitted && f1['profession'].errors">
+                            <div *ngIf="f1['profession'].errors?.['required']">
                               Le role dans l'entreprise est obligatoire
                             </div>
                           </div>
@@ -209,8 +210,6 @@
                       </div>
                     </div>
 
-
-                    <!-- wizard-tab -->
                     <div class="d-flex align-items-start gap-3 mt-4">
                       <button (click)="firstStep($event)"
                               [disabled]="formStep1.invalid"
@@ -226,12 +225,13 @@
 
                 </div>
               </cdk-step>
+            -->
               <cdk-step [optional]="true" [stepControl]="formStep2">
                 <ng-template cdkStepLabel>
                   <button aria-controls="pills-info-desc" aria-selected="false" class="nav-link rounded-pill"
                           data-bs-target="#pills-info-desc" data-bs-toggle="pill" data-progressbar="custom-progress-bar"
                           id="pills-info-desc-tab1"
-                          role="tab" type="button">2
+                          role="tab" type="button">1
                   </button>
                 </ng-template>
                 <div>
@@ -361,7 +361,7 @@
                                  id="{{j.id}}"
                                  type="radio"
                           >
-                          <label class="form-check-label" for="{{j.id}}">{{j.code}}</label>
+                          <label class="form-check-label" for="{{j.id}}">{{j.name}}</label>
                         </div>
 
 
@@ -569,156 +569,12 @@
                   </div>
                 </div>
               </cdk-step>
-              <cdk-step [optional]="true">
-                <ng-template cdkStepLabel>
-                  <button aria-controls="pills-info-desc" aria-selected="false"
-                          class="nav-link rounded-pill" data-bs-target="#pills-info-desc" data-bs-toggle="pill"
-                          data-progressbar="custom-progress-bar" id="pills-info-desc-tab22" role="tab" type="button">3
-                  </button>
-                </ng-template>
-                <div>
-                  <div class="mb-4">
-                    <h5>Les actionnaires</h5>
-
-                  </div>
-
-                  <div>
-                    <div class="row align-items-end g-3 mb-4">
-
-                      <div class="col-sm-auto ">
-                        <div class="d-flex flex-wrap align-items-end justify-content-end gap-2">
-                          <div>
-                            <a (click)="openActionnaireModal()" class="btn btn-primary" data-bs-target=".add-new"
-                               data-bs-toggle="modal" href="javascript:void(0);"><i
-                              class="bx bx-plus me-1"></i> Actionnnaire</a>
-
-                          </div>
-                        </div>
-                      </div><!--end col-->
-                    </div><!--end row-->
-
-                    <div class="row " style="min-height: 300px">
-                      <div *ngIf="actionnaireArray.length > 0" class="row">
-                        <div *ngFor="let data of actionnaireArray; index as i" class="col-sm-12 col-lg-6">
-                          <div class="card ribbon-box border shadow-none right">
-                            <div class="card-body">
-                              <div class="d-flex">
-                                <div class="ribbon ribbon-info ribbon-shape">{{ data.associate_percentage }}</div>
-                                <div class="flex-grow-1">
-                                  <div class="ribbon-content text-muted me-5">
-                                    <h5 class="fs-md text-start">{{data.first_name + ' ' + data.last_name }}</h5>
-                                    <p class="text-muted mb-0">{{data.role}}</p>
-                                    <div class="mt-4">
-                                      <p class="text-muted mb-2"><i
-                                        class="bi bi-telephone align-baseline me-1"></i> {{data.phone_number}}</p>
-                                      <p class="text-muted mb-2"><i class="bi bi-envelope align-baseline me-1"></i>
-                                        {{data.email}}</p>
-                                      <p class="text-muted mb-0"><i
-                                        class="bi bi-geo-alt align-baseline me-1"></i> {{data.nationality}}</p>
-                                    </div>
-                                    <div class="d-flex gap-2 pt-4">
-                                      <button (click)="editActionnaire($event, i)"
-                                              class="btn btn-outline-primary btn-icon btn-sm"
-                                              type="button"><i class="ri-pencil-line"></i>
-                                      </button>
-                                      <button (click)="openDeleteActionnaire($event, i)"
-                                              class="btn btn-outline-danger btn-icon btn-sm"
-                                              type="button"><i
-                                        class="ri-delete-bin-2-line"></i></button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div><!--end row-->
-                  </div>
-                  <div class="d-flex align-items-start gap-3 mt-4">
-                    <button cdkStepperPrevious class="btn btn-link text-decoration-none btn-label previestab"
-                            data-previous="pills-info-desc-tab1" type="button"><i
-                      class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>Précédent
-                    </button>
-                    <button cdkStepperNext class="btn btn-success btn-label right ms-auto nexttab
-                    nexttab" data-nexttab="pills-info-d-tab" type="button"><i
-                      class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Suivant
-                    </button>
-                  </div>
-                </div>
-              </cdk-step>
-              <cdk-step [optional]="true">
-                <ng-template cdkStepLabel>
-                  <button aria-controls="pills-info-desc" aria-selected="false" class="nav-link rounded-pill"
-                          data-bs-target="#pills-info-desc" data-bs-toggle="pill" data-progressbar="custom-progress-bar"
-                          id="pills-info-d-tab"
-                          role="tab" type="button">4
-                  </button>
-                </ng-template>
-                <div>
-                  <div class="my-4">
-                    <h5>Les references commmerciale</h5>
-                  </div>
-                  <div class="row align-items-end g-3 mb-4">
-                    <div class="col-sm-auto ">
-                      <div class="d-flex flex-wrap align-items-end justify-content-end gap-2">
-                        <div>
-                          <a (click)="openReferenceModal($event)" class="btn btn-primary" data-bs-target=".add-new"
-                             data-bs-toggle="modal" href="javascript:void(0);">
-                            <i class="bx bx-plus me-1"></i> Reference</a>
-                        </div>
-                      </div>
-                    </div><!--end col-->
-                  </div><!--end row-->
-
-                  <div class="row" style="min-height: 300px">
-                    <div *ngIf="referenceArray.length > 0" class="row">
-                      <div *ngFor="let data of referenceArray; index as i" class="col-sm-12 col-lg-6">
-                        <div class="card ribbon-box border shadow-none right">
-                          <div class="card-body">
-                            <div class="d-flex">
-                              <div
-                                class="ribbon ribbon-info ribbon-shape">{{ data.contact_approx_amount + ' ' + data.contact_approx_amount_currency }}</div>
-                              <div class="flex-grow-1">
-                                <div class="ribbon-content text-muted me-5">
-                                  <div class="mt-4">
-                                    <p class="text-muted mb-2"><i
-                                      class="bi bi-building align-baseline me-1"></i> {{data.company_name}}</p>
-                                    <p class="text-muted mb-2"><i
-                                      class="bi bi-person  align-baseline me-1"></i> {{data.contact_full_name}}</p>
-                                    <p class="text-muted mb-2"><i
-                                      class="bi bi-tag align-baseline me-1"></i> {{data.contact_designation}}</p>
-                                    <p class="text-muted mb-2"><i
-                                      class="bi bi-telephone align-baseline me-1"></i> {{data.contact_phone_number}}</p>
-                                    <p class="text-muted mb-2"><i class="bi bi-envelope align-baseline me-1"></i>
-                                      {{data.contact_email}}</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div><!--end row-->
-
-                  <div class="d-flex align-items-start gap-3 mt-4">
-                    <button cdkStepperPrevious class="btn btn-link text-decoration-none btn-label previestab"
-                            data-previous="pills-info-desc-tab22" type="button"><i
-                      class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Précédent
-                    </button>
-                    <button cdkStepperNext class="btn btn-success btn-label right ms-auto nexttab
-                    nexttab" data-nexttab="pills-success-tab" type="button"><i
-                      class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Suivant
-                    </button>
-                  </div>
-                </div>
-              </cdk-step>
+           
               <cdk-step [optional]="true">
                 <ng-template cdkStepLabel>
                   <button aria-controls="pills-info-desc" aria-selected="false"
                           class="nav-link rounded-pill" data-bs-target="#pills-document" data-bs-toggle="pill"
-                          data-progressbar="custom-progress-bar" id="pills-info-document-tab" role="tab" type="button">5
+                          data-progressbar="custom-progress-bar" id="pills-info-document-tab" role="tab" type="button">2
                   </button>
                 </ng-template>
                 <div>
@@ -873,7 +729,7 @@
 
               <cdk-step [optional]="false">
                 <ng-template cdkStepLabel>
-                  <button [ngClass]=" selectedIndex == 6 ? 'active' : ''" aria-controls="pills-success"
+                  <button [ngClass]=" selectedIndex == 2 ? 'active' : ''" aria-controls="pills-success"
                           aria-selected="false"
                           class="nav-link rounded-pill"
                           data-bs-target="#pills-success" data-bs-toggle="pill" data-progressbar="custom-progress-bar"
@@ -883,38 +739,6 @@
                 </ng-template>
                 <div>
                   <div *ngIf="!succes" class="mt-4">
-
-                    <div class="mt-4">
-                      <h5 class="fs-md mb-3">INFORMATION DU DEMANDEUR</h5>
-                      <div  class="table-responsive">
-                        <table class="table table-sm table-borderless align-middle description-table mb-0">
-                          <tbody>
-                          <tr>
-                            <th>Prénom</th>
-                            <td>{{ demandeur.first_name}}</td>
-                            <th>Nom</th>
-                            <td>{{ demandeur.last_name}}</td>
-                          </tr>
-                          <tr>
-                            <th>Civilité</th>
-                            <td>{{ demandeur.gender}}</td>
-                          </tr>
-                          <tr>
-                            <th>No Téléphone</th>
-                            <td>{{ demandeur.email}}</td>
-                            <th>Email</th>
-                            <td>{{ demandeur.phone_number}}</td>
-                          </tr>
-                          <tr>
-                            <th>Role</th>
-                            <td>{{ demandeur.role_dans_lentreprise}}</td>
-                          </tr>
-
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
 
                     <div class="mt-4">
                       <h5 class="fs-md mb-3">INFORMATION DE L'ENTREPRISE</h5>
@@ -978,83 +802,7 @@
                       </div>
                     </div>
 
-                    <div class="mt-4">
-                      <h5 class="fs-md mb-3">LES ACTIONNAIRES</h5>
-                      <div *ngIf="actionnaireArray.length > 0" class="row">
-                        <div *ngFor="let data of actionnaireArray; index as i" class="col-sm-12 col-lg-6">
-                          <div class="card ribbon-box border shadow-none right">
-                            <div class="card-body">
-                              <div class="d-flex">
-                                <div class="ribbon ribbon-info ribbon-shape">{{ data.associate_percentage }}</div>
-                                <div class="flex-grow-1">
-                                  <div class="ribbon-content text-muted me-5">
-                                    <h5 class="fs-md text-start">{{data.first_name + ' ' + data.last_name }}</h5>
-                                    <p class="text-muted mb-0">{{data.role}}</p>
-                                    <div class="mt-4">
-                                      <p class="text-muted mb-2"><i
-                                        class="bi bi-telephone align-baseline me-1"></i> {{data.phone_number}}</p>
-                                      <p class="text-muted mb-2"><i class="bi bi-envelope align-baseline me-1"></i>
-                                        {{data.email}}</p>
-                                      <p class="text-muted mb-0"><i
-                                        class="bi bi-geo-alt align-baseline me-1"></i> {{data.nationality}}</p>
-                                    </div>
-                                    <div class="d-flex gap-2 pt-4">
-                                      <button (click)="editActionnaire($event, i)"
-                                              class="btn btn-outline-primary btn-icon btn-sm"
-                                              type="button"><i class="ri-pencil-line"></i>
-                                      </button>
-                                      <button (click)="openDeleteActionnaire($event, i)"
-                                              class="btn btn-outline-danger btn-icon btn-sm"
-                                              type="button"><i
-                                        class="ri-delete-bin-2-line"></i></button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-
-                        </div>
-
-                      </div>
-
-
-                    </div>
-                    <div class="mt-4">
-                      <h5 class="fs-md mb-3">LES REFERENCES COMMERCIALES</h5>
-                      <div *ngIf="referenceArray.length > 0" class="row">
-                        <div *ngFor="let data of referenceArray; index as i" class="col-sm-12 col-lg-6">
-                          <div class="card ribbon-box border shadow-none right">
-                            <div class="card-body">
-                              <div class="d-flex">
-                                <div
-                                  class="ribbon ribbon-info ribbon-shape">{{ data.contact_approx_amount + ' ' + data.contact_approx_amount_currency }}</div>
-                                <div class="flex-grow-1">
-                                  <div class="ribbon-content text-muted me-5">
-
-                                    <div class="mt-4">
-                                      <p class="text-muted mb-2"><i
-                                        class="bi bi-building align-baseline me-1"></i> {{data.company_name}}</p>
-                                      <p class="text-muted mb-2"><i
-                                        class="bi bi-person  align-baseline me-1"></i> {{data.contact_full_name}}</p>
-                                      <p class="text-muted mb-2"><i
-                                        class="bi bi-tag align-baseline me-1"></i> {{data.contact_designation}}</p>
-
-                                      <p class="text-muted mb-2"><i
-                                        class="bi bi-telephone align-baseline me-1"></i> {{data.contact_phone_number}}</p>
-                                      <p class="text-muted mb-2"><i class="bi bi-envelope align-baseline me-1"></i>
-                                        {{data.contact_email}}</p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
+                  
                     <div class="d-flex align-items-start gap-3 mt-4">
                       <button cdkStepperPrevious class="btn btn-link text-decoration-none btn-label previestab"
                               data-previous="pills-info-desc-tab22" type="button"><i
@@ -1076,7 +824,7 @@
 
                       <button (click)="reload($event)"
                               class="btn btn-success btn-label right ms-auto nexttab nexttab" type="button"><i
-                        class="ri-add-line label-icon align-middle fs-16 ms-2"></i>Nouveau
+                        class="i-ri-check-fill label-icon align-middle fs-16 ms-2"></i>Terminé
                       </button>
                     </div>
                   </div>
@@ -1093,157 +841,7 @@
   </div>
 </div>
 <!--
-<div class="row">
-  <div class="col-xl-12">
-    <div class="card">
-      <div class="card-body form-steps">
-        <form class="vertical-navs-step">
-          <div class="row gy-5">
-            <div class="col-lg-12">
-              <ng-stepper #cdkStepper [linear]="true" class="vertical-wizard" id="vertical-example">
-                <cdk-step   [optional]="false" class="steps nav flex-column custom-nav nav-pills" >
-                  <ng-template cdkStepLabel>
-                    <button aria-controls="v-pills-bill-info" aria-selected="true" class="nav-link done"
-                            data-bs-target="#v-pills-bill-info" data-bs-toggle="pill" id="v-pills-bill-info-tab"
-                            role="tab" type="button">
-                                            <span class="step-title me-2">
-                                                <i class="ri-close-circle-fill align-bottom step-icon me-2"></i> Demandeur
-                                            </span>
-                    </button>
-                  </ng-template>
-                  <div class="centered-content ms-4">
-                    <div>
-                      <h5>Demandeur</h5>
-                    </div>
-                    <app-fournisseur-step-one  #stepOne  (formOne)="formEmitStep1($event)"></app-fournisseur-step-one>
 
-                  </div>
-                </cdk-step>
-                <cdk-step [optional]="false"  >
-                  <ng-template cdkStepLabel>
-                    <button aria-controls="v-pills-bill-address" aria-selected="false" class="nav-link active"
-                            data-bs-target="#v-pills-bill-base" data-bs-toggle="pill" id="v-pills-bill-base-tab"
-                            role="tab" type="button">
-                                            <span class="step-title me-2">
-                                                <i class="ri-close-circle-fill align-bottom step-icon me-2"></i> Information de base
-                                            </span>
-                    </button>
-                  </ng-template>
-                  <div class="centered-content ms-4">
-                    <div>
-                      <h5>Information de base</h5>
-                    </div>
-                    <app-fournisseur-step-two #stepTwo (formTwo)="formEmitStep2($event)"></app-fournisseur-step-two>
-
-                  </div>
-                </cdk-step>
-                <cdk-step [optional]="true">
-                  <ng-template cdkStepLabel>
-                    <button aria-controls="v-pills-bill-address" aria-selected="false" class="nav-link"
-                            data-bs-target="#v-pills-bill-actionnaire" data-bs-toggle="pill"
-                            id="v-pills-bill-actionnaire-tab"
-                            role="tab" type="button">
-                                            <span class="step-title me-2">
-                                                <i class="ri-close-circle-fill align-bottom step-icon me-2"></i> Actionnaires
-                                            </span>
-                    </button>
-                  </ng-template>
-                  <div class="centered-content ms-4">
-                    <div>
-                      <h5>Actionnaires</h5>
-                    </div>
-                    <app-fournisseur-step-actionnaire #stepThree
-                                                      (actAdd)="modalAddEmit($event)"
-                                                      (actDel)="modalDeleteEmit($event)"
-                                                      (actEdit)="modalEditEmit($event)">
-
-                    </app-fournisseur-step-actionnaire>
-
-                  </div>
-                </cdk-step>
-                <cdk-step [optional]="true">
-                  <ng-template cdkStepLabel>
-                    <button aria-controls="v-pills-bill-address" aria-selected="false" class="nav-link "
-                            data-bs-target="#v-pills-bill-commerciale" data-bs-toggle="pill"
-                            id="v-pills-bill-commerciale-tab"
-                            role="tab" type="button">
-                                            <span class="step-title me-2">
-                                                <i class="ri-close-circle-fill align-bottom step-icon me-2"></i> Reference
-                                            </span>
-                    </button>
-                  </ng-template>
-                  <div class="centered-content ms-4">
-                    <div>
-                      <h5>Reference commerciale</h5>
-                    </div>
-                    <app-fournisseur-step-reference #stepFour
-                                                    (refAdd)="modalAddEmitReference($event)"
-                                                    (refDel)="modalDeleteEmitReference($event)"
-                                                    (refEdit)="modalEditEmitReference($event)">
-
-                    </app-fournisseur-step-reference>
-
-                  </div>
-                </cdk-step>
-                <cdk-step [optional]="false">
-                  <ng-template cdkStepLabel>
-                    <button aria-controls="v-pills-payment" aria-selected="false" class="nav-link"
-                            data-bs-target="#v-pills-payment" data-bs-toggle="pill" id="v-pills-document-tab" role="tab"
-                            type="button">
-                                            <span class="step-title me-2">
-                                                <i class="ri-close-circle-fill align-bottom step-icon me-2"></i> Documents
-                                            </span>
-                    </button>
-                  </ng-template>
-                  <div class="centered-content ms-4">
-                    <div>
-                      <h5>Documents</h5>
-                      <p class="text-muted"></p>
-                    </div>
-
-                    <app-fournisseur-step-three #stepThree
-                                                (formThree)="formEmitStep3($event)"></app-fournisseur-step-three>
-
-
-                  </div>
-                </cdk-step>
-                <cdk-step [optional]="true">
-                  <ng-template cdkStepLabel>
-                    <button aria-controls="v-pills-finish" aria-selected="false" class="nav-link"
-                            data-bs-target="#v-pills-finish" data-bs-toggle="pill" id="v-pills-finish-tab" role="tab"
-                            type="button">
-                                            <span class="step-title me-2">
-                                                <i class="ri-close-circle-fill align-bottom step-icon me-2"></i> Fin
-                                            </span>
-                    </button>
-                  </ng-template>
-                  <div class="text-center pt-4 pb-2 ms-4">
-
-                    <img alt="" height="150" src="assets/images/success-img.png">
-                    <div class="mt-4 pt-2 fs-base">
-                      <h4>Felicitation !</h4>
-                      <p class="text-muted mx-4 mb-0">Un nouveau founisseur enregistré avec success.</p>
-                    </div>
-                    <div class="d-flex align-items-start gap-3 mt-4">
-
-                      <button  class="btn btn-success btn-label right ms-auto nexttab nexttab"
-                              type="submit"><i
-                        class="ri-add-line label-icon align-middle fs-16 ms-2"></i>Nouveau
-                      </button>
-                    </div>
-                  </div>
-                </cdk-step>
-              </ng-stepper>
-            </div>
-
-
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
--->
 <!-- Success Modal -->
 <div #successContent="bs-modal" bsModal class="modal fade">
   <div class="modal-dialog modal-dialog-centered">
@@ -1272,478 +870,7 @@
 </div>
 
 
-<!-- Modal -->
-<div #addActionnaire="bs-modal" bsModal class="modal fade" id="addActionnaire">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content border-0">
-      <div class="modal-header bg-vertical-gradient-2 p-3">
-        <h5 class="modal-title text-white" id="addActionnaireModalLabel">{{ modalAjoutTitle }}</h5>
-        <button (click)="addActionnaire.hide()" class="btn-close btn-close-white" type="button"></button>
-      </div>
-      <form #formAct="ngForm"
-            (ngSubmit)="saveActionnaire(actsave)"
-            [formGroup]="formActionnaire"
-            autocomplete="off"
-            class="row g-3 needs-validation"
-            novalidate>
-        <div class="modal-body ">
 
-          <div class="row my-3">
-
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label" for="validationCustom0P1">Prénom</label>
-                <input
-                  [ngClass]="{ 'is-invalid': formAct.submitted && f['first_name'].errors }"
-                  class="form-control "
-                  formControlName="first_name"
-                  id="validationCustom0P1"
-                  placeholder="Entrer son prénom"
-                  required
-                  type="text"
-                >
-                <div class="invalid-feedback">
-                  <div *ngIf="  f['first_name'].errors && formAct.submitted ">
-                    <div *ngIf="f['first_name'].errors?.['required']">
-                      Le prénom est obligatoire
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label" for="validationCustom01">Nom</label>
-                <input
-                  [ngClass]="{ 'is-invalid': formAct.submitted && f['last_name'].errors }"
-                  class="form-control "
-                  formControlName="last_name"
-                  id="validationCustom01"
-                  placeholder="Entrer son nom"
-                  required
-                  type="text"
-                >
-                <div class="invalid-feedback">
-                  <div *ngIf=" formAct.submitted && f['last_name'].errors">
-                    <div *ngIf="f['last_name'].errors?.['required']">
-                      Le nom est obligatoire
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label">Civilité</label>
-                <br>
-                <div *ngFor=" let civ of civilites" class="form-check form-check-inline ">
-                  <input [ngClass]="{ 'is-invalid': formAct.submitted && f['gender'].errors }"
-                         [value]="civ.id"
-                         class="form-check-input"
-                         formControlName="gender"
-                         id="validationFormCheck3"
-                         required
-                         type="radio">
-                  <label class="form-check-label" for="validationFormCheck3">{{ civ.name}}</label>
-
-                </div>
-                <div class="invalid-feedback">
-                  <div *ngIf=" formAct.submitted && f['gender'].errors">
-                    <div *ngIf="f['gender'].errors?.['required']">
-                      La civilite est obligatoire
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label" for="validationCustom01d">Date de Naissance</label>
-                <input
-                  [bsConfig]="bsConfig"
-                  [ngClass]="{ 'is-invalid': formAct.submitted && f['date_of_birth'].errors }"
-                  bsDatepicker
-                  class="form-control"
-                  formControlName="date_of_birth"
-                  id="validationCustom01d" type="text"
-                >
-                <div class="invalid-feedback">
-                  <div *ngIf=" formAct.submitted && f['date_of_birth'].errors">
-                    <div *ngIf="f['date_of_birth'].errors?.['required']">
-                      La date naissance est obligatoire
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label" for="steparrow-gen-nationalit-input">Nationalité</label>
-                <ng-select (change)="ngSelectChange($event)"
-                           [clearable]="true"
-                           [searchable]="false"
-                           bindLabel="countryName"
-                           bindValue="countryName"
-                           formControlName="nationality"
-                           id="steparrow-gen-nationalit-input">
-                  <ng-option *ngFor="let data of Default" value="{{ data.countryName }}">
-                    <img alt="country flag" class="options-flagimg" height="20" src="{{data.flagImg}}">
-                    {{data.countryName}}
-                  </ng-option>
-                </ng-select>
-                <div class="invalid-feedback">
-                  <div *ngIf=" formAct.submitted && f['nationality'].errors">
-                    <div *ngIf="f['nationality'].errors?.['required']">
-                      La nationalite est obligatoire
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <br>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label" for="steparrow-gen-info-phone_number-inputv">Numéro de Téléphone</label>
-                <input
-                  [ngClass]="{ 'is-invalid': formAct.submitted && f['phone_number'].errors }"
-                  class="form-control "
-                  formControlName="phone_number"
-                  id="steparrow-gen-info-phone_number-inputv"
-                  placeholder="Entrer son numero"
-                  required
-                  type="text"
-                >
-                <div class="invalid-feedback">
-                  <div *ngIf=" formAct.submitted && f['phone_number'].errors">
-                    <div *ngIf=" f['phone_number'].errors?.['required']">
-                      Le numero de téléphone est obligatoire
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label" for="steparrow-gen-info-email-inputa">Email</label>
-                <input
-                  [ngClass]="{ 'is-invalid': formAct.submitted && f['email'].errors }"
-
-                  class="form-control "
-                  formControlName="email"
-                  id="steparrow-gen-info-email-inputa"
-                  required
-                  type="text"
-                >
-
-                <div *ngIf="formAct.submitted && f['email'].errors" class="invalid-feedback">
-                  <div *ngIf="f['email'].errors?.['required']">L'email est obligatoire</div>
-                  <div *ngIf="f['email'].errors?.['email']">Le format d'email est incorrect</div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label" for="steparrow-gen-info-role_dans_lentreprise-input">Fonction dans
-                  l'Entreprise</label>
-                <input
-                  [ngClass]="{ 'is-invalid': formAct.submitted && f['role_dans_lentreprise'].errors }"
-                  class="form-control "
-                  formControlName="role_dans_lentreprise"
-                  id="steparrow-gen-info-role_dans_lentreprise-input"
-                  placeholder="Entrer son role dans l'entreprise"
-                  required
-                  type="text"
-                >
-
-                <div class="invalid-feedback">
-                  <div *ngIf=" formAct.submitted && f['role_dans_lentreprise'].errors">
-                    <div *ngIf="f['role_dans_lentreprise'].errors?.['required']">
-                      Le role dans l'entreprise est obligatoire
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label" for="steparrow-gen-info-part-input">Part d'Action</label>
-                <input
-                  [ngClass]="{ 'is-invalid': formAct.submitted && f['associate_percentage'].errors }"
-                  class="form-control "
-                  formControlName="associate_percentage"
-                  id="steparrow-gen-info-part-input"
-                  placeholder="Entrer son role dans l'entreprise"
-                  required
-                  type="number"
-                >
-
-                <div class="invalid-feedback">
-                  <div *ngIf=" formAct.submitted && f['associate_percentage'].errors">
-                    <div *ngIf="f['associate_percentage'].errors?.['required']">
-                      Le role dans l'entreprise est obligatoire
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-          </div>
-
-
-        </div>
-        <div class="modal-footer">
-          <div class="hstack gap-2 justify-content-end">
-            <button (click)="addActionnaire.hide()" class="btn btn-ghost-danger" type="button"><i
-              class="bi bi-x-lg align-baseline me-1"></i> Close
-            </button>
-            <button class="btn btn-primary" id="add-btn" type="submit">Add</button>
-          </div>
-        </div>
-      </form>
-
-    </div>
-    <!-- modal-content -->
-  </div>
-</div><!--end add Property modal-->
-
-
-<!-- deleteRecordModal -->
-<div #deleteRecordModal="bs-modal" bsModal class="modal fade zoomIn" id="deleteRecordModal">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button (click)="deleteRecordModal.hide()" class="btn-close" id="deleteRecord-close" type="button"></button>
-      </div>
-      <div class="modal-body p-md-5">
-        <div class="text-center">
-          <div class="text-danger">
-            <i class="bi bi-trash display-5"></i>
-          </div>
-          <div class="mt-4">
-            <h4 class="mb-2">Are you sure ?</h4>
-            <p class="text-muted mx-3 mb-0">Are you sure you want to remove this record ?</p>
-          </div>
-        </div>
-        <div class="d-flex gap-2 justify-content-center mt-4 pt-2 mb-2">
-          <button (click)="deleteRecordModal.hide()" class="btn w-sm btn-light btn-hover" type="button">Close</button>
-          <button (click)="confirmDelete($event, type)" class="btn w-sm btn-danger btn-hover" id="delete-record"
-                  type="button">Yes,
-            Delete It!
-          </button>
-        </div>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /deleteRecordModal -->
-
-
-<!-- Modal -->
-<div #addReference="bs-modal" bsModal class="modal fade" id="addReference">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content border-0">
-      <div class="modal-header bg-vertical-gradient-2 p-3">
-        <h5 class="modal-title text-white" id="addReferenceModalLabel">{{ modalAjoutTitle }}</h5>
-        <button (click)="addReference.hide()" class="btn-close btn-close-white" type="button"></button>
-      </div>
-      <form #formReff="ngForm"
-            (ngSubmit)="saveReference(actsave)"
-            [formGroup]="formReference"
-            autocomplete="off"
-            class="row g-3 needs-validation"
-            novalidate>
-        <div class="modal-body ">
-          <div class="row my-3">
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label" for="validationCompagnie">Nom de la compagnie <span
-                  class="text-danger">*</span> </label>
-                <input
-                  [ngClass]="{ 'is-invalid': formReff.submitted && ff['company_name'].errors }"
-                  class="form-control "
-                  formControlName="company_name"
-                  id="validationCompagnie"
-                  required
-                  type="text"
-                >
-                <div class="invalid-feedback">
-                  <div *ngIf="  ff['company_name'].errors && formReff.submitted ">
-                    <div *ngIf="ff['company_name'].errors?.['required']">
-                      Le nom de la compagnie est obligatoire
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label" for="validationFull">Nom du Contact</label>
-                <input
-                  [ngClass]="{ 'is-invalid': formReff.submitted && ff['contact_full_name'].errors }"
-                  class="form-control "
-                  formControlName="contact_full_name"
-                  id="validationFull"
-                  required
-                  type="text"
-                >
-                <div class="invalid-feedback">
-                  <div *ngIf=" formReff.submitted && ff['contact_full_name'].errors">
-                    <div *ngIf="ff['contact_full_name'].errors?.['required']">
-                      Le nom de contact est obligatoire
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label" for="validationContact">No du Contact</label>
-                <input
-                  [ngClass]="{ 'is-invalid': formReff.submitted && ff['contact_phone_number'].errors }"
-                  class="form-control "
-                  formControlName="contact_phone_number"
-                  id="validationContact"
-                  required
-                  type="text"
-                >
-                <div class="invalid-feedback">
-                  <div *ngIf=" formReff.submitted && ff['contact_phone_number'].errors">
-                    <div *ngIf="ff['contact_phone_number'].errors?.['required']">
-                      La numero de contact est obligatoire
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label" for="steparrow-gen-info-email-input2">Email du contact</label>
-                <input
-                  [ngClass]="{ 'is-invalid': formReff.submitted && ff['contact_email'].errors }"
-
-                  class="form-control "
-                  formControlName="contact_email"
-                  id="steparrow-gen-info-email-input2"
-                  required
-                  type="text"
-                >
-
-                <div *ngIf="formReff.submitted && ff['contact_email'].errors" class="invalid-feedback">
-                  <div *ngIf="ff['contact_email'].errors?.['required']">L'email est obligatoire</div>
-                  <div *ngIf="ff['contact_email'].errors?.['email']">Le format d'email est incorrect</div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label" for="steparrow-gen-info-designation-input2">Designation du contact</label>
-                <input
-                  [ngClass]="{ 'is-invalid': formReff.submitted && ff['contact_designation'].errors }"
-
-                  class="form-control "
-                  formControlName="contact_designation"
-                  id="steparrow-gen-info-designation-input2"
-                  required
-                  type="text"
-                >
-
-                <div class="invalid-feedback">
-                  <div *ngIf=" formReff.submitted && ff['contact_designation'].errors">
-                    <div *ngIf="ff['contact_designation'].errors?.['required']">
-                      Le designation du contact est obligatoire
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label" for="steparrow-gen-contact-input">Valeur approximative du contrat</label>
-
-
-                <div class="input-group" dropdown>
-                  <button aria-expanded="false" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                          dropdownToggle type="button">Devises
-                  </button>
-                  <ul *dropdownMenu class="dropdown-menu">
-                    <li><a (click)="device('FG')" class="dropdown-item" href="javascript:void(0);">FG</a></li>
-                    <li><a (click)="device('Dollar')" class="dropdown-item" href="javascript:void(0);">Dollar</a></li>
-                    <li><a (click)="device('Euro')" class="dropdown-item" href="javascript:void(0);">Euro</a></li>
-                  </ul>
-                  <input
-                    [ngClass]="{ 'is-invalid': formReff.submitted && ff['contact_approx_amount'].errors }"
-                    aria-label="Text input with dropdown button"
-                    class="form-control "
-                    formControlName="contact_approx_amount"
-                    id="steparrow-gen-contact-input"
-                    required
-                    type="number"
-                  >
-                </div>
-
-
-                <div class="invalid-feedback">
-                  <div *ngIf=" formReff.submitted && ff['contact_approx_amount'].errors">
-                    <div *ngIf=" ff['contact_approx_amount'].errors?.['required']">
-                      Le montant est obligatoire
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-12">
-              <div class="mb-3">
-                <label class="form-label" for="steparrow-gen-info-pricipale-inputa">Reference du contrat et breve
-                  description des bien +/, service fournis </label>
-                <textarea class="form-control"
-                          formControlName="reference"
-                          id="steparrow-gen-info-pricipale-inputa"
-                          rows="3"
-                ></textarea>
-
-                <div *ngIf="formReff.submitted && ff['reference'].errors" class="invalid-feedback">
-                  <div *ngIf="ff['reference'].errors?.['required']">La reference est obligatoire</div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-8">
-              <div class="mb-3">
-                <label class="form-label" for="steparrow-gen-info-lentreprise-input-3">Joignez la preuve de l'existence
-                  de contrats / SLA/ LSO/ LPO </label>
-                <input
-                  (change)="onChangeFile($event, 'attachement')"
-                  [ngClass]="{ 'is-invalid': formReff.submitted && ff['doc'].errors }"
-                  accept="application/pdf"
-                  class="form-control "
-                  formControlName="doc"
-                  id="steparrow-gen-info-lentreprise-input-3"
-                  type="file"
-                >
-
-                <div *ngIf="formReff.submitted && ff['doc'].errors" class="invalid-feedback">
-                  <div *ngIf="ff['doc'].errors?.['required']">Le dni est obligatoire</div>
-                </div>
-              </div>
-            </div>
-
-
-          </div>
-
-
-        </div>
-        <div class="modal-footer">
-          <div class="hstack gap-2 justify-content-end">
-            <button (click)="addReference.hide()" class="btn btn-ghost-danger" type="button"><i
-              class="bi bi-x-lg align-baseline me-1"></i> Close
-            </button>
-            <button class="btn btn-primary" id="add-btn1" type="submit">Add</button>
-          </div>
-        </div>
-      </form>
-    </div>
-    <!-- modal-content -->
-  </div>
-</div><!--end add Property modal-->
 
 
 

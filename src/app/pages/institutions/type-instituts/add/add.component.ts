@@ -80,10 +80,10 @@ export class AddComponent implements OnInit {
           next: (res)=> {
             this.formRegister.reset()
             this.submitted= true;
-            this.toastService.success('Nouveau type d\'institut a été ajouté avec success', 'Succèss',{
+            this.toastService.success('Nouveau type d\'organisme a été ajouté avec success', 'Succèss',{
               timeOut: 3000,
             })
-            this.router.navigate(['../institution/type-instituts'])
+            this.router.navigate(['../organismes/type-organismes'])
 
           },
           error:(err)=>{
@@ -102,7 +102,7 @@ export class AddComponent implements OnInit {
 
     cancel(e: Event){
       e.preventDefault()
-      this.router.navigate(['../institution/type-instituts'])
+      this.router.navigate(['../organismes/type-instituts'])
 
     }
 

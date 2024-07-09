@@ -2,12 +2,9 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Entreprise } from 'src/app/core/models/entreprise.model';
-import {FournisseurStepOneComponent} from "../../fournisseur/fournisseur-step-one/fournisseur-step-one.component";
-import {FournisseurStepTwoComponent} from "../../fournisseur/fournisseur-step-two/fournisseur-step-two.component";
 import {BsModalRef, ModalDirective} from "ngx-bootstrap/modal";
 import {UserProfileService} from "../../../../core/services/user.service";
 import {ToastrService} from "ngx-toastr";
-import {FournisseurService} from "../../../../core/services/fournisseur.service";
 import {DataService} from "../../../../core/services/data.service";
 import {HelpsService} from "../../../../core/services/helps.service";
 import {TypeSocieteService} from "../../../../core/services/type-societe.service";
@@ -18,15 +15,11 @@ import {Commune} from "../../../../core/models/commune.model";
 import {User} from "../../../../core/models/auth.models";
 import {BuyerService} from "../../../../core/services/buyer.service";
 import {tap} from "rxjs/operators";
-import {Buyer} from "../../../../core/models/buyer.model";
-import {Actionnaire} from "../../../../core/models/actionnaire.model";
-import {ReferenceCommericiale} from "../../../../core/models/referenceCommericiale.model";
 import {TypeSociete} from "../../../../core/models/type-societe.model";
 import {DomaineActivite} from "../../../../core/models/domaine-activite.model";
 import {formatDate} from "@angular/common";
 import Swal from "sweetalert2";
 import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
-import {messageErreur} from "../../../../core/models/message-erreur.model";
 import {array} from "@amcharts/amcharts5";
 
 
@@ -129,32 +122,48 @@ export class AcheteurAddComponent   {
 
 
     this.formStep1 = this.fb.group({
-      last_name: ['Mohamed', [Validators.required]],
-      first_name: ['Diane', [Validators.required]],
-      date_of_birth: ['11/02/2023', [Validators.required]],
-      gender: ['M', [Validators.required]],
-      phone_number: ['628492536', []],
-      email: ['dianemambe@gmail.com', [Validators.required, Validators.email]],
-      role_dans_lentreprise: ['PDG', []],
+      last_name: ['', [Validators.required]],
+      first_name: ['', [Validators.required]],
+      date_of_birth: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
+      phone_number: ['', []],
+      email: ['', [Validators.required, Validators.email]],
+      role_dans_lentreprise: ['', []],
       username: ['', []],
+      buyer:  this.fb.group({
+        rccm: ['', []],
+        name: ['', []],
+        sectors: ['0', []],
+        description: ['', []],
+        type: ['', []],
+        registration_date: ['', []],
+        phone_number: ['', []],
+        website: ['', []],
+        email: ['', []],
+        address: ['', []],
+        region: ['0', []],
+        prefecture: ['0', []],
+        commune: ['0', []],
+      })
+     
+  
     });
 
     this.formStep2 = this.fb.group({
-      rccm: ['12336654789633', [Validators.required]],
-      name: ['Dsoft', [Validators.required]],
-      sectors: ['0', [Validators.required]],
-      description: ['une entreprise de developpement ', []],
-      type: ['sarl', [Validators.required]],
-      registration_date: ['11/02/2023', [Validators.required]],
-      phone_number: ['628492536', []],
-      website: ['https://www.micodus.net', []],
-      email: ['dianemambe@gmail.com', [Validators.required, Validators.email]],
-      address: ['ratoma', []],
-      region: ['0', []],
-      prefecture: ['0', []],
-      commune: ['0', []]
-    });
-
+      rccm: ['', [Validators.required]],
+        name: ['', [Validators.required]],
+        sectors: ['0', [Validators.required]],
+        description: ['', []],
+        type: ['', [Validators.required]],
+        registration_date: ['', [Validators.required]],
+        phone_number: ['', []],
+        website: ['', []],
+        email: ['', [Validators.required, Validators.email]],
+        address: ['', []],
+        region: ['0', []],
+        prefecture: ['0', []],
+        commune: ['0', []],
+    })
   }
 
   civilites: Array<{ id: string, name: string }> = [
@@ -168,21 +177,16 @@ export class AcheteurAddComponent   {
 
   getData(){
 
-    this.helperService.getCommmune().pipe(
-      tap(this.helperService.getPrefecture().subscribe((data: Prefecture[]) => {
-        this.prefectureList = data
-      })),
-      tap(this.helperService.getRegion().subscribe((data: Region[]) => {
-        this.regionList = data
-      }))
-    ).subscribe({
-      next: (commune: Commune[]) => {
+    this.helperService.getCommmune().subscribe((commune: Commune[]) => {
         this.communeList = commune
-
-      }, error(er) {
-
-      }
+        this.helperService.getPrefecture().subscribe((prefecture: Prefecture[]) => {
+            this.prefectureList = prefecture
+            this.helperService.getRegion().subscribe((region: Region[]) => {this.regionList = region})
+          })
     })
+
+    
+    
 
     this.domaineActiviteService.getData().subscribe((data )=>{
       this.domaineActivites = data
@@ -211,40 +215,8 @@ export class AcheteurAddComponent   {
     this.regionList = e
   }
   formEmitEnd(e: any){
-
-    this.userProfileService.postData(this.demandeur).subscribe({
-      next: (res: User)=> {
-        let data = {...this.entrepriseInfo,  ...{"user": res.id}}
-        //console.log(data)
-
-        this.buyerService.postData(data).subscribe({
-          next: (res: Entreprise) => {
-
-            this.toastService.success('Un nouveau acheteur a été ajouté avec success', 'Succèss',{
-              timeOut: 3000,
-            })
-            this.successContent?.show()
-            this.router.navigate(['../societe/acheteurs'])
-
-          },
-          error: (err) => {
-            console.log(err.messages)
-            this.toastService.error('Une erreur survenue', 'Erreur', {
-              timeOut: 3000,
-            })
-
-          }
-        })
-      },
-      error:(err)=>{
-        console.log(err.messages)
-        this.toastService.error('Une erreur survenue', 'Erreur',{
-          timeOut: 3000,
-        })
-
-      }
-    })
-
+   
+  
 
   }
 
@@ -349,34 +321,28 @@ export class AcheteurAddComponent   {
     e.preventDefault()
 
 
-    this.userProfileService.postData(this.formStep1.value).subscribe({
+
+    this.formStep1.get('buyer')?.patchValue(this.formStep2.value)
+
+    this.userProfileService.postDataBuyer(this.formStep1.value).subscribe({
       next: (res: User)=> {
-        let data = {...this.formStep2.value,  ...{"user": res.id}}
-        //console.log(data)
-
-        this.buyerService.postData(data).subscribe({
-          next: (res: Entreprise) => {
-
-            this.toastService.success('Un nouveau acheteur a été ajouté avec success', 'Succèss',{
-              timeOut: 3000,
-            })
-            this.successContent?.show()
-            this.router.navigate(['../societe/acheteurs'])
-
-          },
-          error: (err) => {
-            this.userProfileService.delete(res.id).subscribe()
-            this.handleError(err)
-          }
+       
+        this.toastService.success('Un nouveau acheteur a été ajouté avec success', 'Succèss',{
+          timeOut: 3000,
         })
+        this.successContent?.show()
+        this.router.navigate(['../societe/acheteurs'])
+
       },
       error:(err)=>{
-        //console.log(err.error)
-        //
-       this.handleError(err)
+        console.log(err.messages)
+        this.toastService.error('Une erreur survenue', 'Erreur',{
+          timeOut: 3000,
+        })
 
       }
     })
+
 
   }
 

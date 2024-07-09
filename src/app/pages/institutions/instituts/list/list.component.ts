@@ -95,7 +95,7 @@ export class ListComponent implements OnInit {
   addBuyer(e: Event){
 
     e.preventDefault()
-      this.router.navigate(['../institution/instituts/nouveau']);
+      this.router.navigate(['../organismes/organismes/nouveau']);
 
   }
 
@@ -109,11 +109,11 @@ export class ListComponent implements OnInit {
 
   editItem(e: Event, id: any){
     e.preventDefault()
-      this.router.navigate(['../institution/instituts/edit', id]);
+      this.router.navigate(['../organismes/organismes/edit', id]);
   }
   detailItem(e: Event, id: any){
     e.preventDefault()
-      this.router.navigate(['../institution/instituts/details', id]);
+      this.router.navigate(['../organismes/organismes/details', id]);
   }
 
 

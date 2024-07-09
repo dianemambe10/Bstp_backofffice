@@ -1,5 +1,5 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="INSTITUT" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="Organismes" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
 <div class="row">
@@ -19,7 +19,7 @@
               <div class="col-lg-auto">
                   <div class="hstack flex-wrap gap-2">
                       <button class="btn btn-subtle-danger d-none" id="remove-actions" (click)="deleteRecordModal.show()"><i class="ri-delete-bin-2-line"></i></button>
-                      <a href="javascript:void(0);" (click)="addBuyer($event)" class="btn btn-info"><i class="bi bi-plus-circle align-baseline me-1"></i> Institut</a>
+                      <a href="javascript:void(0);" (click)="addBuyer($event)" class="btn btn-info"><i class="bi bi-plus-circle align-baseline me-1"></i> Organisme</a>
 
                   </div>
               </div><!--end col-->
@@ -61,13 +61,13 @@
                               <td class="w-20">
                                   <ul class="d-flex gap-2 list-unstyled mb-0">
                                       <li>
-                                          <a href="javascript:void(0);" (click)="detailItem($event, data.id)" class="btn btn-subtle-primary btn-icon btn-sm "><i class="ph-eye"></i></a>
+                                          <a href="javascript:void(0);" (click)="detailItem($event, data.slug)" class="btn btn-subtle-primary btn-icon btn-sm "><i class="ph-eye"></i></a>
                                       </li>
                                       <li>
-                                          <a href="javascript:void(0);" (click)="editItem($event, data.id)" class="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"><i class="ph-pencil"></i></a>
+                                          <a href="javascript:void(0);" (click)="editItem($event, data.slug)" class="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"><i class="ph-pencil"></i></a>
                                       </li>
                                       <li>
-                                          <a href="javascript:void(0);" (click)="removeItem(data.id)" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
+                                          <a href="javascript:void(0);" (click)="removeItem(data.slug)" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
                                       </li>
                                   </ul>
                               </td>

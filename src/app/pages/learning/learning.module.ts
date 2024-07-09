@@ -7,9 +7,11 @@ import { CoursesModule } from './courses/courses.module';
 import { StudentModule } from './student/student.module';
 import { InstructorsModule } from './instructors/instructors.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { SafePipe } from 'src/app/core/helpers/pipe/safe.pipe';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   imports: [
     CommonModule,
     LearningRoutingModule,
@@ -17,6 +19,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     SharedModule,
     StudentModule,
     InstructorsModule
-  ]
+  ],
+ // providers: [SafePipe] 
 })
 export class LearningModule { }

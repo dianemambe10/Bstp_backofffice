@@ -41,9 +41,9 @@
                               <th scope="col" >No</th>
                               <th scope="col" class="sort cursor-pointer" listsortable="title" (sort)="onSort($event)">Titre </th>
                               <th scope="col" class="sort cursor-pointer" listsortable="thematiques" (sort)="onSort($event)">Thematique </th>
-                              <th scope="col" class="sort cursor-pointer" listsortable="date_publication" (sort)="onSort($event)">Date de Publication </th>
-                              <th scope="col" class="sort cursor-pointer" listsortable="date_expiration" (sort)="onSort($event)">Date d'Expiration </th>
-                              <th scope="col" class="sort cursor-pointer" listsortable="status" (sort)="onSort($event)">Audience </th>
+                              <th scope="col" class="sort cursor-pointer" listsortable="date_publication" (sort)="onSort($event)">Date de debut </th>
+                              <th scope="col" class="sort cursor-pointer" listsortable="date_expiration" (sort)="onSort($event)">Durée </th>
+                              <th scope="col" class="sort cursor-pointer" listsortable="status" (sort)="onSort($event)">Mode </th>
 
 
                               <th scope="col">Action</th>
@@ -54,21 +54,25 @@
                               <td class="w-10">{{ i + 1}}</td>
                               <td class="id d-none"><a href="javascript:void(0)" class="fw-medium link-primary">#TBS00{{data.id}}</a></td>
                               <td class="category">{{data.title}}</td>
-                              <td class="category">{{data.thematiques}}</td>
-                              <td class="category">{{data.date_publication}}</td>
-                              <td class="category">{{data.date_expiration}}</td>
-                              <td class="category">{{data.status}}</td>
+                              <td class="category">
+                                <span class="badge bg-body-secondary border border-info text-info" *ngFor="let c of data.thematiques">
+                                    {{c.name}}
+                                </span>
+                              </td>
+                              <td class="category">{{data.periode | date:'dd-MM-yy'}}</td>
+                              <td class="category">{{data.duree}}</td>
+                              <td class="category">{{data.mode}}</td>
 
                               <td class="w-20">
                                   <ul class="d-flex gap-2 list-unstyled mb-0">
                                       <li>
-                                          <a href="javascript:void(0);" (click)="detailItem($event, data.id)" class="btn btn-subtle-primary btn-icon btn-sm "><i class="ph-eye"></i></a>
+                                          <a href="javascript:void(0);" (click)="detailItem($event, data.slug)" class="btn btn-subtle-primary btn-icon btn-sm "><i class="ph-eye"></i></a>
                                       </li>
                                       <li>
-                                          <a href="javascript:void(0);" (click)="editItem($event, data.id)" class="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"><i class="ph-pencil"></i></a>
+                                          <a href="javascript:void(0);" (click)="editItem($event, data.slug)" class="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"><i class="ph-pencil"></i></a>
                                       </li>
                                       <li>
-                                          <a href="javascript:void(0);" (click)="removeItem(data.id)" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
+                                          <a href="javascript:void(0);" (click)="removeItem(data.slug)" class="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"><i class="ph-trash"></i></a>
                                       </li>
                                   </ul>
                               </td>

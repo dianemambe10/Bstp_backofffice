@@ -34,8 +34,8 @@ export class BuyerService {
   }
 
   // Patch
-  patchData(data: Buyer): Observable<any> {
-    return this.http.patch(GlobalComponent.API_URL + GlobalComponent.buyer + data.slug + "/", JSON.stringify(data), httpOptions);
+  patchData(data: any): Observable<any> {
+    return this.http.patch(GlobalComponent.API_URL + GlobalComponent.buyer + data?.slug + "/", JSON.stringify(data), httpOptions);
   }
 
   // Delete

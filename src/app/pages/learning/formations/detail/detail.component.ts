@@ -6,11 +6,17 @@ import { FormationServices } from 'src/app/core/services/formation.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { reviews } from './data';
+import { ordersModel } from 'src/app/pages/dashboards/index/index.model';
+import { Observable } from 'rxjs';
+import { IndexService } from 'src/app/pages/dashboards/index/index.service';
+import { DecimalPipe } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.css']
+  styleUrls: ['./detail.component.css'],
+  providers: [IndexService, DecimalPipe]
 })
 export class DetailComponent implements OnInit {
 
@@ -24,6 +30,9 @@ export class DetailComponent implements OnInit {
  rate: any;
  currentTab = 'description';
 
+ // Table data
+ LatestOrders!: Observable<ordersModel[]>;
+
  @ViewChild('addReview', { static: false }) addReview?: ModalDirective;
  @ViewChild('removeItemModal', { static: false }) removeItemModal?: ModalDirective;
 
@@ -32,12 +41,18 @@ export class DetailComponent implements OnInit {
 
  menu = '';
 sousmenu = '';
-  formBuilder: any;
+formBuilder: any;
+orderList!: any;
 
+videoURL!: any;
 
  constructor(private route: ActivatedRoute,
              private router: Router,
-             private formationService : FormationServices) {
+             private formationService : FormationServices,
+             private _sanitizer: DomSanitizer,
+             private service: IndexService) {
+
+              this.LatestOrders = service.countries$;
 
  }
 
@@ -67,8 +82,20 @@ sousmenu = '';
 
    this.id = this.route.snapshot.params['id']
 
-   this.formationService.getSingleData(this.id).subscribe((data: any) =>{ this.formation = data})
+   this.formationService.getSingleData(this.id).subscribe((data: any) =>{ 
+    this.formation = data
+    if(this.formation?.link_url){
+      this.videoURL = this._sanitizer.bypassSecurityTrustResourceUrl(this.formation?.link_url);
+    }
+  
+  })
 
+   setTimeout(() => {
+    this.LatestOrders.subscribe(x => {
+      this.orderList = Object.assign([], x);
+    });
+    document.getElementById('elmLoader')?.classList.add('d-none')
+  }, 1200)
 
  }
  // Change Tab Content
@@ -77,6 +104,10 @@ sousmenu = '';
 }
 
 
+safeUrl(videoURL: any){
+  return this._sanitizer.bypassSecurityTrustResourceUrl(videoURL);
+
+}
 
 public dropzoneConfig: DropzoneConfigInterface = {
   clickable: true,

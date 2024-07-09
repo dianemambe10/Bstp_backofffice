@@ -141,18 +141,14 @@ export class FournisseurAddComponent {
       this.sousmenu = sousmenu
     })
 
-    this.helperService.getRegion().subscribe((data: Region[]) =>{
-      this.regionList = data
-      this.formStep2.get('region')?.patchValue(0)
-    })
-
-    this.helperService.getPrefecture().subscribe((data: Prefecture[]) =>{
-      this.prefectureList = data
-    })
-
-    this.helperService.getCommmune().subscribe((data: Commune[]) =>{
-      this.communeList = data
-    })
+  
+    this.helperService.getCommmune().subscribe((commune: Commune[]) => {
+      this.communeList = commune
+      this.helperService.getPrefecture().subscribe((prefecture: Prefecture[]) => {
+          this.prefectureList = prefecture
+          this.helperService.getRegion().subscribe((region: Region[]) => {this.regionList = region})
+        })
+  })
 
     this.domaineActiviteService.getData().subscribe((data )=>{
       this.domaineActivites = data
@@ -204,60 +200,78 @@ export class FournisseurAddComponent {
 
     this.formActionnaire = this.fb.group({
       id: [''],
-      last_name: ['Mohamed', [Validators.required]],
-      first_name: ['Diane', [Validators.required]],
-      date_of_birth: ['11/02/2023', [Validators.required]],
-      gender: ['M', [Validators.required]],
-      phone_number: ['628492536', []],
-      email: ['dianemambe@gmail.com', [Validators.required, Validators.email]],
-      role: ['PDG', []],
+      last_name: ['', [Validators.required]],
+      first_name: ['', [Validators.required]],
+      date_of_birth: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
+      phone_number: ['', []],
+      email: ['', [Validators.required, Validators.email]],
+      role: ['', []],
       username: ['', []],
-      associate_percentage: ['62', [Validators.required]],
+      associate_percentage: ['', [Validators.required]],
       nationality: ['', []]
     });
 
     this.formReference = this.fb.group({
       id: [''],
-      company_name: ['Gac', [Validators.required]],
-      contact_full_name: ['Mohamed Diane', [Validators.required]],
-      contact_phone_number: ['628492536', []],
-      contact_designation: ['dg', []],
-      contact_email: ['dianemambe@gmail.com', [ Validators.email]],
-      contact_approx_amount: ['1000000', []],
-      reference: ['PDG', []],
+      company_name: ['', [Validators.required]],
+      contact_full_name: ['', [Validators.required]],
+      contact_phone_number: ['', []],
+      contact_designation: ['', []],
+      contact_email: ['', [ Validators.email]],
+      contact_approx_amount: ['', []],
+      reference: ['', []],
       supplier: ['', []],
       doc: ['', []],
-      contact_approx_amount_currency: ['FG', []]
+      contact_approx_amount_currency: ['', []]
     });
 
     this.formStep1 = this.fb.group({
-      last_name: ['Mohamed', [Validators.required]],
-      first_name: ['Diane', [Validators.required]],
-      date_of_birth: ['11/02/2023', [Validators.required]],
-      gender: ['M', [Validators.required]],
-      phone_number: ['628492536', []],
-      email: ['dianemambe@gmail.com', [Validators.required, Validators.email]],
-      role_dans_lentreprise: ['PDG', []],
+      last_name: ['', [Validators.required]],
+      first_name: ['', [Validators.required]],
+      date_of_birth: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
+      phone_number: ['', []],
+      email: ['', [Validators.required, Validators.email]],
+      profession: ['', []],
       username: ['', []],
       slug: ['', []],
+      is_old: [true, []],
+      supplier: this.fb.group({
+        rccm: ['', []],
+        name: ['', []],
+        social_capital: ['', []],
+        chiffre_affaire: ['', []],
+        categories: ['0', []],
+        description: ['', []],
+        type: ['', []],
+        year_of_registration: ['', []],
+        phone_number: ['', []],
+        website: ['', []],
+        email: ['', []],
+        address: ['', []],
+        region: ['', []],
+        prefecture: ['', []],
+        commune: ['', []]
+      })
     });
 
     this.formStep2 = this.fb.group({
-      rccm: ['12336654789633', [Validators.required]],
-      name: ['Dsoft', [Validators.required]],
-      social_capital: ['100000', [Validators.required]],
-      chiffre_affaire: ['100000', [Validators.required]],
-      categories: ['0', [Validators.required]],
-      description: ['une entreprise de developpement ', [Validators.required]],
-      type: ['sarl', [Validators.required]],
-      year_of_registration: ['11/02/2023', [Validators.required]],
-      phone_number: ['628492536', [Validators.required]],
-      website: ['https://www.micodus.net', []],
-      email: ['dianemambe@gmail.com', [Validators.required, Validators.email]],
-      address: ['ratoma', [Validators.required]],
-      region: ['', [Validators.required]],
-      prefecture: ['', [Validators.required]],
-      commune: ['', [Validators.required]]
+        rccm: ['', [Validators.required]],
+        name: ['', [Validators.required]],
+        social_capital: ['', [Validators.required]],
+        chiffre_affaire: ['', [Validators.required]],
+        categories: ['0', [Validators.required]],
+        description: ['', [Validators.required]],
+        type: ['', [Validators.required]],
+        year_of_registration: ['', [Validators.required]],
+        phone_number: ['', [Validators.required]],
+        website: ['', []],
+        email: ['', [Validators.required, Validators.email]],
+        address: ['', [Validators.required]],
+        region: ['', [Validators.required]],
+        prefecture: ['', [Validators.required]],
+        commune: ['', [Validators.required]]
     });
 
     this.formStep3 = this.fb.group({   });
@@ -502,33 +516,21 @@ export class FournisseurAddComponent {
 
     this.entrepriseDocument  = this.formDocu.value
 
+    this.formStep1.get('supplier')?.patchValue(this.formStep2.value)
 
-    this.userProfileService.postData(this.formStep1.value).subscribe({
+    this.userProfileService.postDataSupplier(this.formStep1.value).subscribe({
       next: (res: User)=> {
-        let data = {...this.formStep2.value,  ...{"user": res.id}, ...this.formStep3.value}
-        this.fournisseurService.postData(data).subscribe({
-
-
-          next: (res: Entreprise) => {
-
-            this.actionnaireArray.forEach((actionnaire: Actionnaire) =>{
-              let data = { ...actionnaire, ...{"supplier": res.id}}
-              this.actionnaireService.postData(data).subscribe(data => console.log(data))
-            })
-
-            this.referenceArray.forEach((commericiale: ReferenceCommericiale) =>{
-              let data = { ...commericiale, ...{"supplier": res.id}}
-              this.commercialesService.postData(data).subscribe(data => console.log(data))
-            })
-
-            this.succes = true
-          },
-          error: (err) => {
-            this.handleError(err)
-            this.userProfileService.delete(res.id).subscribe()
-          }
-
+      /*  this.actionnaireArray.forEach((actionnaire: Actionnaire) =>{
+          let data = { ...actionnaire, ...{"supplier": res.id}}
+          this.actionnaireService.postData(data).subscribe(data => console.log(data))
         })
+
+        this.referenceArray.forEach((commericiale: ReferenceCommericiale) =>{
+          let data = { ...commericiale, ...{"supplier": res.id}}
+          this.commercialesService.postData(data).subscribe(data => console.log(data))
+        })
+          */
+        this.succes = true
       },
       error:(err)=>{
         this.handleError(err)

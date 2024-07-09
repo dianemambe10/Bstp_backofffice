@@ -1,0 +1,306 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="financement" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-xl-12 col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                {{ formation.link_url }}
+
+                <div class="position-relative  mb-4" *ngIf="formation?.link_url" >
+                    <div class="ratio ratio-21x9">
+                        <iframe src="{{ formation.link_url }}" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </div>
+                    
+                </div>
+                <button type="button" class="btn btn-subtle-warning custom-toggle btn-icon btn-sm active float-end" data-bs-toggle="button" aria-pressed="true">
+                    <span class="icon-on"><i class="bi bi-star"></i></span>
+                    <span class="icon-off"><i class="bi bi-star-fill"></i></span>
+                </button>
+                <h4>{{ formation?.title }}</h4>
+                <ul class="list-unstyled hstack gap-2 flex-wrap mb-0">
+                    <li><a href="javascript:void(0);" class="text-reset"><i class="bi bi-box-seam align-baseline me-1"></i> React
+                            Development   link {{ formation}}</a></li>
+                    <li class="text-warning">
+                        <i class="bi bi-star-fill align-baseline"></i>
+                        <i class="bi bi-star-fill align-baseline"></i>
+                        <i class="bi bi-star-fill align-baseline"></i>
+                        <i class="bi bi-star-fill align-baseline"></i>
+                        <i class="bi bi-star-half align-baseline"></i>
+                        <span class="text-body ms-1">4.5</span>
+                    </li>
+                    <li>
+                       
+
+                        <span class="badge bg-success-subtle text-success">Beginner</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0 mx-0" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" data-bs-toggle="tab" href="javascript:void(0);" [class.active]="currentTab === 'description'" (click)="changeTab('description')" role="tab" aria-selected="true">
+                            Description
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="javascript:void(0);" [class.active]="currentTab === 'videoTutorials'" (click)="changeTab('videoTutorials')" role="tab" aria-selected="false" tabindex="-1">
+                            Support
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="javascript:void(0);" [class.active]="currentTab === 'reviews'" (click)="changeTab('reviews')" role="tab" aria-selected="false" tabindex="-1">
+                            Participant
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div><!--end card-->
+        <div class="card">
+            <div class="card-body">
+                <div class="tab-content">
+                    <div [hidden]="currentTab !== 'description'" class="tab-pane active" id="description" role="tabpanel">
+                        {{ formation?.description }}
+                    </div>
+                    <div [hidden]="currentTab !== 'videoTutorials'" class="tab-pane active" id="videoTutorials" role="tabpanel">
+                       
+                        <div *ngIf="formation?.documents" class="d-flex flex-grow-1 gap-2 mt-3">
+                            <a *ngFor="let img of formation?.documents" href="javascript:void(0);" class="avatar-md">
+                                <div class="avatar-title bg-light rounded">
+                                    <img src="{{img}}" alt="img-1.png" class="product-img avatar-sm">
+                                </div>
+                            </a>
+                        </div>
+                        <ul *ngIf="formation?.documents" class="list-unstyled mb-0" id="dropzone-preview">
+                            <li class="mt-2" *ngFor="let file of formation?.documents;let i = index" id="dropzone-preview-list">
+                                <div class="border rounded">
+                                    <div class="d-flex flex-wrap gap-2 p-2">
+                                        <div class="flex-shrink-0 me-3">
+                                            <div class="avatar-sm bg-light rounded p-2">
+                                                <img *ngIf="file.name" class="img-fluid rounded d-block" src="assets/images/icons8-pdf-64.png"alt="Dropzone-Image" />
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div [hidden]="currentTab !== 'reviews'" class="tab-pane active" id="reviews" role="tabpanel">
+                        <div class="card" id="contactList">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Latest Orders</h4>
+                                <div class="flex-shrink-0">
+                                    
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
+                                        <thead class="text-muted table-light">
+                                            <tr>
+                                                <th scope="col" class="sort cursor-pointer" Ordersortable="date" >Order Date</th>
+                                                <th scope="col" class="sort cursor-pointer" Ordersortable="orderId" >Order ID</th>
+                                                <th scope="col" class="sort cursor-pointer" Ordersortable="shop" >Shop</th>
+                                                <th scope="col" class="sort cursor-pointer" Ordersortable="customer" >Customers</th>
+                                                <th scope="col" class="sort cursor-pointer" Ordersortable="product" >Products</th>
+                                                <th scope="col" class="sort cursor-pointer" Ordersortable="amount" >Amount</th>
+                                                <th scope="col" class="sort cursor-pointer" Ordersortable="status" >Status</th>
+                                                <th scope="col" class="sort cursor-pointer" Ordersortable="rating" >Rating</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="list">
+                                            <tr *ngFor="let data of orderList;">
+                                                <td class="order_date">
+                                                    {{data.date}}
+                                                </td>
+                                                <td class="order_id">
+                                                    <a routerLink="/ecommerce/order-overview" class="fw-medium link-primary">{{data.orderId}}</a>
+                                                </td>
+                                                <td class="shop">
+                                                    <img src="{{data.shop}}" alt="" class="avatar-xxs rounded-circle">
+                                                </td>
+                                                <td class="customer">
+                                                    {{data.customer}}
+                                                </td>
+                                                <td class="products">{{data.product}}</td>
+                                                <td class="amount">
+                                                    <span class="fw-medium">{{data.amount}}</span>
+                                                </td>
+                                                <td class="status">
+                                                    <span class="badge" [ngClass]="{'bg-secondary-subtle text-secondary': data.status === 'New',
+                                                    'bg-warning-subtle text-warning': data.status === 'Pending',
+                                                    'bg-danger-subtle text-danger': data.status === 'Out of Delivered',
+                                                    'bg-primary-subtle text-primary': data.status === 'Shipping',
+                                                    'bg-success-subtle text-success': data.status === 'Delivered'}">{{data.status}}</span>
+                                                </td>
+                                                <td class="rating">
+                                                    <h5 *ngIf="data.rating" class="fs-md fw-medium mb-0">
+                                                        <i class="ph-star align-baseline text-warning"></i>
+                                                        {{data.rating}}
+                                                    </h5>
+                                                    <h5 *ngIf="!data.rating" class="fs-md fw-medium mb-0">-</h5>
+                                                </td>
+                                            </tr><!-- end tr -->
+                                        </tbody><!-- end tbody -->
+                                    </table><!-- end table -->
+                                    <div class="noresult" style="display: none">
+                                        <div class="text-center">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--end col-->
+    
+</div><!--end row-->
+
+<div class="email-chat-detail" id="emailchat-detailElem">
+    <div class="card mb-0 overflow-hidden">
+        <div class="card-header align-items-center d-flex bg-primary-subtle text-primary p-3">
+            <div class="flex-grow-1">
+                <h5 class="fs-md text-primary-emphasis profile-username">Morton Satterfield</h5>
+                <p class="mb-0 fs-sm lh-1">Active</p>
+            </div>
+            <div class="flex-shrink-0">
+                <div class="mt-n1">
+                    <button type="button" class="btn btn-link btn-icon btn-sm text-primary fs-lg text-decoration-none rounded-circle bg-primary-subtle bg-opacity-10" id="emailchat-btn-close"><i class="ri-close-fill"></i></button>
+                </div>
+            </div>
+        </div><!-- end card header -->
+
+        <div class="card-body p-0">
+            <div id="users-chat">
+                <div class="chat-conversation p-3" id="chat-conversation" data-simplebar style="height: 250px;">
+                    <ul class="list-unstyled chat-conversation-list chat-sm" id="users-conversation">
+                        <li class="chat-list left">
+                            <div class="conversation-list">
+                                <div class="chat-avatar">
+                                    <img src="assets/images/users/48/avatar-2.jpg" alt="">
+                                </div>
+                                <div class="user-chat-content">
+                                    <div class="ctext-wrap">
+                                        <div class="ctext-wrap-content">
+                                            <p class="mb-0 ctext-content">Good morning 😊</p>
+                                        </div>
+                                        <div dropdown class="dropdown align-self-start message-box-drop">
+                                            <a dropdownToggle class="dropdown-toggle" href="javascript:void(0);">
+                                                <i class="ri-more-2-fill"></i>
+                                            </a>
+                                            <div *bsDropdownMenu class="dropdown-menu">
+                                                <a class="dropdown-item" href="javascript:void(0);"><i class="ri-reply-line me-2 text-muted align-bottom"></i>Reply</a>
+                                                <a class="dropdown-item" href="javascript:void(0);"><i class="ri-file-copy-line me-2 text-muted align-bottom"></i>Copy</a>
+                                                <a class="dropdown-item delete-item" href="javascript:void(0);"><i class="ri-delete-bin-5-line me-2 text-muted align-bottom"></i>Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-name"><small class="text-muted time">09:07 am</small> <span class="text-success check-message-icon"><i class="ri-check-double-line align-bottom"></i></span></div>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- chat-list -->
+
+                        <li class="chat-list right">
+                            <div class="conversation-list">
+                                <div class="user-chat-content">
+                                    <div class="ctext-wrap">
+                                        <div class="ctext-wrap-content">
+                                            <p class="mb-0 ctext-content">Good morning, How are you? What about our next
+                                                meeting?</p>
+                                        </div>
+                                        <div dropdown class="dropdown align-self-start message-box-drop">
+                                            <a dropdownToggle class="dropdown-toggle" href="javascript:void(0);">
+                                                <i class="ri-more-2-fill"></i>
+                                            </a>
+                                            <div *bsDropdownMenu class="dropdown-menu">
+                                                <a class="dropdown-item" href="javascript:void(0);"><i class="ri-reply-line me-2 text-muted align-bottom"></i>Reply</a>
+                                                <a class="dropdown-item" href="javascript:void(0);"><i class="ri-file-copy-line me-2 text-muted align-bottom"></i>Copy</a>
+                                                <a class="dropdown-item delete-item" href="javascript:void(0);"><i class="ri-delete-bin-5-line me-2 text-muted align-bottom"></i>Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-name"><small class="text-muted time">09:08 am</small> <span class="text-success check-message-icon"><i class="ri-check-double-line align-bottom"></i></span></div>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- chat-list -->
+
+                        <li class="chat-list left">
+                            <div class="conversation-list">
+                                <div class="chat-avatar">
+                                    <img src="assets/images/users/48/avatar-2.jpg" alt="">
+                                </div>
+                                <div class="user-chat-content">
+                                    <div class="ctext-wrap">
+                                        <div class="ctext-wrap-content">
+                                            <p class="mb-0 ctext-content">Yeah everything is fine. Our next meeting
+                                                tomorrow at 10.00 AM</p>
+                                        </div>
+                                        <div dropdown class="dropdown align-self-start message-box-drop">
+                                            <a dropdownToggle class="dropdown-toggle" href="javascript:void(0);">
+                                                <i class="ri-more-2-fill"></i>
+                                            </a>
+                                            <div *bsDropdownMenu class="dropdown-menu">
+                                                <a class="dropdown-item" href="javascript:void(0);"><i class="ri-reply-line me-2 text-muted align-bottom"></i>Reply</a>
+                                                <a class="dropdown-item" href="javascript:void(0);"><i class="ri-file-copy-line me-2 text-muted align-bottom"></i>Copy</a>
+                                                <a class="dropdown-item delete-item" href="javascript:void(0);"><i class="ri-delete-bin-5-line me-2 text-muted align-bottom"></i>Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-name"><small class="text-muted time">09:10 am</small> <span class="text-success check-message-icon"><i class="ri-check-double-line align-bottom"></i></span></div>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- chat-list -->
+
+                        <li class="chat-list right">
+                            <div class="conversation-list">
+                                <div class="user-chat-content">
+                                    <div class="ctext-wrap">
+                                        <div class="ctext-wrap-content">
+                                            <p class="mb-0 ctext-content">Wow that's great</p>
+                                        </div>
+                                        <div dropdown class="dropdown align-self-start message-box-drop">
+                                            <a dropdownToggle class="dropdown-toggle" href="javascript:void(0);">
+                                                <i class="ri-more-2-fill"></i>
+                                            </a>
+                                            <div *bsDropdownMenu class="dropdown-menu">
+                                                <a class="dropdown-item" href="javascript:void(0);"><i class="ri-reply-line me-2 text-muted align-bottom"></i>Reply</a>
+                                                <a class="dropdown-item" href="javascript:void(0);"><i class="ri-file-copy-line me-2 text-muted align-bottom"></i>Copy</a>
+                                                <a class="dropdown-item delete-item" href="javascript:void(0);"><i class="ri-delete-bin-5-line me-2 text-muted align-bottom"></i>Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-name"><small class="text-muted time">09:12 am</small> <span class="text-success check-message-icon"><i class="ri-check-double-line align-bottom"></i></span></div>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- chat-list -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-top border-top-dashed">
+                <div class="row g-2 mx-3 mt-2 mb-3">
+                    <div class="col">
+                        <div class="position-relative">
+                            <input type="text" class="form-control border-light bg-light" placeholder="Enter Message...">
+                        </div>
+                    </div><!-- end col -->
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-secondary"><i class="mdi mdi-send"></i></button>
+                    </div><!-- end col -->
+                </div><!-- end row -->
+            </div>
+        </div><!-- end cardbody -->
+    </div>
+</div><!--END CHAT-->
+

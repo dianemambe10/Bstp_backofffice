@@ -3,54 +3,7 @@
 <!-- End Breadcrumbs -->
 
 <div class="row">
-<!--
 
-  <div class="col-xl-12">
-    <div class="card">
-
-      <div class="card-body form-steps">
-
-
-        <ng-stepper #cdkStepper [linear]="true" (selectionChange)="change($event)"  class="step-arrow-nav wizard">
-
-          <cdk-step  [optional]="false">
-            <ng-template cdkStepLabel class="wizard-nav">
-              <button class="nav-link done" id="steparrow-gen-info-tab" data-bs-toggle="pill" type="button">INFORMATION DU DEMANDEUR</button>
-            </ng-template>
-            <app-acheteur-step-one #stepOne  (formOne)="formEmitStep1($event)"></app-acheteur-step-one>
-          </cdk-step>
-
-
-
-          <cdk-step  [optional]="false">
-            <ng-template cdkStepLabel>
-              <button class="nav-link done" id="steparrow-description-info-tab" type="button"> INFORMATION DE L'ENTREPRISE</button>
-            </ng-template>
-
-            <app-acheteur-step-two #stepTwo  (formTwo)="formEmitStep2($event)"></app-acheteur-step-two>
-
-          </cdk-step>
-
-
-
-
-
-          <cdk-step [optional]="true">
-            <ng-template cdkStepLabel>
-              <button class="nav-link" type="button">CONFIRMER LES DETAIL</button>
-            </ng-template>
-            <app-acheteur-step-end [demandeur]="demandeur" [entreprise]="entrepriseInfo" (formEnd)="formEmitEnd($event)"></app-acheteur-step-end>
-
-          </cdk-step>
-        </ng-stepper>
-
-
-      </div>
-
-    </div>
-
-  </div>
--->
   <!-- end col -->
 </div><!-- end row -->
 
@@ -340,7 +293,7 @@
                                  formControlName="type"
                                  id="{{j.id}}"
                                  type="radio">
-                          <label class="form-check-label" for="{{j.id}}">{{j.code}}</label>
+                          <label class="form-check-label" for="{{j.id}}">{{j.name}}</label>
                         </div>
                         <div *ngIf="formRef.submitted && f2['type'].errors" class="invalid-feedback">
                           <div *ngIf="f2['type'].errors?.['required']">Veuillez Choisir une forme juridique</div>

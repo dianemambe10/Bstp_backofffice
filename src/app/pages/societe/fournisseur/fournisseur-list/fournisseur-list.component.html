@@ -68,7 +68,7 @@
             </thead>
             <tbody class="list form-check-all">
             <tr *ngFor="let data of listData;let i = index;" id="p_{{data._id}}">
-              <td >{{ i + 1}}</td>
+              <td >{{  service.pageSize * ( i + 1)}}</td>
               <td class="id d-none"><a class="fw-medium link-primary" href="javascript:void(0)">#TBS00{{data.slug}}</a>
               </td>
               <td class="course_Name">

@@ -3,34 +3,23 @@
 <!-- End Breadcrumbs -->
 
 <div class="row">
-    <div class="col-xl-9 col-lg-8">
+    <div class="col-xl-12 col-lg-12">
         <div class="card">
             <div class="card-body">
-                <div class="position-relative  mb-4" *ngIf="formation?.lien" >
+                <div class="position-relative  mb-4" *ngIf="formation?.link_url" >
                     <div class="ratio ratio-21x9">
-                        <iframe src="{{ formation.lien }}" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <iframe [src]=" formation?.link_url | safe: 'resourceUrl' " title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                     </div>
                     
                 </div>
-                <button type="button" class="btn btn-subtle-warning custom-toggle btn-icon btn-sm active float-end" data-bs-toggle="button" aria-pressed="true">
-                    <span class="icon-on"><i class="bi bi-star"></i></span>
-                    <span class="icon-off"><i class="bi bi-star-fill"></i></span>
-                </button>
+                
                 <h4>{{ formation?.title }}</h4>
-                <ul class="list-unstyled hstack gap-2 flex-wrap mb-0">
-                    <li><a href="javascript:void(0);" class="text-reset"><i class="bi bi-box-seam align-baseline me-1"></i> React
-                            Development</a></li>
-                    <li class="text-warning">
-                        <i class="bi bi-star-fill align-baseline"></i>
-                        <i class="bi bi-star-fill align-baseline"></i>
-                        <i class="bi bi-star-fill align-baseline"></i>
-                        <i class="bi bi-star-fill align-baseline"></i>
-                        <i class="bi bi-star-half align-baseline"></i>
-                        <span class="text-body ms-1">4.5</span>
-                    </li>
-                    <li>
-                        <span class="badge bg-success-subtle text-success">Beginner</span>
-                    </li>
+                <ul class="list-unstyled hstack gap-5  mb-0">
+                    <li>Thematiques:  
+                        <span class="badge bg-body-secondary border border-info text-info" *ngFor="let c of formation.thematiques">
+                        {{c.name}}</span></li>
+                    <li>Date de debut: {{ formation?.periode | date:'dd-MM-yy'}}</li>
+                    <li>Duree: {{ formation?.duree}}</li>
                 </ul>
             </div>
             <div class="card-body">
@@ -42,19 +31,15 @@
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" data-bs-toggle="tab" href="javascript:void(0);" [class.active]="currentTab === 'videoTutorials'" (click)="changeTab('videoTutorials')" role="tab" aria-selected="false" tabindex="-1">
-                            Video Tutorials
+                            Support
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" data-bs-toggle="tab" href="javascript:void(0);" [class.active]="currentTab === 'reviews'" (click)="changeTab('reviews')" role="tab" aria-selected="false" tabindex="-1">
-                            Reviews
+                            Participant
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="javascript:void(0);" [class.active]="currentTab === 'faqs'" (click)="changeTab('faqs')" role="tab" aria-selected="false" tabindex="-1">
-                            FAQs
-                        </a>
-                    </li>
+                    
                 </ul>
             </div>
         </div><!--end card-->
@@ -62,568 +47,92 @@
             <div class="card-body">
                 <div class="tab-content">
                     <div [hidden]="currentTab !== 'description'" class="tab-pane active" id="description" role="tabpanel">
-                        <h6 class=" card-title mb-3">Overview</h6>
-                        <p class="text-muted mb-2">JavaScript is a programming language commonly used for web
-                            development, among many other things. It works in conjunction with HTML and CSS to add
-                            dynamic functionality to websites. JavaScript is the sauce of the web. It is what makes
-                            things dance. JavaScript enables web pages to do things like display updated content, show
-                            maps that you can interact with, and many other things.</p>
-                        <p class="text-muted">Today we are going to learn how to learn JavaScript faster so that you can
-                            command JavaScript as you please and use it effectively in your projects.</p>
-                        <h6 class="card-title mb-3">What We'll Cover in this Article</h6>
-                        <ul class="list-unstyled vstack gap-2">
-                            <li><i class="bi bi-caret-right"></i> How to learn JavaScript faster – an overview</li>
-                            <li><i class="bi bi-caret-right"></i> How to practice coding in JavaScript</li>
-                            <li><i class="bi bi-caret-right"></i> Why you should read the documentation</li>
-                            <li><i class="bi bi-caret-right"></i> Some best practices you can adopt from reading
-                                documentation</li>
-                            <li><i class="bi bi-caret-right"></i> How to contribute to open source projects</li>
-                            <li><i class="bi bi-caret-right"></i> How to find projects to contribute to</li>
-                            <li><i class="bi bi-caret-right"></i> Why you should build lots of projects</li>
-                            <li><i class="bi bi-caret-right"></i> Resources that might inspire you to build projects
-                            </li>
-                        </ul>
-                        <h6 class="card-title mb-3">How to Practice Coding in JavaScript</h6>
-                        <p class="text-muted mb-2">Practicing is what makes you progress. Whether it's in music,
-                            dancing, singing, playing basketball – or coding.</p>
-                        <p class="text-muted">Practicing is really repetitive and can be tiring, but it is what helps us
-                            and sets us apart in the long run. It is through the action of practicing and repetition
-                            that we are able to be good at all these activities. Coding is not different.</p>
-                        <h6 class="card-title mb-3">Work through Courses and Tutorials</h6>
-                        <p class="text-muted mb-2">Courses and tutorials are a good way to learn. You can find various
-                            learning materials from a lot of places on the web. If you would like to take a course on a
-                            particular programming language, you can find them on sites like LinkedIn.</p>
-                        <p class="text-muted mb-0">If you like videos, there are many great channels on YouTube that
-                            post coding tutorials for free. My favorite one-stop-shop is <a href="http://themesbrand.com/" target="_blank">Themesbrand</a>.</p>
+                        {{ formation?.description }}
                     </div>
                     <div [hidden]="currentTab !== 'videoTutorials'" class="tab-pane active" id="videoTutorials" role="tabpanel">
-                        <!-- START Accordions -->
-                        <accordion class="accordion accordion-border-box  mt-3" [closeOthers]="true" id="accordionlefticon">
-                            <accordion-group class="accordion-item">
-                                <h2 accordion-heading class="accordion-header" id="accordionlefticonExample1">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#accor_lefticonExamplecollapse1" aria-expanded="true" aria-controls="accor_lefticonExamplecollapse1">
-                                        Introduction to JavaScript + Setup <small class="ms-1 align-baseline">(4
-                                            Lessons)</small>
-                                    </button>
-                                </h2>
-                                <div id="accor_lefticonExamplecollapse1" class="accordion-collapse collapse show">
-                                    <div class="accordion-body">
-                                        <ul class="list-group list">
-                                            <li class="list-group-item position-relative">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0 avatar-xs">
-                                                        <div class="avatar-title rounded bg-danger-subtle text-danger">
-                                                            <i class="bi bi-play"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-2">
-                                                        <a href="javascript:void(0);" class="stretched-link text-reset">What JavaScript
-                                                            framework should I learn?</a>
-                                                    </div>
-                                                    <div class="flex-shrink-0">
-                                                        03:20 min
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0 avatar-xs">
-                                                        <div class="avatar-title rounded bg-danger-subtle text-danger">
-                                                            <i class="bi bi-play"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-2">
-                                                        <a href="javascript:void(0);" class="stretched-link text-reset">What is
-                                                            JavaScript for example?</a>
-                                                    </div>
-                                                    <div class="flex-shrink-0">
-                                                        07:32 min
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item active list-group-item-action">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0 avatar-xs">
-                                                        <div class="avatar-title rounded bg-primary-subtle text-primary">
-                                                            <i class="bi bi-stop-fill"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-2">
-                                                        <a href="javascript:void(0);" class="stretched-link text-reset">Which is a
-                                                            framework of JavaScript?</a>
-                                                    </div>
-                                                    <div class="flex-shrink-0">
-                                                        08:54 min
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0 avatar-xs">
-                                                        <div class="avatar-title rounded bg-danger-subtle text-danger">
-                                                            <i class="bi bi-play"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-2">
-                                                        <a href="javascript:void(0);" class="stretched-link text-reset">What is
-                                                            JavaScript and why it is used?</a>
-                                                    </div>
-                                                    <div class="flex-shrink-0">
-                                                        06:37 min
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
+                       
+                        <div *ngIf="formation?.documents" class="d-flex flex-grow-1 gap-2 mt-3">
+                            <a *ngFor="let img of formation?.documents" href="{{ img.document}}" target="_blank" class="avatar-md">
+                                <div class="avatar-title bg-light rounded">
+                                  <img src="assets/images/icons8-pdf-64.png" alt="img-1.png" class="product-img avatar-sm"> 
                                 </div>
-                            </accordion-group>
-                            <accordion-group class="accordion-item mt-2">
-                                <h2 accordion-heading class="accordion-header" id="accordionlefticonExample2">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accor_lefticonExamplecollapse2" aria-expanded="false" aria-controls="accor_lefticonExamplecollapse2">
-                                        Variables in JavaScript <small class="ms-1 align-baseline">(7 Lessons)</small>
-                                    </button>
-                                </h2>
-                                <div id="accor_lefticonExamplecollapse2" class="accordion-collapse collapse show" aria-labelledby="accordionlefticonExample2" data-bs-parent="#accordionlefticon">
-                                    <div class="accordion-body">
-                                        <ul class="list-group list">
-                                            <li class="list-group-item position-relative">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0 avatar-xs">
-                                                        <div class="avatar-title rounded bg-danger-subtle text-danger">
-                                                            <i class="bi bi-play"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-2">
-                                                        <a href="javascript:void(0);" class="stretched-link text-reset">What are the
-                                                            variables in JavaScript?</a>
-                                                    </div>
-                                                    <div class="flex-shrink-0">
-                                                        08:34 min
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0 avatar-xs">
-                                                        <div class="avatar-title rounded bg-danger-subtle text-danger">
-                                                            <i class="bi bi-play"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-2">
-                                                        <a href="javascript:void(0);" class="stretched-link text-reset">What is a
-                                                            variable in JavaScript example?</a>
-                                                    </div>
-                                                    <div class="flex-shrink-0">
-                                                        10:08 min
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0 avatar-xs">
-                                                        <div class="avatar-title rounded bg-danger-subtle text-danger">
-                                                            <i class="bi bi-play"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-2">
-                                                        <a href="javascript:void(0);" class="stretched-link text-reset">What are the
-                                                            three variables in JavaScript?</a>
-                                                    </div>
-                                                    <div class="flex-shrink-0">
-                                                        11:33 min
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0 avatar-xs">
-                                                        <div class="avatar-title rounded bg-danger-subtle text-danger">
-                                                            <i class="bi bi-play"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-2">
-                                                        <a href="javascript:void(0);" class="stretched-link text-reset">How to write
-                                                            variables in JavaScript?</a>
-                                                    </div>
-                                                    <div class="flex-shrink-0">
-                                                        07:31 min
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0 avatar-xs">
-                                                        <div class="avatar-title rounded bg-danger-subtle text-danger">
-                                                            <i class="bi bi-play"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-2">
-                                                        <a href="javascript:void(0);" class="stretched-link text-reset">What are 3 types
-                                                            of variables?</a>
-                                                    </div>
-                                                    <div class="flex-shrink-0">
-                                                        14:46 min
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0 avatar-xs">
-                                                        <div class="avatar-title rounded bg-danger-subtle text-danger">
-                                                            <i class="bi bi-play"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-2">
-                                                        <a href="javascript:void(0);" class="stretched-link text-reset">What is a
-                                                            variable with example?</a>
-                                                    </div>
-                                                    <div class="flex-shrink-0">
-                                                        09:33 min
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </accordion-group>
-                            <accordion-group class="accordion-item mt-2">
-                                <h2 accordion-heading class="accordion-header" id="accordionlefticonExample3">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accor_lefticonExamplecollapse3" aria-expanded="false" aria-controls="accor_lefticonExamplecollapse3">
-                                        Const, let and var in JavaScript <small class="ms-1 align-baseline">(3
-                                            Lessons)</small>
-                                    </button>
-                                </h2>
-                                <div id="accor_lefticonExamplecollapse3" class="accordion-collapse collapse show" aria-labelledby="accordionlefticonExample3" data-bs-parent="#accordionlefticon">
-                                    <ul class="list-group list">
-                                        <li class="list-group-item position-relative">
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex-shrink-0 avatar-xs">
-                                                    <div class="avatar-title rounded bg-danger-subtle text-danger">
-                                                        <i class="bi bi-play"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="flex-grow-1 ms-2">
-                                                    <a href="javascript:void(0);" class="stretched-link text-reset">What
-                                                        JavaScript
-                                                        framework should I learn?</a>
-                                                </div>
-                                                <div class="flex-shrink-0">
-                                                    03:20 min
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex-shrink-0 avatar-xs">
-                                                    <div class="avatar-title rounded bg-danger-subtle text-danger">
-                                                        <i class="bi bi-play"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="flex-grow-1 ms-2">
-                                                    <a href="javascript:void(0);" class="stretched-link text-reset">What
-                                                        is JavaScript
-                                                        for example?</a>
-                                                </div>
-                                                <div class="flex-shrink-0">
-                                                    07:32 min
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex-shrink-0 avatar-xs">
-                                                    <div class="avatar-title rounded bg-danger-subtle text-danger">
-                                                        <i class="bi bi-play"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="flex-grow-1 ms-2">
-                                                    <a href="javascript:void(0);" class="stretched-link text-reset">What
-                                                        is JavaScript
-                                                        and why it is used?</a>
-                                                </div>
-                                                <div class="flex-shrink-0">
-                                                    06:37 min
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </accordion-group>
-                        </accordion>
-                        <!-- END Accordions -->
+                            </a>
+                        </div>
+                       
                     </div>
                     <div [hidden]="currentTab !== 'reviews'" class="tab-pane active" id="reviews" role="tabpanel">
-                        <div class="d-flex mt-3 flex-wrap align-items-center gap-3 mb-2">
-                            <h6 class="card-title flex-grow-1 mb-0">Ratings & Reviews</h6>
-                            <div class="flex-shrink-0">
-                                <button type="button" class="btn btn-primary" ><i class="ph-plus-circle align-middle me-1"></i> Add
-                                    Review</button>
-                            </div>
-                        </div>
-                        <div class="row gy-3">
-                            <div class="col-lg-2">
-                                <div class="text-center mt-3 mt-lg-5">
-                                    <h1 class="mb-3">4.9 <small class="fs-sm text-muted fw-normal">/ 5.0</small></h1>
-                                    <div class="text-warning hstack gap-2 justify-content-center mb-2">
-                                        <i class="bi bi-star-fill align-baseline"></i>
-                                        <i class="bi bi-star-fill align-baseline"></i>
-                                        <i class="bi bi-star-fill align-baseline"></i>
-                                        <i class="bi bi-star-fill align-baseline"></i>
-                                        <i class="bi bi-star-fill align-baseline"></i>
-                                    </div>
-                                    <p class="mb-0"><b>3.5k</b> Reviews</p>
-                                </div>
-                            </div><!--end col-->
-                            <div class="col-lg-10">
-                                <div>
-                                    <ngx-simplebar class="me-lg-n3 pe-lg-4" style="max-height: 500px;">
-                                        <ul class="list-unstyled mb-0" id="review-list">
-                                            <li *ngFor="let data of reviewData;let i = index;" class="review-list py-2" id="review-1">
-                                                <div class="border border-dashed rounded p-3">
-                                                    <div class="hstack flex-wrap gap-3 mb-4">
-                                                        <div class="badge rounded-pill bg-danger-subtle text-danger mb-0">
-                                                            <i class="mdi mdi-star"></i> <span class="rate-num">{{data.rating}}</span>
-                                                        </div>
-                                                        <div class="vr"></div>
-                                                        <div class="flex-grow-1">
-                                                            <p class="mb-0"><a href="javascript:void(0);">{{data.user}}</a></p>
-                                                        </div>
-                                                        <div class="flex-shrink-0">
-                                                            <span class="text-muted fs-13 mb-0">{{data.date}}</span>
-                                                        </div>
-                                                        <div class="flex-shrink-0">
-                                                            <a href="javascript:void(0);" class="badge bg-secondary-subtle text-secondary edit-item-list me-1" (click)="editReview(i)"><i class="ph-pencil align-baseline me-1"></i> Edit</a>
-                                                            <a href="javascript:void(0);" class="badge bg-danger-subtle text-danger" (click)="removeReview(i)"><i class="ph-trash align-baseline"></i></a>
-                                                        </div>
-                                                    </div>
-
-                                                    <h6 class="review-title fs-md">{{data.title}}</h6>
-                                                    <p class="review-desc mb-0">{{data.content}}</p>
-
-                                                    <div *ngIf="data.profile" class="d-flex flex-grow-1 gap-2 mt-3">
-                                                        <a *ngFor="let img of data.profile" href="javascript:void(0);" class="avatar-md">
-                                                            <div class="avatar-title bg-light rounded">
-                                                                <img src="{{img}}" alt="img-1.png" class="product-img avatar-sm">
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </ngx-simplebar>
+                        <div class="card" id="contactList">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Latest Orders</h4>
+                                <div class="flex-shrink-0">
+                                    
                                 </div>
                             </div>
-                            <!-- end col -->
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
+                                        <thead class="text-muted table-light">
+                                            <tr>
+                                                <th scope="col" class="sort cursor-pointer" Ordersortable="date" >Order Date</th>
+                                                <th scope="col" class="sort cursor-pointer" Ordersortable="orderId" >Order ID</th>
+                                                <th scope="col" class="sort cursor-pointer" Ordersortable="shop" >Shop</th>
+                                                <th scope="col" class="sort cursor-pointer" Ordersortable="customer" >Customers</th>
+                                                <th scope="col" class="sort cursor-pointer" Ordersortable="product" >Products</th>
+                                                <th scope="col" class="sort cursor-pointer" Ordersortable="amount" >Amount</th>
+                                                <th scope="col" class="sort cursor-pointer" Ordersortable="status" >Status</th>
+                                                <th scope="col" class="sort cursor-pointer" Ordersortable="rating" >Rating</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="list">
+                                            <tr *ngFor="let data of orderList;">
+                                                <td class="order_date">
+                                                    {{data.date}}
+                                                </td>
+                                                <td class="order_id">
+                                                    <a routerLink="/ecommerce/order-overview" class="fw-medium link-primary">{{data.orderId}}</a>
+                                                </td>
+                                                <td class="shop">
+                                                    <img src="{{data.shop}}" alt="" class="avatar-xxs rounded-circle">
+                                                </td>
+                                                <td class="customer">
+                                                    {{data.customer}}
+                                                </td>
+                                                <td class="products">{{data.product}}</td>
+                                                <td class="amount">
+                                                    <span class="fw-medium">{{data.amount}}</span>
+                                                </td>
+                                                <td class="status">
+                                                    <span class="badge" [ngClass]="{'bg-secondary-subtle text-secondary': data.status === 'New',
+                                                    'bg-warning-subtle text-warning': data.status === 'Pending',
+                                                    'bg-danger-subtle text-danger': data.status === 'Out of Delivered',
+                                                    'bg-primary-subtle text-primary': data.status === 'Shipping',
+                                                    'bg-success-subtle text-success': data.status === 'Delivered'}">{{data.status}}</span>
+                                                </td>
+                                                <td class="rating">
+                                                    <h5 *ngIf="data.rating" class="fs-md fw-medium mb-0">
+                                                        <i class="ph-star align-baseline text-warning"></i>
+                                                        {{data.rating}}
+                                                    </h5>
+                                                    <h5 *ngIf="!data.rating" class="fs-md fw-medium mb-0">-</h5>
+                                                </td>
+                                            </tr><!-- end tr -->
+                                        </tbody><!-- end tbody -->
+                                    </table><!-- end table -->
+                                    <div class="noresult" style="display: none">
+                                        <div class="text-center">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div  [hidden]="currentTab !== 'faqs'" class="tab-pane active" id="faqs" role="tabpanel">
-                        <div class="row g-3">
-                            <div class="col-lg-6">
-                                <div class="d-flex gap-2">
-                                    <div class="flex-shrink-0">
-                                        <i class="bi bi-question-circle text-primary"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="card-title">What are good questions to ask about course?</h6>
-                                        <p class="text-muted mb-0">What textbooks are required for the course? What
-                                            days/times do class sessions occur or are they fully online? Are there any
-                                            online platforms, programs, and/or softwares needed for the course? When are
-                                            major assignments/ exams due for this course and what are its point values?
-                                        </p>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-                            <div class="col-lg-6">
-                                <div class="d-flex gap-2">
-                                    <div class="flex-shrink-0">
-                                        <i class="bi bi-question-circle text-primary"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="card-title">How does online learning work?</h6>
-                                        <p class="text-muted mb-0">Distance learning is an educational process where
-                                            students receive instruction through online classes, video recordings, video
-                                            conferencing, or any other audio/visual technology medium.</p>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-                            <div class="col-lg-6">
-                                <div class="d-flex gap-2">
-                                    <div class="flex-shrink-0">
-                                        <i class="bi bi-question-circle text-primary"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="card-title">Why is online learning better?</h6>
-                                        <p class="text-muted mb-0">Because online courses provide students with full
-                                            control over their studies, they can work at their own pace. Pupils, on
-                                            average, work faster and absorb more information in online courses than they
-                                            would otherwise.</p>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-                            <div class="col-lg-6">
-                                <div class="d-flex gap-2">
-                                    <div class="flex-shrink-0">
-                                        <i class="bi bi-question-circle text-primary"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="card-title">How successful is online learning?</h6>
-                                        <p class="text-muted mb-0">Some students do as well in online courses as in
-                                            in-person courses, some may actually do better, but, on average, students do
-                                            worse in the online setting, and this is particularly true for students with
-                                            weaker academic backgrounds.</p>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-                            <div class="col-lg-6">
-                                <div class="d-flex gap-2">
-                                    <div class="flex-shrink-0">
-                                        <i class="bi bi-question-circle text-primary"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="card-title">How do you ask questions about learning?</h6>
-                                        <p class="text-muted mb-0">Avoid asking leading questions, those that prompt or
-                                            suggest the answer, and yes/no questions. If a yes/no question is warranted,
-                                            be ready with a follow-up question to encourage students to critically
-                                            evaluate the material and engage in discussion.</p>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-                            <div class="col-lg-6">
-                                <div class="d-flex gap-2">
-                                    <div class="flex-shrink-0">
-                                        <i class="bi bi-question-circle text-primary"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="card-title">What are course objectives?</h6>
-                                        <p class="text-muted mb-0">A course objective specifies a behavior, skill, or
-                                            action that a student can demonstrate if they have achieved mastery of the
-                                            objective.</p>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-                            <div class="col-lg-6">
-                                <div class="d-flex gap-2">
-                                    <div class="flex-shrink-0">
-                                        <i class="bi bi-question-circle text-primary"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="card-title">What is the advantage of learning?</h6>
-                                        <p class="text-muted mb-0">By consistently educating yourself and trying new
-                                            things, you'll learn you're capable of change and growth, which keeps you
-                                            open to new opportunities in life. “Learning a new skill can get you out of
-                                            a rut.</p>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-                        </div><!--end row-->
+
                     </div>
                 </div>
             </div>
         </div>
     </div><!--end col-->
-    <div class="col-xl-3 col-lg-4">
-        <div class="card overflow-hidden ribbon-box">
-            <span class="ribbon ribbon-danger rounded-end">Off 20%</span>
-            <div class="card-body bg-info-subtle text-center learning-widgets d-flex align-items-center justify-content-center">
-                <img src="assets/images/learning/react.png" alt="" class="avatar-lg">
-                <img src="assets/images/learning/react.png" alt="" class="effect">
-            </div>
-            <div class="card-body">
-                <h4 class="text-truncate text-capitalize">$245.95 <small class="text-decoration-line-through fs-xs text-muted align-baseline">499.99</small></h4>
-                <p class="text-danger"><i class="bi bi-clock me-2"></i> <b>10</b> days left at this price</p>
-                <div class="hstack gap-2">
-                    <button class="btn btn-secondary w-100">Free Trial</button>
-                    <button class="btn btn-primary w-100"><i class="bi bi-bag align-baseline me-1"></i> Buy Now</button>
-                </div>
-            </div>
-        </div><!--end card-->
-        <div class="card">
-            <div class="card-header">
-                <h6 class="card-title mb-0">This course includes</h6>
-            </div>
-            <div class="card-body">
-                <ul class="list-unstyled vstack gap-2 mb-0">
-                    <li>
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1">
-                                <i class="ph ph-book-open align-middle me-1 text-primary-emphasis"></i> Lessons
-                            </div>
-                            <div class="flex-shrink-0 text-muted">
-                                35
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1">
-                                <i class="ph ph-timer align-middle me-1 text-primary-emphasis"></i> Duration
-                            </div>
-                            <div class="flex-shrink-0 text-muted">
-                                6 Months
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1">
-                                <i class="ph ph-chart-bar align-middle me-1 text-primary-emphasis"></i> Skills
-                            </div>
-                            <div class="flex-shrink-0 text-muted">
-                                Beginner
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1">
-                                <i class="ph ph-book-open align-middle me-1 text-primary-emphasis"></i> Language
-                            </div>
-                            <div class="flex-shrink-0 text-muted">
-                                English
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1">
-                                <i class="bi bi-card-heading align-baseline me-1 text-primary-emphasis"></i> Certificate
-                            </div>
-                            <div class="flex-shrink-0 text-muted">
-                                Yes
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <a routerLink="/learning/instructors-overview" class="float-end link-effect">View More <i class="bi bi-arrow-right align-baseline ms-1"></i></a>
-                <h6 class="card-title mb-0">Instructor Details</h6>
-            </div>
-            <div class="card-body">
-                <div class="d-flex gap-2 align-items-center mb-3">
-                    <div class="flex-shrink-0">
-                        <img src="assets/images/users/48/avatar-2.jpg" alt="" class="avatar-sm rounded">
-                    </div>
-                    <div class="flex-grow-1">
-                        <h6 class="fs-md">Morton Satterfield</h6>
-                        <p class="text-muted mb-0">Software Engineering</p>
-                    </div>
-                </div>
-                <button class="btn btn-subtle-info w-100" id="agent-chat"><i class="bi bi-chat-text align-baseline me-1"></i> Get In Touch</button>
-            </div>
-        </div>
-        <div class="card card-primary file-manager-widgets">
-            <div class="card-body">
-                <h6 class="card-title text-reset"> Join Membership</h6>
-                <p class="text-white-50 mb-5">Access all course anywhere and any time</p>
-                <div class="mt-4">
-                    <a routerLink="/pages/pricing" class="btn btn-light w-md">Join Now</a>
-                </div>
-            </div>
-        </div>
-    </div><!--end col-->
+    
 </div><!--end row-->
 
 <div class="email-chat-detail" id="emailchat-detailElem">

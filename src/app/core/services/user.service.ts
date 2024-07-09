@@ -52,6 +52,19 @@ export class UserProfileService {
     return this.http.post(GlobalComponent.API_URL + GlobalComponent.user,JSON.stringify(user), httpOptions);
   }
 
+   // POST BUYER
+   postDataBuyer(user: any): Observable<any> {
+    return this.http.post(GlobalComponent.API_URL +  GlobalComponent.user + 'register_acheteur/' ,JSON.stringify(user), httpOptions);
+  }
+
+
+  // POST SUPPLIER
+  postDataSupplier(user: any): Observable<any> {
+    return this.http.post(GlobalComponent.API_URL +   GlobalComponent.user + 'register/',JSON.stringify(user), httpOptions);
+  }
+
+
+ 
 
   // Single
   getSingleData(slug:any): Observable<User> {

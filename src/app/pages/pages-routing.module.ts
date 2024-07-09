@@ -24,7 +24,7 @@ const routes: Routes = [
     path: 'forms', loadChildren: () => import('./forms/forms.module').then(m => m.FormModule)
   },
   {
-    path: 'institution', loadChildren: () => import('./institutions/institutions.module').then(m => m.InstitutionsModule)
+    path: 'organismes', loadChildren: () => import('./institutions/institutions.module').then(m => m.InstitutionsModule)
   },
   
 ];

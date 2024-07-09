@@ -34,7 +34,7 @@ export class FormationServices {
 
   // Patch
   patchData(data: any): Observable<any> {
-    return this.http.patch(GlobalComponent.API_URL + GlobalComponent.formation + data.id + "/", JSON.stringify(data), httpOptions);
+    return this.http.patch(GlobalComponent.API_URL + GlobalComponent.formation + data.slug + "/", JSON.stringify(data), httpOptions);
   }
 
   // Delete

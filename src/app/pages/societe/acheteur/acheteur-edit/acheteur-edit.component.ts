@@ -1,24 +1,15 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, UntypedFormGroup, Validators} from '@angular/forms';
+import {Component, ViewChild} from '@angular/core';
+import {FormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AcheteurStepOneComponent} from '../acheteur-step-one/acheteur-step-one.component';
-import {AcheteurStepTwoComponent} from '../acheteur-step-two/acheteur-step-two.component';
-import {AcheteurStepEndComponent} from '../acheteur-step-end/acheteur-step-end.component';
-import {Demandeur} from 'src/app/core/models/demandeur.model';
 import {Entreprise} from 'src/app/core/models/entreprise.model';
-import {FournisseurStepOneComponent} from "../../fournisseur/fournisseur-step-one/fournisseur-step-one.component";
-import {FournisseurStepTwoComponent} from "../../fournisseur/fournisseur-step-two/fournisseur-step-two.component";
-import {FournisseurStepThreeComponent} from "../../fournisseur/fournisseur-step-three/fournisseur-step-three.component";
 import {BsModalRef, ModalDirective} from "ngx-bootstrap/modal";
 import {User} from "../../../../core/models/auth.models";
 import {UserProfileService} from "../../../../core/services/user.service";
 import {ToastrService} from "ngx-toastr";
-import {FournisseurService} from "../../../../core/services/fournisseur.service";
 import {DataService} from "../../../../core/services/data.service";
 import {HelpsService} from "../../../../core/services/helps.service";
 import {TypeSocieteService} from "../../../../core/services/type-societe.service";
 import {DomaineActiviteService} from "../../../../core/services/domaine-activite.service";
-import {tap} from "rxjs/operators";
 import {Prefecture} from "../../../../core/models/prefecture.model";
 import {Region} from "../../../../core/models/region.model";
 import {Commune} from "../../../../core/models/commune.model";
@@ -131,38 +122,25 @@ export class AcheteurEditComponent {
   createForm(){
 
 
-    this.formStep1 = this.fb.group({
-      id: ['', []],
-      slug: ['', []],
-      last_name: ['Mohamed', [Validators.required]],
-      first_name: ['Diane', [Validators.required]],
-      date_of_birth: ['11/02/2023', [Validators.required]],
-      gender: ['M', [Validators.required]],
-      phone_number: ['628492536', []],
-      email: ['dianemambe@gmail.com', [Validators.required, Validators.email]],
-      role_dans_lentreprise: ['PDG', []],
-      username: ['', []],
-    });
 
     this.formStep2 = this.fb.group({
-      id: ['', []],
-      rccm: ['12336654789633', [Validators.required]],
-      name: ['Dsoft', [Validators.required]],
-      sectors: ['0', [Validators.required]],
-      description: ['une entreprise de developpement ', []],
-      type: ['sarl', [Validators.required]],
-      registration_date: ['11/02/2023', [Validators.required]],
-      phone_number: ['628492536', []],
-      website: ['https://www.micodus.net', []],
-      email: ['dianemambe@gmail.com', [Validators.required, Validators.email]],
-      address: ['ratoma', []],
-      region: ['0', []],
-      prefecture: ['0', []],
-      commune: ['0', []],
-      slug: ['', []],
-    });
-
+      rccm: ['', [Validators.required]],
+        name: ['', [Validators.required]],
+        sectors: ['0', [Validators.required]],
+        description: ['', []],
+        type: ['', [Validators.required]],
+        registration_date: ['', [Validators.required]],
+        phone_number: ['', []],
+        website: ['', []],
+        email: ['', [Validators.required, Validators.email]],
+        address: ['', []],
+        region: ['0', []],
+        prefecture: ['0', []],
+        commune: ['0', []],
+        slug: ['', []]
+    })
   }
+
 
   civilites: Array<{ id: string, name: string }> = [
     { id: 'F', name: "Femme" },
@@ -173,7 +151,24 @@ export class AcheteurEditComponent {
   get f2(){ return this.formStep2.controls  }
 
 
+
   getData(){
+
+    this.id = this.route.snapshot.params['id']
+
+   
+
+    this.helperService.getCommmune().subscribe((commune: Commune[]) => {
+        this.communeList = commune
+        this.helperService.getPrefecture().subscribe((prefecture: Prefecture[]) => {
+            this.prefectureList = prefecture
+            this.helperService.getRegion().subscribe((region: Region[]) => {
+              this.regionList = region
+              this.setup()
+            
+            })
+          })
+    })
 
     this.domaineActiviteService.getData().subscribe((data )=>{
       this.domaineActivites = data
@@ -183,60 +178,38 @@ export class AcheteurEditComponent {
       this.typeSocietes = data
     })
 
-    this.id = this.route.snapshot.params['id']
-
-    this.helperService.getCommmune()
-      .pipe(
-        tap(this.helperService.getPrefecture().subscribe((data: Prefecture[]) => {
-          this.prefectureList = data
-        })),
-        tap(this.helperService.getRegion().subscribe((data: Region[]) => {
-          this.regionList = data
-        })),
-        tap( this.buyerService.getSingleData(this.id).subscribe((buyer: Buyer) => {
-          this.buyerInformation = buyer
-
-        }))
-      )
-      .subscribe((data: Commune[]) => {
-          this.communeList = data
-          this.setup(this.buyerInformation)
-
-    })
-
   }
 
-  setup(buyer: Buyer){
-    this.userId = buyer.user?.id
-    this.entrepriseSlug = buyer.slug
-    this.entreprise = buyer
-    if(buyer.user)
-      this.formStep1.patchValue(buyer.user)
-    this.formStep2.patchValue(buyer)
-    if(buyer.user?.date_of_birth){
-      this.formStep1.get('date_of_birth')?.patchValue(formatDate(buyer.user?.date_of_birth,'MM-dd-yyyy',"en-US"))
-    }
-    if(buyer.registration_date){
-      this.formStep2.get('registration_date')?.patchValue(formatDate(buyer.registration_date,'MM-dd-yyyy',"en-US"))
-    }
+  setup(){
+    this.id = this.route.snapshot.params['id']
+    this.buyerService.getSingleData(this.id).subscribe((buyer: Buyer) => {
+      this.userId = buyer.user?.id
+      this.entrepriseSlug = buyer.slug
+      this.entreprise = buyer
+     
+      this.formStep2.patchValue(buyer)
+     
+      if(buyer.registration_date){
+        this.formStep2.get('registration_date')?.patchValue(formatDate(buyer.registration_date,'MM-dd-yyyy',"en-US"))
+      }
+  
+      this.formStep2.get('commune')?.patchValue(buyer.commune?.id)
+      this.formStep2.get('type')?.patchValue(buyer.type?.id)
+      if(buyer?.logo)
+        this.imageURL =  buyer?.logo
+      this.regionDefault = <number> buyer?.region
+      this.prefectureDefault = <number> buyer?.prefecture
+      this.communeDefault = <number> buyer?.commune?.id
+  
+      this.onRegionSelect(this.regionDefault , 1)
+      this.onPrefectureSelect(this.prefectureDefault, 1)
+  
+      buyer.sectors?.forEach((dom : DomaineActivite) =>{
+        this.domaineList.push(dom?.id!)
+      })
 
-    this.formStep2.get('commune')?.patchValue(buyer.commune?.id)
-    this.formStep2.get('type')?.patchValue(buyer.type?.id)
-    if(buyer?.logo)
-      this.imageURL =  buyer?.logo
-    this.regionDefault = <number> buyer?.region
-    this.prefectureDefault = <number> buyer?.prefecture
-    this.communeDefault = <number> buyer?.commune?.id
-
-    this.onRegionSelect(this.regionDefault , 1)
-    this.onPrefectureSelect(this.prefectureDefault, 1)
-
-    buyer.sectors?.forEach((dom : DomaineActivite) =>{
-      this.domaineList.push(dom?.id!)
     })
-
-    console.log(this.formStep1.value)
-    console.log(this.formStep2.value)
+   
 
   }
 
@@ -249,50 +222,7 @@ export class AcheteurEditComponent {
   }
 
 
-  formEmitStep1(d: any){
-    this.demandeur = d
-  }
-
-  formEmitStep2(e: any){
-    this.regionList = e
-  }
-  formEmitEnd(e: any){
-
-    this.userProfileService.postData(this.demandeur).subscribe({
-      next: (res: User)=> {
-        let data = {...this.entrepriseInfo,  ...{"user": res.id}}
-        //console.log(data)
-
-        this.buyerService.postData(data).subscribe({
-          next: (res: Entreprise) => {
-
-            this.toastService.success('Un nouveau acheteur a été ajouté avec success', 'Succèss',{
-              timeOut: 3000,
-            })
-            this.successContent?.show()
-            this.router.navigate(['../societe/acheteurs'])
-
-          },
-          error: (err) => {
-            console.log(err.messages)
-            this.toastService.error('Une erreur survenue', 'Erreur', {
-              timeOut: 3000,
-            })
-
-          }
-        })
-      },
-      error:(err)=>{
-        console.log(err.messages)
-        this.toastService.error('Une erreur survenue', 'Erreur',{
-          timeOut: 3000,
-        })
-
-      }
-    })
-
-
-  }
+  
 
   showAlert = false
   alertMsg = 'Please wait! Your account is being created.'
@@ -303,32 +233,6 @@ export class AcheteurEditComponent {
 
 
 
-
-  /**
-   * first step
-   */
-
-  firstStep(e: any){
-    e.preventDefault()
-    this.formStep1.get('username')?.setValue(this.formStep1.get('email')?.value)
-    let yr = formatDate(this.formStep1.get('date_of_birth')?.value,'yyyy-MM-dd',"en-US")
-    this.formStep1.get('date_of_birth')?.patchValue(yr)
-
-    this.demandeur = this.formStep1.value
-  }
-
-  /**
-   * second step
-   */
-
-  secondStep(e: any){
-    e.preventDefault()
-    let yr = formatDate(this.formStep2.get('registration_date')?.value,'yyyy-MM-dd',"en-US")
-    this.formStep2.get('registration_date')?.patchValue(yr)
-    this.formStep2.get('sectors')?.patchValue(this.domaineList)
-
-    this.entreprise = this.formStep2.value
-  }
 
   fileChange(event: any) {
     let fileList: any = (event.target as HTMLInputElement);
@@ -392,29 +296,19 @@ export class AcheteurEditComponent {
   errorArray = [] as any[]
   keyArray = [] as any[]
 
-  save(e: any){
+  register(){
 
-    e.preventDefault()
+    let yr = formatDate(this.formStep2.get('registration_date')?.value,'yyyy-MM-dd',"en-US")
+    this.formStep2.get('registration_date')?.patchValue(yr)
+    this.formStep2.get('sectors')?.patchValue(this.domaineList)
 
-    let data = {...this.formStep1.value, ...{"id": this.userId}}
-    this.userProfileService.patchData(data).subscribe({
-      next: (res: User)=> {
-        let data = {...this.formStep2.value, ...{"slug": this.entrepriseSlug}}
-        this.buyerService.patchData(data).subscribe({
-          next: (res: Entreprise) => {
-
-            this.toastService.success('Un nouveau acheteur a été ajouté avec success', 'Succèss',{
-              timeOut: 3000,
-            })
-            this.successContent?.show()
-            this.router.navigate(['../societe/acheteurs'])
-
-          },
-          error: (err) => {
-            this.userProfileService.delete(res.id).subscribe()
-            this.handleError(err)
-          }
+    this.buyerService.patchData(this.formStep2.value).subscribe({
+      next: (res: Buyer)=> {
+        this.toastService.success('Un  acheteur a été modifié avec success', 'Succèss',{
+          timeOut: 3000,
         })
+        this.successContent?.show()
+        this.router.navigate(['../societe/acheteurs'])
       },
       error:(err)=>{
         //console.log(err.error)
@@ -457,6 +351,10 @@ export class AcheteurEditComponent {
     let yr = formatDate(this.formStep2.get('registration_date')?.value,'MM-dd-yyyy',"en-US")
     this.formStep2.get('registration_date')?.patchValue(yr)
   }
+  cancel(e: Event) {
+    e.preventDefault()
+    this.router.navigate(['../societe/acheteurs'])
 
+  }
 
 }

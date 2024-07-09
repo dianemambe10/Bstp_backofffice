@@ -123,10 +123,10 @@ export class EditComponent implements OnInit {
           next: (res)=> {
             this.formRegister.reset()
             this.submitted= true;
-            this.toastService.success('Type d\'institut  a été modifié avec success', 'Succès',{
+            this.toastService.success('Type d\'organisme  a été modifié avec success', 'Succès',{
               timeOut: 3000,
             })
-            this.router.navigate(['../institution/type-instituts'])
+            this.router.navigate(['../organismes/type-organismes'])
 
           },
           error:(err)=>{
@@ -145,7 +145,7 @@ export class EditComponent implements OnInit {
 
     cancel(e: Event){
       e.preventDefault()
-      this.router.navigate(['../offre/type-demande'])
+      this.router.navigate(['../organismes/type-organismes'])
 
     }
 

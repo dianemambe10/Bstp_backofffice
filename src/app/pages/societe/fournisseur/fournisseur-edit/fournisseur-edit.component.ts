@@ -137,13 +137,18 @@ export class FournisseurEditComponent {
       this.sousmenu = sousmenu
     })
 
-
-
-
-
-    this.helperService.getCommmune().subscribe((data: Commune[]) =>{
-      this.communeList = data
-    })
+    this.helperService.getCommmune().subscribe((commune: Commune[]) => {
+      this.communeList = commune
+      this.helperService.getPrefecture().subscribe((prefecture: Prefecture[]) => {
+          this.prefectureList = prefecture
+          this.helperService.getRegion().subscribe((region: Region[]) => {
+            this.regionList = region
+            this.setup()
+          
+          })
+        })
+      })
+ 
 
     this.domaineActiviteService.getData().subscribe((data )=>{
       this.domaineActivites = data
@@ -153,6 +158,40 @@ export class FournisseurEditComponent {
       this.typeSocietes = data
     })
 
+
+
+    /**
+     * BreadCrumb
+     */
+    this.breadCrumbItems = [
+      { label: this.menu, active: true },
+      { label: this.sousmenu, active: true }
+    ];
+
+    this.bsConfig = Object.assign({}, { containerClass: this.colorTheme, showWeekNumbers: false });
+
+  }
+
+  selectedIndex =  0
+  change(event: any) {
+    this.selectedIndex = event?.selectedIndex
+
+  }
+
+  /**
+   * Stet actionnaire model
+   */
+
+  civilites: Array<{ id: string, name: string }> = [
+    { id: 'F', name: "Femme" },
+    { id: 'M', name: "Homme" },
+  ];
+
+
+  get f2(){ return this.formStep2.controls  }
+  get f3(){ return this.formDocu.controls  }
+
+  setup(){
     this.id = this.route.snapshot.params['id']
     this.fournisseurService.getSingleData(this.id).subscribe( (entreprise: Entreprise) => {
       this.userId = entreprise.registered_by?.id
@@ -160,15 +199,7 @@ export class FournisseurEditComponent {
       this.entreprise = entreprise
 
       let user = entreprise.registered_by
-      this.formStep1.controls['slug'].setValue(user?.slug)
-      this.formStep1.controls['last_name'].setValue(user?.last_name)
-      this.formStep1.controls['first_name'].setValue(user?.first_name)
-      if(user?.date_of_birth)
-          this.formStep1.controls['date_of_birth'].setValue(formatDate(user?.date_of_birth,'MM/dd/yyyy',"en-US"))
-      this.formStep1.controls['gender'].setValue(user?.gender)
-      this.formStep1.controls['phone_number'].setValue(user?.phone_number)
-      this.formStep1.controls['email'].setValue(user?.email)
-      this.formStep1.controls['role_dans_lentreprise'].setValue(user?.role_dans_lentreprise)
+      
 
       this.formStep2.controls['slug'].setValue(entreprise?.slug)
       this.formStep2.controls['rccm'].setValue(entreprise?.rccm)
@@ -200,140 +231,33 @@ export class FournisseurEditComponent {
         this.domaineList.push(dom?.id!)
       })
 
-      this.actionnaireService.getMember(entreprise?.slug).subscribe((data: any[]) =>{
-        this.actionnaireArray = data
-      })
-
-      this.commercialesService.getBySupplier(entreprise?.slug).subscribe((data: any[]) =>{
-        this.referenceArray = data
-      })
 
     })
-
-
-
-
-    this.helperService.getCommmune().pipe(
-      tap( this.helperService.getRegion().subscribe((data: Region[]) =>{
-        this.regionList = data
-       // this.formStep2.get('region')?.patchValue(0)
-      })),
-      tap( this.helperService.getPrefecture().subscribe((data: Prefecture[]) =>{
-        this.prefectureList = data
-      }))
-    ).subscribe({
-      next: (commune: Commune[]) =>{
-        this.onRegionSelect(this.regionDefault,1)
-        this.onPrefectureSelect(this.prefectureDefault,1)
-
-      },error(er){
-
-      }
-    })
-
-
-
-
-
-
-    /**
-     * BreadCrumb
-     */
-    this.breadCrumbItems = [
-      { label: this.menu, active: true },
-      { label: this.sousmenu, active: true }
-    ];
-
-    this.bsConfig = Object.assign({}, { containerClass: this.colorTheme, showWeekNumbers: false });
-
   }
-
-  selectedIndex =  0
-  change(event: any) {
-    this.selectedIndex = event?.selectedIndex
-
-  }
-
-  /**
-   * Stet actionnaire model
-   */
-
-  civilites: Array<{ id: string, name: string }> = [
-    { id: 'F', name: "Femme" },
-    { id: 'M', name: "Homme" },
-  ];
-
-  get f() { return this.formActionnaire.controls; }
-  get ff() { return this.formReference.controls; }
-
-  get f1(){ return this.formStep1.controls  }
-  get f2(){ return this.formStep2.controls  }
-  get f3(){ return this.formDocu.controls  }
 
 
   createForm(){
 
-    this.formActionnaire = this.fb.group({
-      id: [''],
-      last_name: ['Mohamed', [Validators.required]],
-      first_name: ['Diane', [Validators.required]],
-      date_of_birth: ['11/02/2023', [Validators.required]],
-      gender: ['M', [Validators.required]],
-      phone_number: ['628492536', []],
-      email: ['dianemambe@gmail.com', [Validators.required, Validators.email]],
-      role_dans_lentreprise: ['PDG', []],
-      username: ['', []],
-      associate_percentage: ['62', [Validators.required]],
-      nationality: ['', []]
-    });
-
-    this.formReference = this.fb.group({
-      id: [''],
-      company_name: ['Gac', [Validators.required]],
-      contact_full_name: ['Mohamed Diane', [Validators.required]],
-      contact_phone_number: ['628492536', []],
-      contact_designation: ['dg', []],
-      contact_email: ['dianemambe@gmail.com', [ Validators.email]],
-      contact_approx_amount: ['1000000', []],
-      reference: ['PDG', []],
-      supplier: ['', []],
-      doc: ['', []],
-      contact_approx_amount_currency: ['FG', []]
-    });
-
-    this.formStep1 = this.fb.group({
-      id: ['', []],
-      last_name: ['Mohamed', [Validators.required]],
-      first_name: ['Diane', [Validators.required]],
-      date_of_birth: ['11/02/2023', [Validators.required]],
-      gender: ['M', [Validators.required]],
-      phone_number: ['628492536', []],
-      email: ['dianemambe@gmail.com', [Validators.required, Validators.email]],
-      role_dans_lentreprise: ['PDG', []],
-      username: ['', []],
-      slug: ['', []],
-    });
+   
 
     this.formStep2 = this.fb.group({
-      id: ['', []],
-      rccm: ['12336654789633', [Validators.required]],
-      name: ['Dsoft', [Validators.required]],
-      social_capital: ['100000', [Validators.required]],
-      chiffre_affaire: ['100000', [Validators.required]],
-      categories: ['0', [Validators.required]],
-      description: ['une entreprise de developpement ', [Validators.required]],
-      type: ['sarl', [Validators.required]],
-      year_of_registration: ['11/02/2023', [Validators.required]],
-      phone_number: ['628492536', [Validators.required]],
-      website: ['https://www.micodus.net', []],
-      email: ['dianemambe@gmail.com', [Validators.required, Validators.email]],
-      address: ['ratoma', [Validators.required]],
-      region: ['', [Validators.required]],
-      prefecture: ['', [Validators.required]],
-      commune: ['', [Validators.required]],
-      slug: ['', []],
+        rccm: ['', [Validators.required]],
+        name: ['', [Validators.required]],
+        social_capital: ['', [Validators.required]],
+        chiffre_affaire: ['', [Validators.required]],
+        categories: ['0', [Validators.required]],
+        description: ['', [Validators.required]],
+        type: ['', [Validators.required]],
+        year_of_registration: ['', [Validators.required]],
+        phone_number: ['', [Validators.required]],
+        website: ['', []],
+        email: ['', [Validators.required, Validators.email]],
+        address: ['', [Validators.required]],
+        region: ['', [Validators.required]],
+        prefecture: ['', [Validators.required]],
+        commune: ['', [Validators.required]],
+        slug: ['', []]
     });
-
 
     this.formStep3 = this.fb.group({   });
 
@@ -349,18 +273,6 @@ export class FournisseurEditComponent {
   }
 
 
-  /**
-   * first step
-   */
-
-  firstStep(e: any){
-    e.preventDefault()
-    this.formStep1.get('username')?.setValue(this.formStep1.get('email')?.value)
-    let yr = formatDate(this.formStep1.get('date_of_birth')?.value,'yyyy-MM-dd',"en-US")
-    this.formStep1.get('date_of_birth')?.patchValue(yr)
-
-    this.demandeur = this.formStep1.value
-  }
 
   /**
    * second step
@@ -438,127 +350,9 @@ export class FournisseurEditComponent {
    * thrid step
    */
 
-  saveActionnaire(e: any){
-    let yr = formatDate(this.formActionnaire.get('date_of_birth')?.value,'yyyy-MM-dd',"en-US")
-    this.formActionnaire.get('date_of_birth')?.patchValue(yr)
-    this.submitted = true
-    if(this.formActionnaire.valid){
-      if(e == "ajout"){
-        this.actionnaireArray.push(this.formActionnaire.value)
-      }else if(e == "edit") {
-        this.actionnaireArray[this.idDelete] = this.formActionnaire.value
-      }
-      console.log(this.actionnaireArray)
-      this.dataService.setActionnaireList$(this.actionnaireArray)
-      this.formActionnaire.reset()
-      // this.submitted = false
-      this.addActionnaire?.hide()
-    }
 
 
-  }
 
-  openDeleteActionnaire(e: any, i: any){
-    e.preventDefault()
-    this.type = "act"
-    this.idDelete = i
-    this.deleteRecordModal?.show()
-  }
-
-  editActionnaire(e: any, i: any){
-    e.preventDefault()
-    this.submitted = false
-    this.modalAjoutTitle = "Editon d'un actionnaire"
-    this.actsave = "edit"
-    this.idDelete = i
-    let actionnaire = this.actionnaireArray.at(i)
-   // console.log(actionnaire)
-    this.formActionnaire.controls['last_name'].setValue(actionnaire?.last_name)
-    this.formActionnaire.controls['first_name'].setValue(actionnaire?.first_name)
-    this.formActionnaire.controls['gender'].setValue(actionnaire?.gender)
-    this.formActionnaire.controls['date_of_birth'].setValue(actionnaire?.date_of_birth)
-    this.formActionnaire.controls['phone_number'].setValue(actionnaire?.phone_number)
-    this.formActionnaire.controls['email'].setValue(actionnaire?.email)
-    this.formActionnaire.controls['associate_percentage'].setValue(actionnaire?.associate_percentage)
-    this.formActionnaire.controls['nationality'].setValue(actionnaire?.nationality)
-    this.formActionnaire.controls['role_dans_lentreprise'].setValue(actionnaire?.role)
-    this.addActionnaire?.show()
-
-  }
-
-  openActionnaireModal(){
-    this.modalAjoutTitle = "Ajout d'un actionnaire"
-    this.actsave = "ajout"
-    //this.formActionnaire.reset()
-    this.submitted = false
-    this.addActionnaire?.show()
-  }
-
-  confirmDelete(e: any, type: any) {
-    e.preventDefault()
-    if(type == "act"){
-      this.actionnaireArray.splice(this.idDelete, 1)
-    }else if(type == "ref"){
-      this.referenceArray.splice(this.idDelete, 1)
-    }
-    this.deleteRecordModal?.hide()
-  }
-
-  /**
-   * Reference commerciale
-   * @param e
-   */
-
-  openReferenceModal(e:any){
-    e.preventDefault()
-    //this.formReference.reset()
-    this.submitted = false
-    this.modalAjoutTitle = "Ajout d'une référence Commerciale"
-    this.actsave = "ajout"
-    this.addReference?.show()
-  }
-
-  editReference(e: any, i: any){
-    this.idDelete = e
-    this.submitted = false
-    this.modalAjoutTitle = "Editon d'une référence Commerciale"
-    this.actsave = "edit"
-    this.idDelete = i
-    let reference = this.referenceArray.at(i)
-    this.formReference.controls['company_name'].setValue(reference?.company_name)
-    this.formReference.controls['contact_approx_amount'].setValue(reference?.contact_approx_amount)
-    this.formReference.controls['reference'].setValue(reference?.reference)
-    this.formReference.controls['contact_approx_amount_currency'].setValue(reference?.contact_approx_amount_currency)
-    this.formReference.controls['contact_designation'].setValue(reference?.contact_designation)
-    this.formReference.controls['contact_email'].setValue(reference?.contact_email)
-    this.formReference.controls['contact_full_name'].setValue(reference?.contact_full_name)
-    this.formReference.controls['contact_phone_number'].setValue(reference?.contact_phone_number)
-    this.formReference.controls['contact_designation'].setValue(reference?.contact_designation)
-    this.addReference?.show()
-  }
-
-  openDeleteReference(e: any, i: any){
-    this.type = "ref"
-    this.idDelete = i
-    this.deleteRecordModal?.show()
-  }
-
-
-  saveReference(e: any) {
-    this.submitted = true
-    if(this.formReference.valid){
-      if(e == "ajout"){
-        this.referenceArray.push(this.formReference.value)
-      }else if(e == "edit") {
-        this.referenceArray[this.idDelete] = this.formReference.value
-      }
-     // console.log(this.referenceArray)
-      this.dataService.setReferenceList$(this.referenceArray)
-      this.formReference.reset()
-      this.submitted = false
-      this.addReference?.hide()
-    }
-  }
 
   onChangeFile(event: any, type: any){
     event.preventDefault()
@@ -599,41 +393,14 @@ export class FournisseurEditComponent {
     e.preventDefault()
 
     this.entrepriseDocument  = this.formDocu.value
+    
+    let data = {...this.formStep2.value, ...this.formStep3.value}
 
-
-    let data = { ...this.formStep1.value, ...{"id": this.userId}}
-    this.userProfileService.patchData(data).subscribe({
+    this.fournisseurService.patchData(data).subscribe({
       next: (res: User) => {
-        let data = {...this.formStep2.value, ...this.formStep3.value, ...{"slug": this.entrepriseSlug}}
-        this.fournisseurService.patchData(data).subscribe({
 
-
-          next: (res: Entreprise) => {
-
-            this.actionnaireArray.forEach((actionnaire: Actionnaire) =>{
-              let data = { ...actionnaire, ...{"supplier": res.id}}
-              this.actionnaireService.postData(data).subscribe(data => console.log(data))
-            })
-
-            this.referenceArray.forEach((commericiale: ReferenceCommericiale) =>{
-              let data = { ...commericiale, ...{"supplier": res.id}}
-              this.commercialesService.postData(data).subscribe(data => console.log(data))
-            })
-
-            this.succes = true
-
-          /*  this.toastService.success('Modification effectuée avec success', 'Success', {
-              timeOut: 3000,
-            })*/
-            //this.successContent?.show()
-            //this.router.navigate(['../societe/fournisseurs'])
-
-          },
-          error: (err) => {
-            this.handleError(err)
-          }
-
-        })
+        this.succes = true
+        
       },
       error: (err) => {
         this.handleError(err)
@@ -643,7 +410,7 @@ export class FournisseurEditComponent {
   }
 
   reload(e: any){
-    window.location.reload()
+    this.router.navigate(['../societe/fournisseurs'])
 
   }
 
